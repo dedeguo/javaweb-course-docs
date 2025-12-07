@@ -1,17 +1,90 @@
-# Welcome to MkDocs
+# Java Web 开发技术 课程电子教材 📚
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+欢迎来到 **《Java Web 开发技术》课程电子教材平台**。  
+本平台基于 **MkDocs + Material** 搭建，旨在提供结构清晰、示例充足、可持续更新的在线教材，帮助学生掌握 Java Web 开发的核心知识体系，并为后续企业级 Java 开发夯实基础。
 
-## Commands
+---
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## 🎯 课程定位与目标
 
-## Project layout
+本课程是计算机科学与技术专业的重要专业课，主要目标包括：
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+- 掌握 Web 基础概念、HTTP 工作原理与 Web 应用架构  
+- 理解并熟练使用 **Servlet、JSP、Filter、Listener** 等核心技术  
+- 掌握 MVC 思想与三层架构设计  
+- 能够开发简单的 Java Web 应用并部署至 Tomcat  
+- 为后续学习 **Spring / Spring Boot** 打下基础  
+
+适用于具有 Java 基础的本科生学习。
+
+---
+
+## 📚 课程内容结构
+
+本课程主要包含以下章节（可通过左侧导航访问）：
+
+- **课程大纲**：学习内容、教学目标、考核方式  
+- **开发环境配置**：JDK、Tomcat、Maven、工具链  
+- **第 1 章：Web 基础与 HTTP 协议**  
+- **第 2 章：Servlet 技术与生命周期**  
+- **第 3 章：JSP、EL 表达式、JSTL 标签库**  
+- **第 4 章：MVC 模式与三层架构设计**  
+- **第 5 章：会话管理（Cookie / Session）**  
+- **实验指导与课程项目**  
+
+课程内容持续更新中。
+
+---
+
+## 🛠 技术栈与工具
+
+本课程使用以下工具进行开发与实验：
+
+- **Java JDK 8/11/17/21**  
+- **Apache Tomcat 9/10/11**  
+- **Maven**  
+- **IDEA / VS Code**  
+- **Postman / Apifox**  
+- **Git / GitHub**
+
+所有实验均提供操作步骤与示例代码。
+
+---
+
+## 💻 如何使用本课程文档
+
+- 通过左侧导航浏览各章节  
+- 可使用右上角搜索框快速查找知识点  
+- 所有代码示例均支持一键复制  
+- 若文档有需要改进的地方，可提交 Issue 或 PR（学生可以参与建设课程文档）
+
+---
+
+## 🚀 课程项目（Project）
+
+课程包含一个期末项目，例如：
+
+- 图书管理系统  
+- 学生信息管理系统  
+- 在线留言板  
+- 简易博客系统  
+
+文档中将提供：
+
+- 需求说明  
+- UI 原型  
+- 数据库设计  
+- 前后端接口  
+- 实验步骤  
+
+---
+
+## 📄 版权声明
+
+本课程文档版权归 **Chende（2024–2026）** 所有，未经授权禁止转载或商用。
+
+> © 2024–2026 Chende. All Rights Reserved.
+
+---
+
+如需扩展课程案例、增加章节内容或创建新的教程，请联系课程负责人或在仓库提交 Issue。
