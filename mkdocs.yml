@@ -1,0 +1,24 @@
+site_name: Java Web 开发技术
+site_description: 武汉工商学院《Java Web开发技术》课程电子教材
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - content.code.copy
+plugins:
+  - search:
+      lang: zh
+
+nav:
+  - 首页: index.md
+  - 课程大纲: syllabus.md
+  - 开发环境: env-setup.md
+  - 课程内容:
+      - 第1章 Web 基础: ch01-intro.md
+      - 第2章 Servlet 基础: ch02-servlet.md
+      - 第3章 JSP 与 EL/JSTL: ch03-jsp.md
+      - 第4章 MVC 与三层架构: ch04-mvc.md
+  - 课程项目:
+      - 期末项目说明: project/final-project.md
