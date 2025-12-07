@@ -1,0 +1,51 @@
+# =============================================
+# MkDocs 课程文档仓库 .gitignore（推荐版）
+# =============================================
+
+# ---- MkDocs Build Output（不要上传 site/）-----
+site/
+
+# ---- Python Virtual Environments --------------
+venv/
+.env
+.venv/
+
+# ---- Python Cache -----------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ---- IDE / Editor Files -----------------------
+# VS Code
+.vscode/
+# PyCharm/IntelliJ
+.idea/
+*.iml
+
+# ---- OS Generated Files -----------------------
+.DS_Store
+Thumbs.db
+
+# ---- Backup & Temporary Files -----------------
+*.swp
+*.swo
+*~
+.cache/
+tmp/
+temp/
+
+# ---- Logs -------------------------------------
+*.log
+
+# ---- Node-related (如未来使用前端工具) --------
+node_modules/
+dist/
+
+# ---- MkDocs Plugins (如 build 生成的缓存) -----
+#（如未使用可忽略）
+.mkdocs-cache/
+
+# ---- Optional：你不想提交的文档草稿 ----------
+drafts/
+
+todo.md

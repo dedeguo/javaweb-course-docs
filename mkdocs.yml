@@ -1,11 +1,16 @@
 site_name: Java Web 开发技术
 site_description: 武汉工商学院《Java Web开发技术》课程电子教材
+site_url: https://dedeguo.github.io/javaweb-course-docs
 theme:
   name: material
   language: zh
   features:
+    - navigation.top
+    # - navigation.tabs
     - navigation.instant
     - navigation.tracking
+    - search.highlight
+    - search.suggest
     - content.code.copy
 plugins:
   - search:
