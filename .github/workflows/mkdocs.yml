@@ -5,6 +5,9 @@ on:
     branches:
       - main  # 每次 push main 分支自动部署
 
+permissions:
+  contents: write   # 必须添加，否则无权限推 gh-pages 分支
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest

@@ -12,10 +12,6 @@ theme:
     - search.highlight
     - search.suggest
     - content.code.copy
-plugins:
-  - search:
-      lang: zh
-
 nav:
   - 首页: index.md
   - 课程大纲: syllabus.md
@@ -27,3 +23,21 @@ nav:
       - 第4章 MVC 与三层架构: ch04-mvc.md
   - 课程项目:
       - 期末项目说明: project/final-project.md
+
+plugins:
+  - search:
+      lang: zh
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.tabbed
+  - pymdownx.tasklist
+  - pymdownx.emoji
+copyright: Copyright @ 2024～2026 chende All Rights Reserver
+
