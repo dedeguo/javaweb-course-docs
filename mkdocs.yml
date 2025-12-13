@@ -4,6 +4,7 @@ site_url: https://dedeguo.github.io/javaweb-course-docs
 
 theme:
   name: material
+  custom_dir: overrides  # 添加这一行，告诉 MkDocs 去哪里找自定义模板
   language: zh
   palette: 
     primary: indigo
