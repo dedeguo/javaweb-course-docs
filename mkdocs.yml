@@ -1,28 +1,93 @@
 site_name: Java Web 开发技术
 site_description: 武汉工商学院《Java Web开发技术》课程电子教材
 site_url: https://dedeguo.github.io/javaweb-course-docs
+
 theme:
   name: material
   language: zh
+  palette: 
+    primary: indigo
+    accent: blue
   features:
-    - navigation.top
-    # - navigation.tabs
-    - navigation.instant
-    - navigation.tracking
+    # - navigation.instant
+
     - search.highlight
     - search.suggest
     - content.code.copy
+    # - toc.integrate
+    - navigation.indexes        # 允许点击目录本身进入页面
+    - navigation.sections       # 将一级目录作为"区段"标题（不折叠），视觉更清晰
+    - navigation.expand         # (可选) 默认展开所有目录，方便学生通过 Ctrl+F 搜索
+    - navigation.top            # 返回顶部按钮
+    - navigation.tracking       # 滚动时侧边栏自动高亮当前章节
+    - toc.follow                # 右侧目录跟随滚动
+
 nav:
-  - 首页: index.md
-  - 课程大纲: syllabus.md
-  - 开发环境: env-setup.md
-  - 课程内容:
-      - 第1章 Web 基础: ch01-intro.md
-      - 第2章 Servlet 基础: ch02-servlet.md
-      - 第3章 JSP 与 EL/JSTL: ch03-jsp.md
-      - 第4章 MVC 与三层架构: ch04-mvc.md
-  - 课程项目:
-      - 期末项目说明: project/final-project.md
+  - 课程简介:
+      - 课程简介: index.md
+      - 学习路线与考核说明: roadmap.md
+
+  - 第一篇｜开发环境与效能工具:
+      - 第1章 导读: chapter01/index.md
+      - Web 与 B/S 架构: chapter01/web-bs.md
+      - Maven 与项目结构: chapter01/maven.md
+      - Git 基础与课程规范: chapter01/git.md
+      - AI 辅助编程入门: chapter01/ai-coding.md
+      - 实验1：环境与 AI 助手配置: chapter01/experiment.md
+
+  - 第二篇｜Web 底层原理:
+      - 第2章 导读: chapter02/index.md
+      - HTTP 协议详解: chapter02/http.md
+      - Request / Response: chapter02/request-response.md
+      - Cookie 与 Session: chapter02/session.md
+      - JSON 与数据交互: chapter02/json.md
+      - 实验2：Session 登录实战: chapter02/experiment.md
+
+  - 第三篇｜Spring Boot 核心开发:
+      - 第3章 导读: chapter03/index.md
+      - Spring Boot 项目结构: chapter03/project-structure.md
+      - IoC / DI 通俗理解: chapter03/ioc-di.md
+      - Controller 与 RESTful API: chapter03/controller.md
+      - 接口测试与调试: chapter03/api-test.md
+      - 实验3：航班查询 API: chapter03/experiment.md
+
+  - 第四篇｜数据持久化与信创:
+      - 第4章 导读: chapter04/index.md
+      - MyBatis 基础: chapter04/mybatis.md
+      - Mapper 与 CRUD: chapter04/crud.md
+      - 事务管理: chapter04/transaction.md
+      - openGauss 实战: chapter04/opengauss.md
+      - 实验4：航班数据管理: chapter04/experiment.md
+
+  - 第五篇｜AI 集成与接口调用:
+      - 第5章 导读: chapter05/index.md
+      - Java HTTP 客户端: chapter05/http-client.md
+      - 大模型 API 调用流程: chapter05/llm-api.md
+      - Prompt 工程基础: chapter05/prompt.md
+      - AI 响应解析: chapter05/response.md
+      - 实验5：AI 旅行助手: chapter05/experiment.md
+
+  - 第六篇｜综合项目实战:
+      - 项目概述: project/index.md
+      - 系统架构设计: project/architecture.md
+      - 用户模块: project/user.md
+      - 航班管理模块: project/flight.md
+      - AI 智能助手模块: project/ai.md
+      - 部署与演示: project/deploy.md
+
+  - 实验与项目指导: 
+      - 概述: experiments/index.md
+      - 实验说明与评分标准: experiments/rules.md
+      - Git 提交规范: experiments/git.md
+      - 实验报告模板: experiments/report.md
+      - 常见错误汇总: experiments/faq.md
+
+  - 附录:
+      - Java Web 常见问题: appendix/faq.md
+      - RESTful API 规范: appendix/rest.md
+      - MyBatis SQL 模板: appendix/sql.md
+      - AI Prompt 示例库: appendix/prompt.md
+      - 信创技术说明: appendix/xinchuang.md
 
 plugins:
   - search:
@@ -30,14 +95,40 @@ plugins:
 
 markdown_extensions:
   - admonition
-  - footnotes
-  - tables
   - toc:
       permalink: true
-  - pymdownx.superfences
-  - pymdownx.highlight
-  - pymdownx.tabbed
-  - pymdownx.tasklist
-  - pymdownx.emoji
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  # 启用 SuperFences 扩展，它是处理高级代码块的基础
+  - pymdownx.superfences:
+      # 自定义栅栏块，告诉它如何处理 mermaid
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          # 使用特定的格式化器将代码转换为图表
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - footnotes
+  - attr_list
+  - def_list
+  - md_in_html
 
-copyright: © 2024–2026 ChenDe. All Rights Reserved.
+# 在 mkdocs.yml 的最外层添加（注意缩进，不要放在 plugins 或 nav 里面）
+extra_javascript:
+  - https://unpkg.com/mermaid/dist/mermaid.min.js
+
+# 如果您希望图表颜色能随主题（亮/暗）自动切换，建议添加这个 CSS（可选）
+extra_css:
+  - https://unpkg.com/mermaid/dist/mermaid.min.css # (注：新版 mermaid 其实通常不需要这个，但加上也没坏处，主要靠 JS)
+
+copyright: "Copyright &copy; 2026 武汉工商学院 计算机与自动化学院 陈德"
