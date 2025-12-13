@@ -1,5 +1,6 @@
 # JavaWeb 开发技术MkDocs
 
+https://dedeguo.github.io/javaweb-course-docs/
 
 ### 本地运行mkdocs
 ```bash
@@ -12,7 +13,16 @@ mkdocs --version
 # 本地运行
 mkdocs serve
 ```
+### 评论功能
 
+使用giscus https://giscus.app/zh-CN  
+只在特定页面关闭评论，例如希望在“首页”或“关于”页面关闭评论，可以在该 Markdown 文件的头部（Front matter）添加：
+```
+---
+hide:
+  - feedback # 这会隐藏底部的反馈（如果有）
+---
+```
 ### 目录结构
 
 1.  **关于 `index.md` 的妙用**：
