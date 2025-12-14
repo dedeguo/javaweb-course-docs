@@ -27,6 +27,7 @@ nav:
   - 课程简介:
       - 课程简介: index.md
       - 学习路线与考核说明: roadmap.md
+      - 2024-2025年全球及中国Java Web开发全景深度研究报告: javaweb-report.md
 
   - 第一篇｜开发环境与效能工具:
       - 第1章 导读: chapter01/index.md
