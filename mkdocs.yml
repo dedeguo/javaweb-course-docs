@@ -26,7 +26,7 @@ theme:
 nav:
   - 课程介绍:
       - 课程介绍: index.md
-      - 教学大纲: syllabus.md
+      # - 教学大纲: syllabus.md
   - 第1章｜Web开发基础与效能工具:
       - 第1章导读：目标与任务: chapter01/index.md
       - 开发环境就绪: chapter01/env-setup.md
@@ -74,7 +74,8 @@ nav:
       - AI 智能助手模块: chapter06/ai.md
       - 部署与演示: chapter06/deploy.md
       - 实验6: chapter06/lab6.md
-  - 附录:
+  - 附录 进阶资源:
+      - 进阶资源: appendix/index.md
       - OpenGauss 数据库安装指南: appendix/opengauss_install.md
       - 基于VMware虚拟机的国产化环境搭建:  appendix/localization.md
       - 2024-2025年全球及中国Java Web开发全景深度研究报告: appendix/javaweb-report.md

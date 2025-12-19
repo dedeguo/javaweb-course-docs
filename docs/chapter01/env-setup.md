@@ -9,7 +9,7 @@
 
 请先下载教师提供的 **JavaWeb 实战开发集成包 (2025版)**。
 
-[:material-download: 点击下载课程集成包](https://xunke.wtbu.edu.cn/bmd/bmd-vue/#/platformRouteStation?needBack=1&dist_id=1&platform_uuid=48a6835735d730a19f94ccb8df490a7d&level=4&school_id=1&route_name=guestDiskShare&_fid=504884&_link_id=7Q81M&_name=基础开发环境安装包){ .md-button .md-button--primary }
+[:material-download: 点击下载课程集成包](https://xunke.wtbu.edu.cn/bmd/bmd-vue/#/platformRouteStation?needBack=1&dist_id=1&platform_uuid=48a6835735d730a19f94ccb8df490a7d&level=4&school_id=1&route_name=guestDiskShare&_fid=504884&_link_id=VQw4M&_name=JavaWeb实战开发集成包){ .md-button .md-button--primary }
 
 > **集成包清单：**
 >
@@ -125,31 +125,79 @@ IntelliJ IDEA 是目前地表最强的 Java IDE。
     * 搜索 "Project Structure" (或 SDK)。
     * 在 Platform Settings -> SDKs 中，点击 `+`，添加你的 Dragonwell JDK。
 
-### 3. 安装必备插件
-在 **Plugins** 市场中搜索并安装以下神级插件：
+### 3. 安装必备插件 (Plugins)
 
-| 插件图标 | 名称 | 核心作用 |
+IntelliJ IDEA 的强大离不开插件生态。为了统一开发规范，请务必安装以下插件。
+
+**🚀 快速安装指南：**
+
+先在欢迎界面点击 **Plugins**（或在项目中按快捷键 `Ctrl + Alt + S` 打开设置 -> Plugins），然后选择以下一种方式：
+
+=== "📦 方式一：离线安装 (推荐)"
+    > 由于校园网可能不稳定，**强烈建议**使用此方式安装教师提供的离线包。
+
+    1.  点击顶部的齿轮图标 ⚙️。
+    2.  选择 **Install Plugin from Disk...** (从磁盘安装)。
+    3.  导航到课程集成包的 `Plugins` 文件夹。
+    4.  选中对应的 `.zip` 或 `.jar` 文件，点击 OK。
+
+=== "🌐 方式二：在线安装"
+    1.  点击顶部的 **Marketplace** (市场) 标签。
+    2.  在搜索框输入插件名称（如 `Lombok`）。
+    3.  找到对应的插件，点击绿色的 **Install** 按钮。
+    4.  等待下载进度条完成。
+<br/>
+**✅ 必装插件清单：**
+
+| 插件名称 (搜英文名) | 核心作用 | 为什么必须装？ |
 | :--- | :--- | :--- |
-| :material-flash: | **Lombok** | **[必装]** 通过注解自动生成 Getter/Setter，代码量减少 50%。 |
-| :material-database-search: | **MyBatisX** | **[必装]** 实现 Mapper 接口与 XML 文件的极速跳转，开发 MyBatis 神器。 |
-| :material-robot: | **TONGYI Lingma** | **[必装]** 通义灵码，你的 AI 结对编程伙伴。 |
-| :material-translate: | **Translation** | 英文报错看不懂？一键翻译，从容应对。 |
+| **TONGYI Lingma** | **AI 编程助手** | **课程核心工具。** 阿里通义灵码（也可选 Qoder），它是你的 AI 结对编程伙伴，负责解释代码和生成单元测试。 |
+| **MyBatisX** | **框架增强** | **开发效率神器。** 它在 Mapper 接口和 XML 配置文件之间加了“小鸟图标”，点击即可互相跳转，不再需要全屏找代码。 |
+| **Translation** | **翻译工具** | **新手救星。** 遇到英文报错看不懂？选中文字 -> 右键 Translate，原地显示中文翻译。 |
 
+!!! warning "避坑提示"
+    * **重启生效**：插件安装完成后，IDE 右下角通常会提示 **Restart IDE**，必须重启软件后插件功能才会激活。
+    * **版本兼容**：如果你自己下载插件，请务必注意插件版本要与 IDEA 版本（2025.2）匹配，否则无法安装。使用集成包里的文件可避免此问题。
 ---
 
-<!-- ## 🔌 第五步：连接远程信创环境 (可选)
+## 🔌 第五步：配置信创数据库环境 (openGauss)
 
-由于本课程数据库部署在远程 **openGauss** 服务器上，你需要测试连通性。
+本课程核心数据库为 **openGauss**。根据实训室电脑硬件配置及网络环境的不同，我们将采用以下三种方式之一。**请根据老师当堂的指示选择对应模式。**
 
-1.  打开 IDEA 右侧的 **Database** 面板。
-2.  点击 `+` -> `Data Source` -> `PostgreSQL` (openGauss 兼容 PG 协议)。
-3.  输入老师分发的：
-    * **Host**: (例如 192.168.xx.xx，见班级群公告)
-    * **User/Password**: (你的学号/密码)
-4.  点击 **Test Connection**。如果显示绿色的 "Succeeded"，恭喜你，你的电脑已经连接到了信创云端！
+=== "📡 模式A：远程服务器 (推荐)"
+    > **适用场景**：网络通畅，无需本地安装，通过校园内网直接连接。
+    
+    * **Host (主机)**：见班级群公告（例如 `10.50.xx.xx`）
+    * **User/Password**：通常为 `你的学号` / `初始密码`
 
+=== "🖥️ 模式B：本地虚拟机 (VMware)"
+    > **适用场景**：教室电脑性能较好（内存≥16G），使用包含 openGauss 的信创 OS 镜像。
+    
+    1.  请使用 VMware 打开老师分发的 `Sinnovation-Env.ova` 镜像。
+    2.  启动虚拟机，在终端输入 `ip addr` 查看 IP。
+    3.  **Host (主机)**：虚拟机的 IP 地址（例如 `192.168.xxx.xxx`）
+
+=== "🐳 模式C：本地 Docker 容器"
+    > **适用场景**：极客模式，电脑已安装 Docker Desktop，追求秒级启动。
+    
+    1.  在终端执行老师提供的 `docker run` 启动命令。
+    2.  **Host (主机)**：`localhost` 或 `127.0.0.1`
+
+<br/>
+
+**🔗 IDEA 连接步骤 (通用操作)：**
+
+无论采用上述哪种模式，在 IDEA 中的配置步骤是一致的：
+
+1.  打开 IDEA 右侧侧边栏的 **Database** 面板。
+2.  点击 `+` 号 -> `Data Source` -> `PostgreSQL` (openGauss 完美兼容 PG 协议)。
+3.  **填写连接参数**：
+    * **Host / User / Password**：填入上方你所选模式对应的参数。
+    * **Database**: 默认为 `postgres` 或老师指定的库名。
+4.  点击 **Test Connection**。
+    * 如果显示绿色的 <span style="color:green">**Succeeded**</span>，恭喜你，你的代码已经成功连上了国产信创数据库！
 ---
- -->
+
 
 ## 🧪 验证一切是否就绪
 
