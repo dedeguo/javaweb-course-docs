@@ -24,21 +24,19 @@ theme:
     - toc.follow                # 右侧目录跟随滚动
 
 nav:
-  - 课程简介:
-      - 课程简介: index.md
-      - 学习路线与考核说明: roadmap.md
-
-  - 第一篇｜开发环境与效能工具:
-      - 第1章 导读: chapter01/index.md
-      - Web 与 B/S 架构: chapter01/web-bs.md
-      - Maven 与项目结构: chapter01/maven.md
-      - Git 基础与课程规范: chapter01/git.md
-      - AI 辅助编程入门: chapter01/ai-coding.md
-      - 实验1：环境与 AI 助手配置: chapter01/experiment.md
+  - 课程介绍:
+      - 课程介绍: index.md
+    #   - 学习路线与考核说明: roadmap.md
+  - 第1章｜Web开发基础与效能工具:
+      - 第1章导读：目标与任务: chapter01/index.md
+      - 开发环境就绪: chapter01/env-setup.md
+      - 工程化基石：Maven与Git: chapter01/maven-git.md
+      - 你的 AI 编程搭档 : chapter01/ai-tools.md
+      - 实验1：Web环境与AI助手配置: chapter01/lab1.md
 
   - 第二篇｜Web 底层原理:
       - 第2章 导读: chapter02/index.md
-      - HTTP 协议详解: chapter02/http.md
+      - HTTP 协议详解: chapter02/http-protocol.md
       - Request / Response: chapter02/request-response.md
       - Cookie 与 Session: chapter02/session.md
       - JSON 与数据交互: chapter02/json.md
@@ -76,19 +74,22 @@ nav:
       - AI 智能助手模块: project/ai.md
       - 部署与演示: project/deploy.md
 
-  - 实验与项目指导: 
-      - 概述: experiments/index.md
-      - 实验说明与评分标准: experiments/rules.md
-      - Git 提交规范: experiments/git.md
-      - 实验报告模板: experiments/report.md
-      - 常见错误汇总: experiments/faq.md
+  # - 实验与项目指导: 
+  #     - 概述: experiments/index.md
+  #     - 实验说明与评分标准: experiments/rules.md
+  #     - Git 提交规范: experiments/git.md
+  #     - 实验报告模板: experiments/report.md
+  #     - 常见错误汇总: experiments/faq.md
 
   - 附录:
-      - Java Web 常见问题: appendix/faq.md
-      - RESTful API 规范: appendix/rest.md
-      - MyBatis SQL 模板: appendix/sql.md
-      - AI Prompt 示例库: appendix/prompt.md
-      - 信创技术说明: appendix/xinchuang.md
+      - OpenGauss 数据库安装指南: appendix/opengauss_install.md
+      - 基于VMware虚拟机的国产化环境搭建:  appendix/localization.md
+      - 2024-2025年全球及中国Java Web开发全景深度研究报告: appendix/javaweb-report.md
+      # - Java Web 常见问题: appendix/faq.md
+      # - RESTful API 规范: appendix/rest.md
+      # - MyBatis SQL 模板: appendix/sql.md
+      # - AI Prompt 示例库: appendix/prompt.md
+      # - 信创技术说明: appendix/xinchuang.md
 
 plugins:
   - search:
