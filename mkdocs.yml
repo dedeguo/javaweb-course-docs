@@ -26,7 +26,7 @@ theme:
 nav:
   - 课程介绍:
       - 课程介绍: index.md
-    #   - 学习路线与考核说明: roadmap.md
+      - 教学大纲: syllabus.md
   - 第1章｜Web开发基础与效能工具:
       - 第1章导读：目标与任务: chapter01/index.md
       - 开发环境就绪: chapter01/env-setup.md
@@ -67,20 +67,13 @@ nav:
       - 实验5：AI 旅行助手: chapter05/experiment.md
 
   - 第六篇｜综合项目实战:
-      - 项目概述: project/index.md
-      - 系统架构设计: project/architecture.md
-      - 用户模块: project/user.md
-      - 航班管理模块: project/flight.md
-      - AI 智能助手模块: project/ai.md
-      - 部署与演示: project/deploy.md
-
-  # - 实验与项目指导: 
-  #     - 概述: experiments/index.md
-  #     - 实验说明与评分标准: experiments/rules.md
-  #     - Git 提交规范: experiments/git.md
-  #     - 实验报告模板: experiments/report.md
-  #     - 常见错误汇总: experiments/faq.md
-
+      - 第6章 导读: chapter06/index.md
+      - 系统架构设计: chapter06/architecture.md
+      - 用户模块: chapter06/user.md
+      - 航班管理模块: chapter06/flight.md
+      - AI 智能助手模块: chapter06/ai.md
+      - 部署与演示: chapter06/deploy.md
+      - 实验6: chapter06/lab6.md
   - 附录:
       - OpenGauss 数据库安装指南: appendix/opengauss_install.md
       - 基于VMware虚拟机的国产化环境搭建:  appendix/localization.md
@@ -90,6 +83,12 @@ nav:
       # - MyBatis SQL 模板: appendix/sql.md
       # - AI Prompt 示例库: appendix/prompt.md
       # - 信创技术说明: appendix/xinchuang.md
+      #     - 概述: experiments/index.md
+        # - 实验与项目指导: 
+  #     - 实验说明与评分标准: experiments/rules.md
+  #     - Git 提交规范: experiments/git.md
+  #     - 实验报告模板: experiments/report.md
+  #     - 常见错误汇总: experiments/faq.md
 
 plugins:
   - search:
