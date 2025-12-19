@@ -1,9 +1,9 @@
-# 国产化（信创）环境搭建
+# 基于VMware虚拟机的国产化（信创）环境搭建
 
-- [ ] OS
+- [x] OS Anolis OS 8.10
 - [ ] JDK
 - [ ] MAVEN
-- [ ] DB
+- [x] DB openGauss
 - [ ] Vscode
 - [ ] Git
 
@@ -102,7 +102,184 @@ reboot
 重启后，你的虚拟机应该可以随意最大化窗口，且分辨率会自动适应了。
 
 
-## JDK21
+## JDK Dragonwell 龙井
+
+
+### 一、先选一个合适的国产 JDK
+
+目前**主流、稳定、认可度高**的国产 JDK 主要这几家：
+
+| 国产 JDK                    | 推荐度   | 说明                     |
+| ------------------------- | ----- | ---------------------- |
+| **Dragonwell（龙井 JDK，阿里）** | ⭐⭐⭐⭐⭐ | 最主流，基于 OpenJDK，阿里生产级验证 |
+| **Tencent Kona JDK**      | ⭐⭐⭐⭐  | 腾讯出品，性能优化好             |
+| **Huawei BiSheng JDK**    | ⭐⭐⭐⭐  | 华为信创体系常用               |
+| **openEuler JDK**         | ⭐⭐⭐   | 偏政企 / openEuler 生态     |
+
+👉 **个人 & 教学 & 企业通用首选：Dragonwell 8 / 11 / 17**
+
+---
+
+### 二、下载国产 JDK（以 Dragonwell 为例）
+
+#### 1️⃣ 选择版本建议
+
+* **Java 8**：传统项目 / 教学最稳
+* **Java 11**：LTS，企业新项目推荐
+* **Java 17**：新项目 / Spring Boot 3+
+
+> 如果你在教 Java Web / Spring Boot
+> 👉 **Dragonwell 8 + Dragonwell 17** 最合适
+
+---
+
+#### 2️⃣ 下载地址（官方）
+
+Dragonwell 官方 GitHub Release（推荐）
+👉 [https://github.com/alibaba/dragonwell8/releases](https://github.com/alibaba/dragonwell8/releases)
+👉 [https://github.com/alibaba/dragonwell11/releases](https://github.com/alibaba/dragonwell11/releases)
+👉 [https://github.com/alibaba/dragonwell17/releases](https://github.com/alibaba/dragonwell17/releases)
+
+下载文件名一般类似：
+
+```text
+Alibaba_Dragonwell_8.17.17_x64_linux.tar.gz
+Alibaba_Dragonwell_17.0.9_x64_linux.tar.gz
+```
+
+---
+
+### 三、Linux 安装配置流程（AnolisOS / Rocky / CentOS / Ubuntu 通用）
+
+#### 1️⃣ 上传或下载到服务器
+
+```bash
+cd /opt
+sudo mkdir -p /opt/java
+sudo chown $USER:$USER /opt/java
+```
+
+上传或下载到 `/opt/java`
+
+---
+
+#### 2️⃣ 解压
+
+```bash
+cd /opt/java
+tar -zxvf Alibaba_Dragonwell_17*.tar.gz
+```
+
+解压后目录类似：
+
+```text
+/opt/java/dragonwell-17.0.9
+```
+
+---
+
+#### 3️⃣ 配置环境变量（推荐方式）
+
+编辑全局环境变量：
+
+```bash
+sudo nano /etc/profile.d/java.sh
+```
+
+写入：
+
+```bash
+export JAVA_HOME=/opt/java/dragonwell-17.0.9
+export PATH=$JAVA_HOME/bin:$PATH
+```
+
+生效：
+
+```bash
+source /etc/profile
+```
+
+---
+
+#### 4️⃣ 验证安装
+
+```bash
+java -version
+```
+
+正确输出示例：
+
+```text
+openjdk version "17.0.9"
+Alibaba Dragonwell 17.0.9
+```
+
+---
+
+### 四、可选：多 JDK 共存（教学/开发常见）
+
+如果你想 **Java 8 + Java 17 共存**：
+
+### 1️⃣ 使用 alternatives（推荐）
+
+```bash
+sudo alternatives --install /usr/bin/java java /opt/java/dragonwell-8.17.17/bin/java 8
+sudo alternatives --install /usr/bin/java java /opt/java/dragonwell-17.0.9/bin/java 17
+```
+
+切换版本：
+
+```bash
+sudo alternatives --config java
+```
+
+---
+
+### 五、Windows 安装国产 JDK（适合学生）
+
+#### 1️⃣ 下载 Windows 版（zip 或 exe）
+
+Dragonwell Windows 版本同样在 GitHub Releases：
+
+```text
+Alibaba_Dragonwell_17.0.9_x64_windows.zip
+```
+
+---
+
+#### 2️⃣ 解压到目录
+
+例如：
+
+```text
+D:\Java\dragonwell-17
+```
+
+---
+
+#### 3️⃣ 配置环境变量
+
+**系统变量 → 新建**
+
+* `JAVA_HOME = D:\Java\dragonwell-17`
+
+**Path 里新增**
+
+```text
+%JAVA_HOME%\bin
+```
+
+---
+
+#### 4️⃣ 验证
+
+```bat
+java -version
+```
+
+---
+
+
 
 ## MAVEN 安装及配置镜像加速
 
