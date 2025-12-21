@@ -1,77 +1,68 @@
-# 实验1：Web环境与AI助手配置
+# 实验 1：Web 环境配置与 AI 结对编程初体验
 
 !!! abstract "实验信息"
     * **实验学时**：2 学时
-    * **实验类型**：验证性/设计性
-    * **截稿时间**：第 2 周周日 23:59
-    * **核心目标**：完成“本地开发环境 + AI 结对编程助手”的初始化，并跑通第一个 Java Web 接口。
+    * **实验类型**：验证性
+    * **截稿时间**：第XX 周周X XX:XX
+    * **核心目标**：配置“本地环境 + AI 助手”，通过 **Gitee Fork 模式** 完成第一个 Spring Boot 接口的开发与提交。
 
 ---
 
 ## 🧪 实验目的
 
-1.  **环境就绪**：完成 Dragonwell JDK 17、IntelliJ IDEA、Maven 的安装与全局配置。
-2.  **AI 赋能**：安装并激活 **通义灵码 (Tongyi Lingma)** 或其他 AI 编程插件，体验 AI 代码生成与解释功能。
-3.  **工程跑通**：创建一个基于 Spring Boot 的 Web 项目，实现 "Hello World" 接口的运行与访问。
-4.  **工具规范**：完成 Git 初始化，掌握基本的 `commit` 操作。
+1.  **环境验证**：确保 JDK 17 (Dragonwell)、Maven、IDEA 全局配置无误。
+2.  **AI 赋能**：激活 **通义灵码** 或 **DeepSeek**，体验“不写代码，只审代码”的 AI 结对编程模式。
+3.  **Git 实战**：掌握 **Fork -> Clone -> Commit -> Push** 的开源协作标准流程。
+4.  **接口开发**：跑通 Spring Boot 的 "Hello World"。
 
 ---
 
 ## 📋 实验前准备
 
-请确保你已经阅读并完成了以下章节的配置：
-* [x] [开发环境秒级就绪 (JDK/Maven/Idea)](env-setup.md)
-* [x] [工程化基石 (Maven/Git)](maven-git.md)
-* [x] [你的 AI 编程搭档 (账号注册)](ai-tools.md)
+* [x] 已完成 [开发环境安装](env-setup.md) (JDK/Maven/IDEA)。
+* [x] 已注册 [Gitee 账号](https://gitee.com),记住自己的用户名密码。
+* [x] 已安装 [通义灵码插件](ai-tools.md)。
 
 ---
 
 ## 👣 实验步骤
 
-### 任务一：验证基础环境
+### 任务一：获取任务代码 (Fork & Clone)
 
-打开命令行 (CMD/PowerShell) 或 IDEA 的 Terminal，依次执行以下命令，截图保存（**截图 A**）：
+本次实验不再手动新建项目，而是采用企业级开发常用的 **Fork 模式**。
+
+1.  **Fork 仓库**：
+    * 访问实验种子仓库：[https://gitee.com/javaweb-dev-tech/lab1](https://gitee.com/javaweb-dev-tech/lab1)
+    * 点击右上角的 **「Fork」** 按钮，将项目复制到你自己的 Gitee 账号下。
+2.  **Clone 到本地**：
+    * 在你的 Gitee 仓库页面，点击“克隆/下载”，复制 HTTPS 地址。
+    * 打开 IDEA -> `Get from VCS（克隆仓库）` -> 粘贴地址 -> `Clone`。
+
+### 任务二：验证基础环境
+
+在 IDEA 打开项目后，打开底部的 `Terminal` (终端)，执行以下命令并**截图**：
 
 ```bash
-# 1. 验证信创 JDK 版本
+# 1. 验证 JDK (需显示 Dragonwell 或 build 17)
 java -version
-# 预期输出：Alibaba Dragonwell ... build 17...
 
-# 2. 验证 Maven 及阿里云镜像
+# 2. 验证 Maven (需显示 3.6+)
 mvn -v
-# 预期输出：Apache Maven 3.9.x ...
+
 ```
 
-### 任务二：创建 Spring Boot 项目
+> 📸 **截图保存**：将截图重命名为 `env.png`，放入项目根目录下的 `img` 文件夹中（覆盖原有的占位图）。
 
-我们使用 **Spring Initializr** 快速构建项目。
+### 任务三：AI 辅助编写接口
 
-1. **新建项目**：打开 IDEA -> `New Project` -> `Spring Initializr` (或访问 start.spring.io)。
-2. **填写元数据 (Metadata)**：
-* **Name**: `lab1-hello`
-* **Type**: Maven
-* **Language**: Java
-* **Group**: `com.example` (或你的学号)
-* **JDK**: 17 (Dragonwell)
+**⚡️ 挑战：不手写一行 Java 代码，全靠 AI 生成。**
 
-
-3. **选择依赖 (Dependencies)**：
-* 搜索并勾选 **Spring Web** (这是 Web 开发的核心)。
-* 搜索并勾选 **Lombok** (简化代码)。
-
-
-4. **点击 Create**，等待 Maven 自动下载依赖（观察右下角进度条，得益于阿里云镜像，速度应该很快）。
-
-### 任务三：编写 Hello World 接口
-
-在 `src/main/java/com/example/lab1hello` 包下，新建一个类 `HelloController.java`。
-
-**⚡️ 挑战：使用 AI 生成代码**
-
-不要手写！尝试在类中输入 `//` 注释，让通义灵码帮你生成：
+1. **定位文件**：找到 `src/main/java/edu/wtbu/cs/lab1/` 目录（如果没有请新建）。
+2. **找到类**：找到 `HelloController.java`（如果没有请新建）。
+3. **AI 生成**：在类中输入以下注释（Prompt），等待通义灵码自动续写：
 
 ```java
-package com.example.lab1hello;
+package edu.wtbu.cs.lab1;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -79,63 +70,90 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    // 提示词：生成一个GET请求接口，访问路径是 /hello，返回 "Hello AI World! 学号+姓名"
-    // (光标停在这里，等待 AI 自动续写代码，按 Tab 键采纳)
-    @GetMapping("/hello")
-    public String sayHello() {
-        return "Hello AI World! 2025001 张三"; // 请替换为你自己的信息
-    }
+    // Prompt: 生成一个GET接口，路径/hello，返回 "Hello AI! 学号+姓名"
+    // (光标停在这里，等待灰色建议出现，按 Tab 键采纳)
+    
 }
 
 ```
 
-### 任务四：运行与 AI 交互 (重点)
+### 任务四：运行与验证
 
-1. **启动项目**：点击 `Lab1HelloApplication` 类左侧的绿色三角 ▶️ 运行。
-2. **浏览器测试**：访问 `http://localhost:8080/hello`，确保看到你的名字。截图保存（**截图 B**）。
-3. **AI 深度对话**：
-* 选中 `HelloController` 的全部代码。
-* 右键选择 **通义灵码 / AI 助手** -> **解释代码 (Explain Code)**。
-* 或者在 DeepSeek/豆包中提问：“*请向我解释 Spring Boot 中 @RestController 和 @GetMapping 的作用是什么？*”
-* 将 AI 的回答截图保存（**截图 C**）。
+1. **启动项目**：运行 `Lab1Application.java`。
+2. **测试接口**：浏览器访问 `http://localhost:8080/hello`。
+3. **AI 解释**：选中代码，右键询问 AI：“*解释一下 @RestController 的作用*”。
 
-
+> 📸 **截图保存**：
+> * 将浏览器成功访问的画面截图，重命名为 `web.png`，放入 `img` 文件夹。
+> * 将 AI 解释代码的对话界面截图，重命名为 `ai.png`，放入 `img` 文件夹。
+> 
+> 
 
 ---
 
-## 💾 提交规范 (考核点)
+## 💾 作业提交 (核心考核点)
 
-本次实验无需提交复杂的报告文档，重点考核 **Git 提交规范**。
+### 1. 完善文档 (README)
 
-### 1. Git 提交
+双击打开项目根目录的 `README.md`，切换到“编辑模式”：
 
-在项目根目录下，执行以下 Git 命令：
+* 填写顶部的 **班级、姓名、学号**。
+* 点击 IDEA 右上角的 `Preview` 按钮，检查刚才放入 `img` 文件夹的三张图片（`env.png`, `web.png`, `ai.png`）是否能在文档中正常显示。
+
+### 2. 推送代码 (Git Push)
+
+在终端执行以下命令，将代码同步到你的 Gitee 仓库：
 
 ```bash
-# 初始化仓库
-git init
+# 1. 查看变更状态 (确保 img 图片和 Java 代码都被检测到)
+git status
 
-# 添加所有文件（注意检查 .gitignore 是否忽略了 target/ 目录）
+# 2. 添加到暂存区
 git add .
 
-# 提交代码 (严禁使用 "first commit" 这种无意义的备注)
-git commit -m "feat: 完成Lab1环境配置，实现Hello接口 by 张三"
+# 3. 提交到本地仓库 (请替换为真实姓名)
+git commit -m "feat: 完成实验1，学号2025xxxx 张三"
 
+# 4. 推送到远程 Gitee
+git push
 ```
 
-### 2. 成果物上传
+!!! tip "🔐 首次提交需身份验证"
+    当你执行 `git push` 时，如果你是第一次在本地连接 Gitee，IDEA 或系统会弹出一个**登录窗口**。
+    
+    * **用户名**：请填写你的 **Gitee 注册邮箱** 或 **手机号**（不是你的中文昵称！）。
+    * **密码**：你的 Gitee 登录密码。
+    * *注：输入成功一次后，Windows/Mac 会自动记住密码，以后提交就不需要再输了。*
 
-请将以下内容打包上传至学习通/课程平台：
+### 3. 最终核验
 
-1. **截图 A**：CMD 环境验证截图（含 Dragonwell 和 Maven 版本）。
-2. **截图 B**：浏览器成功访问 `localhost:8080/hello` 的截图。
-3. **截图 C**：你与 AI 助手的对话截图（证明你学会了用 AI 解释代码）。
-4. **(可选)**：Git Log 截图。
+打开**你的 Gitee 仓库网页**，如果能看到：
 
-!!! warning "避坑指南"
-* **端口冲突**：如果启动报错 `Port 8080 was already in use`，请在 `application.properties` 中添加 `server.port=8081`，然后重新运行。
-* **Maven 爆红**：如果依赖下载失败，请点击 IDEA 右侧 Maven 面板的“刷新”图标 (Reload All Maven Projects)。
+* [ ] 你的 `README.md` 里显示了你的个人信息。
+* [ ] 页面下方的图片能正常显示（不是裂开的图标）。
+* [ ] `src` 目录下有你刚才写的 Java 代码。
+
+**恭喜！你已成功完成实验 1。** *(若学校平台需要提交，请将你的 Gitee 仓库链接提交上去)*
 
 ---
 
-**🎉 恭喜！你已经完成了第一次全栈开发体验。**
+## ❓ 常见问题 (FAQ)
+
+**Q1: 为什么图片显示不出来？**
+> **A:** 请检查文件名大小写！Gitee 服务器严格区分大小写，`Env.png` 和 `env.png` 是不一样的。请统一使用小写文件名。
+
+**Q2: 启动报错 "Port 8080 was already in use"？**
+> **A:** 这说明默认端口被占用了。请修改 `src/main/resources/application.properties` 文件，添加一行 `server.port=8081`，保存后重新运行。
+
+**Q3: Push 报错 "Permission denied"？**
+> **A:** 请检查你是否误 Clone 了老师的仓库？你没有权限向老师的仓库推送代码。
+> **解决方法**：请确保你 Clone 的是 **你自己 Gitee 账号下** 的仓库（URL 中包含你的用户名）。
+
+**Q4: 密码输错了，之后一直报 "Authentication failed" 怎么办？**
+> **A:** 这是因为错误的密码被 Windows/Mac 记住了。需要手动清除凭据：
+>
+> 1.  在电脑搜索栏输入 **"凭据管理器" (Credential Manager)**。
+> 2.  点击 **"Windows 凭据"**。
+> 3.  找到 `git:https://gitee.com` 这一项。
+> 4.  点击 **"删除"**。
+> 5.  重新执行 `git push`，系统就会弹窗让你输入新密码了。
