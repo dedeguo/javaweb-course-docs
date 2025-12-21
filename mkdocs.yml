@@ -29,9 +29,9 @@ nav:
       # - 教学大纲: syllabus.md
   - 第1章｜Web开发基础与效能工具:
       - 第1章导读：目标与任务: chapter01/index.md
-      - 开发环境就绪: chapter01/env-setup.md
-      - 工程化基石：Maven与Git: chapter01/maven-git.md
-      - 你的 AI 编程搭档 : chapter01/ai-tools.md
+      - 开发环境搭建: chapter01/env-setup.md
+      - 工程化基石: chapter01/maven-git.md
+      - AI 结对编程 : chapter01/ai-tools.md
       - 实验1：Web环境与AI助手配置: chapter01/lab1.md
 
   - 第二篇｜Web 底层原理:
