@@ -1451,607 +1451,1270 @@ Servlet 可以通过名称将对象属性绑定到 `HttpSession` 实现中。绑
 
 **7-68 Java Servlet 规范 • 2017 年 7 月**
 
----
 
-## 第 8 章 注解和可插入性
 
-本章描述了注解的使用以及其他增强功能，以实现框架和库在 Web 应用程序中的可插入性。
-
-### 8.1 注解和可插入性
-
-在 Web 应用程序中，使用注解的类只有在它们位于 `WEB-INF/classes` 目录中，或者打包在应用程序内 `WEB-INF/lib` 中的 JAR 文件中时，才会处理其注解。
-
-Web 应用程序部署描述符在 `web-app` 元素上包含一个 `metadata-complete` 属性。此属性定义此部署描述符以及任何 web 片段（如果有）是否完整，或者是否应检查此模块可用的类文件以及与此应用程序打包在一起的类文件中是否存在指定部署信息的注解。在此意义上，部署信息指的是任何本可以由部署描述符或片段指定，但改为在类上作为注解指定的信息。
-
-如果 `metadata-complete` 属性的值指定为 `true`，则部署工具必须忽略打包在 Web 应用程序的类文件中指定此类部署信息的任何注解。有关处理 `metadata-complete` 的更多详细信息，请参见第 8.2.3 节"从 web.xml、web-fragment.xml 和注解组装描述符"、第 8.4 节"处理注解和片段"以及第 15.5.1 节"对 metadata-complete 的处理"。
-
-如果 `metadata-complete` 属性未指定或其值为 `false`，则部署工具必须检查应用程序的类文件中是否存在此类注解。请注意，`metadata-complete` 的 `true` 值不会抢占所有注解的处理，只会抢占下面列出的那些。
+> **注释与可插拔性**
 
 ---
 
-**8-69 Java Servlet 规范 • 2017 年 7 月**
-
-在部署 XSD 中没有等效项的注解包括 `javax.servlet.annotation.HandlesTypes` 和所有与 CDI 相关的注解。无论 `metadata-complete` 的值如何，都必须在进行注解扫描时处理这些注解。
-
-当 EJB 打包在 `.war` 文件中，并且 `.war` 文件包含 `ejb-jar.xml` 文件时，`ejb-jar.xml` 文件的 `metadata-complete` 属性确定对企业 Bean 的注解的处理。如果没有 `ejb-jar.xml` 文件，并且 `web.xml` 将 `metadata-complete` 属性指定为 `"true"`，则这些注解将按存在一个 `metadata-complete` 属性指定为 `"true"` 的 `ejb-jar.xml` 文件的情况进行处理。有关 EJB 注解的要求，请参阅 Enterprise JavaBeans™ 规范。
-
-以下是 `javax.servlet.annotation` 中的注解。所有这些都有 Web XSD 涵盖的相应部署描述符元数据。
-
-来自 `javax.servlet.annotation`：
-*   `HttpConstraint`
-*   `HttpMethodConstraint`
-*   `MultipartConfig`
-*   `ServletSecurity`
-*   `WebFilter`
-*   `WebInitParam`
-*   `WebListener`
-*   `WebServlet`
-
-以下来自相关包的注解也由 `web.xml` 和相关片段涵盖。
-
-来自 `javax.annotation`：
-*   `PostConstruct`
-*   `PreDestroy`
-*   `Resource`
-*   `Resources`
-
-来自 `javax.annotation.security`：
-*   `DeclareRoles`
-*   `RunAs`
-
-来自 `javax.annotation.sql`：
-*   `DataSourceDefinition`
-*   `DataSourceDefinitions`
-
-来自 `javax.ejb`：
-*   `EJB`
-*   `EJBs`
-
-来自 `javax.jms`：
-*   `JMSConnectionFactoryDefinition`
-*   `JMSConnectionFactoryDefinitions`
-*   `JMSDestinationDefinition`
-*   `JMSDestinationDefinitions`
-
-来自 `javax.mail`：
-*   `MailSessionDefinition`
-*   `MailSessionDefinitions`
-
-来自 `javax.persistence`：
-*   `PersistenceContext`
-*   `PersistenceContexts`
-*   `PersistenceUnit`
-*   `PersistenceUnits`
-
-来自 `javax.resource`：
-*   `AdministeredObjectDefinition`
-*   `AdministeredObjectDefinitions`
-*   `ConnectionFactoryDefinition`
-*   `ConnectionFactoryDefinitions`
-
-以下包中的所有注解：
-*   `javax.jws`
-*   `javax.jws.soap`
-*   `javax.xml.ws`
-*   `javax.xml.ws.soap`
-*   `javax.xml.ws.spi`
-
-以下是符合 Servlet 的 Web 容器必须支持的注解。
+> 本章描述了如何使用注释和其他增强功能来实现框架和库在 Web 应用程序内的可插拔性。
 
 ---
 
-**8-70 Java Servlet 规范 • 2017 年 7 月**
+> **8.1 注释与可插拔性**
+>
+> 在 Web 应用程序中，只有位于 `WEB-INF/classes` 目录下的类，或打包在应用程序 `WEB-INF/lib` 目录下的 jar 文件中的类，其使用的注释才会被处理。
+>
+> Web 应用程序部署描述符在 `web-app` 元素上包含一个 `"metadata-complete"` 属性。该属性定义此部署描述符以及任何存在的 web 片段是否完整，或者是否应检查为此模块可用并与本应用程序打包在一起的类文件中的注释是否指定了部署信息。部署信息在此意义上指的是任何本可以通过部署描述符或片段指定，但改为通过类上的注释指定的信息。
+>
+> 如果 `"metadata-complete"` 属性的值指定为 `true`，则部署工具必须忽略 Web 应用程序中打包的类文件中指定此类部署信息的任何注释。有关 `"metadata-complete"` 处理的更多详细信息，请参阅[第 8.2.3 节 "从 web.xml、web-fragment.xml 和注释组装描述符"](#bookmark121)（第 8-82 页）、[第 8.4 节 "处理注释和片段"](#bookmark124)（第 8-97 页）以及[第 15.5.1 节 "metadata-complete 的处理"](#bookmark307)（第 15-194 页）。
+>
+> 如果未指定 `"metadata-complete"` 属性，或其值为 `false`，则部署工具必须检查应用程序的类文件以查找此类注释。请注意，`"metadata-complete"` 的值为 `true` 并不会**抢占所有**注释的处理，而只是抢占下面列出的那些注释。
+>
+> 在部署 XSD 中没有对应项的注释包括 `javax.servlet.annotation.HandlesTypes` 以及所有与 CDI 相关的注释。无论 `"metadata-complete"` 的值如何，这些注释都必须在注释扫描期间处理。
+>
+> 当 EJB 打包在 `.war` 文件中，并且 `.war` 文件包含 `ejb-jar.xml` 文件时，`ejb-jar.xml` 文件的 `metadata-complete` 属性决定了企业 Bean 的注释处理。如果没有 `ejb-jar.xml` 文件，并且 `web.xml` 将 `metadata-complete` 属性指定为 `"true"`，那么这些注释的处理方式将如同存在一个 `metadata-complete` 属性被指定为 `"true"` 的 `ejb-jar.xml` 文件一样。有关 EJB 注释的要求，请参阅 Enterprise JavaBeans™ 规范。
+>
+> 以下是 `javax.servlet` 包中的所有注释。所有这些都有 Web XSD 涵盖的相应部署描述符元数据。
+>
+> 来自 `javax.servlet.annotation`：
+>
+> ■ `HttpConstraint`
+>
+> ■ `HttpMethodConstraint`
+>
+> ■ `MultipartConfig`
+>
+> ■ `ServletSecurity`
+>
+> ■ `WebFilter`
+>
+> ■ `WebInitParam`
+>
+> ■ `WebListener`
+>
+> ■ `WebServlet`
+>
+> 来自相关包的以下注释也受 `web.xml` 和相关片段涵盖。
+>
+> 来自 `javax.annotation`：
+>
+> ■ `PostConstruct`
+>
+> ■ `PreDestroy`
+>
+> ■ `Resource`
+>
+> ■ `Resources`
+>
+> 来自 `javax.annotation.security`：
+>
+> ■ `DeclareRoles`
+>
+> ■ `RunAs`
+>
+> 来自 `javax.annotation.sql`：
+>
+> ■ `DataSourceDefinition`
+>
+> ■ `DataSourceDefinitions`
+>
+> 来自 `javax.ejb`：
+>
+> ■ `EJB`
+>
+> ■ `EJBs`
+>
+> 来自 `javax.jms`：
+>
+> ■ `JMSConnectionFactoryDefinition`
+>
+> ■ `JMSConnectionFactoryDefinitions`
+>
+> ■ `JMSDestinationDefinition`
+>
+> ■ `JMSDestinationDefinitions`
+>
+> 来自 `javax.mail`：
+>
+> ■ `MailSessionDefinition`
+>
+> ■ `MailSessionDefinitions`
+>
+> 来自 `javax.persistence`：
+>
+> ■ `PersistenceContext`
+>
+> ■ `PersistenceContexts`
+>
+> ■ `PersistenceUnit`
+>
+> ■ `PersistenceUnits`
+>
+> 来自 `javax.resource`：
+>
+> ■ `AdministeredObjectDefinition`
+>
+> ■ `AdministeredObjectDefinitions`
+>
+> ■ `ConnectionFactoryDefinition`
+>
+> ■ `ConnectionFactoryDefinitions`
+>
+> 以下包中的所有注释：
+>
+> ■ `javax.jws`
+>
+> ■ `javax.jws.soap`
+>
+> ■ `javax.xml.ws`
+>
+> ■ `javax.xml.ws.soap`
+>
+> ■ `javax.xml.ws.spi`
+>
+> 以下是符合 Servlet 规范的 Web 容器**必须**支持的注释。
 
-#### 8.1.1 @WebServlet
+**8.1.1 @WebServlet**
 
-此注解用于在 Web 应用程序中定义 Servlet 组件。此注解在类上指定，并包含有关被声明的 Servlet 的元数据。注解上的 `urlPatterns` 或 `value` 属性**必须**存在。所有其他属性都是可选的，具有默认设置（更多详细信息请参见 javadoc）。建议当注解上唯一的属性是 URL 模式时使用 `value`，当也使用其他属性时使用 `urlPatterns` 属性。在同一注解上同时使用 `value` 和 `urlPatterns` 属性是非法的。如果未指定，Servlet 的默认名称是完全限定的类名。被注解的 Servlet**必须**指定至少一个要部署的 URL 模式。如果在部署描述符中声明了相同 Servlet 类的不同名称，则**必须**实例化该 Servlet 的新实例。如果通过第 4.4.1 节"以编程方式添加和配置 Servlet"中定义的编程式 API 将具有不同名称的相同 Servlet 类添加到 `ServletContext`，则必须忽略通过 `@WebServlet` 注解声明的属性值，并且**必须**创建具有指定名称的 Servlet 的新实例。
+> 此注释用于在 Web 应用程序中定义 Servlet 组件。此注释在类上指定，包含有关所声明 Servlet 的元数据。注释上的 `urlPatterns` 或 `value` 属性**必须**存在。所有其他属性都是可选的，具有默认设置（更多详情请参阅 javadoc）。建议当注释上唯一的属性是 URL 模式时使用 `value`，当也使用其他属性时使用 `urlPatterns` 属性。在同一注释上同时使用 `value` 和 `urlPatterns` 属性是非法的。如果未指定，Servlet 的默认名称是其完全限定类名。带注释的 servlet**必须**指定至少一个要部署的 URL 模式。如果在部署描述符中以不同名称声明了相同的 servlet 类，**必须**实例化该 servlet 的一个新实例。
 
-用 `@WebServlet` 注解的类**必须**扩展 `javax.servlet.http.HttpServlet` 类。
+**第 8 章 注释与可插拔性 8-71**
 
-以下是此注解的使用示例。
+> 如果通过[第 4.4.1 节 "以编程方式添加和配置 Servlets"](#bookmark53)（第 4-35 页）定义的程序化 API 以不同名称将相同的 servlet 类添加到 `ServletContext`，则**必须**忽略通过 `@WebServlet` 注释声明的属性值，并且**必须**创建具有指定名称的 servlet 新实例。
+>
+> 使用 `@WebServlet` 注释的类**必须**扩展 `javax.servlet.http.HttpServlet` 类。
+>
+> 以下是此注释使用方式的示例。
+>
+> **代码示例 8-1** `@WebServlet` 注释示例
+>
+> ```java
+> @WebServlet("/foo")
+> public class CalculatorServlet extends HttpServlet {
+>     //...
+> }
+> ```
+>
+> 以下是如何使用此注释并指定更多属性的示例。
+>
+> **代码示例 8-2** 使用其他注释属性的 `@WebServlet` 注释示例
+>
+> ```java
+> @WebServlet(name="MyServlet", urlPatterns={"/foo", "/bar"})
+> public class SampleUsingAnnotationAttributes extends HttpServlet {
+>     public void doGet(HttpServletRequest req, HttpServletResponse res) {
+>         //...
+>     }
+> }
+> ```
 
-**代码示例 8-1 @WebServlet 注解示例**
-```java
-@WebServlet("/foo")
-public class CalculatorServlet extends HttpServlet {
-    //...
-}
+**8.1.2 @WebFilter**
+
+> 此注释用于在 Web 应用程序中定义过滤器。此注释在类上指定，包含有关所声明过滤器的元数据。如果未指定，过滤器的默认名称是其完全限定类名。**必须**指定注释的 `urlPatterns` 属性、`servletNames` 属性或 `value` 属性。所有其他属性都是可选的，具有默认设置（更多详情请参阅 javadoc）。建议当注释上唯一的属性是 URL 模式时使用 `value`，当也使用其他属性时使用 `urlPatterns` 属性。在同一注释上同时使用 `value` 和 `urlPatterns` 属性是非法的。
+>
+> 使用 `@WebFilter` 注释的类**必须**实现 `javax.servlet.Filter`。
+> 以下是此注释使用方式的示例。
+>
+> **代码示例 8-3** `@WebFilter` 注释示例
+>
+> ```java
+> @WebFilter("/foo")
+> public class MyFilter implements Filter {
+>     public void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) {
+>         //...
+>         chain.doFilter(req, res);
+>     }
+> }
+> ```
+
+**8.1.3 @WebInitParam**
+
+> 此注释用于指定必须传递给 Servlet 或 Filter 的任何初始化参数。它是 `WebServlet` 和 `WebFilter` 注释的一个属性。
+
+**8.1.4 @WebListener**
+
+> `WebListener` 注释用于注释监听器，以获取对特定 Web 应用程序上下文进行各种操作的事件。使用 `@WebListener` 注释的类**必须**实现以下接口之一：
+>
+> ■ `javax.servlet.ServletContextListener`
+>
+> ■ `javax.servlet.ServletContextAttributeListener`
+>
+> ■ `javax.servlet.ServletRequestListener`
+>
+> ■ `javax.servlet.ServletRequestAttributeListener`
+>
+> ■ `javax.servlet.http.HttpSessionListener`
+>
+> ■ `javax.servlet.http.HttpSessionAttributeListener`
+>
+> ■ `javax.servlet.http.HttpSessionIdListener`
+>
+> 示例：
+>
+> ```java
+> @WebListener
+> public class MyListener implements ServletContextListener {
+>     public void contextInitialized(ServletContextEvent sce) {
+>         ServletContext sc = sce.getServletContext();
+>         sc.addServlet("myServlet", "Sample servlet", "foo.bar.MyServlet", null, -1);
+>         sc.addServletMapping("myServlet", new String[] { "/urlpattern/*" });
+>     }
+> }
+> ```
+
+**8.1.5 @MultipartConfig**
+
+> 此注释在 Servlet 上指定时，表示它期望的请求类型为 `multipart/form-data`。相应 Servlet 的 `HttpServletRequest` 对象**必须**通过 `getParts` 和 `getPart` 方法使 MIME 附件可用，以便遍历各种 MIME 附件。`javax.servlet.annotation.MultipartConfig` 的 `location` 属性以及 `<multipart-config>` 的 `<location>` 元素被解释为绝对路径，默认为 `javax.servlet.context.tempdir` 的值。如果指定了相对路径，它将相对于 `tempdir` 位置。必须通过 `java.io.File.isAbsolute` 来测试是绝对路径还是相对路径。
+
+**8.1.6 其他注释/约定**
+
+> 除了这些注释，[第 15.5 节 "注释与资源注入"](#bookmark308)（第 15-193 页）中定义的所有注释在这些新注释的上下文中将继续有效。
+>
+> 默认情况下，所有应用程序的 `welcome-file-list` 中将包含 `index.htm(l)` 和 `index.jsp`。描述符可用于覆盖这些默认设置。
+>
+> 当使用注释时，从 `WEB-INF/classes` 或 `WEB-INF/lib` 中的各种框架 jar/类加载监听器、Servlet 的顺序是未指定的。如果顺序很重要，那么请查看下面关于 `web.xml` 的模块化以及 `web.xml` 和 `web-fragment.xml` 排序的部分。顺序只能在部署描述符中指定。
+
+---
+
+> **8.2 可插拔性**
+>
+> **8.2.1 web.xml 的模块化**
+>
+> 使用上述定义的注释使得 `web.xml` 的使用变为可选。然而，为了覆盖默认值或通过注释设置的值，需要使用部署描述符。和以前一样，如果 `web.xml` 描述符中的 `metadata-complete` 元素设置为 `true`，则不会处理捆绑在 jar 中的类文件和 web 片段中存在的、指定部署信息的注释。这意味着应用程序的所有元数据都是通过 `web.xml` 描述符指定的。
+>
+> 为了更好的可插拔性和减少开发人员的配置，我们引入了 Web 模块部署描述符片段（web 片段）的概念。Web 片段是 `web.xml` 的一部分或全部，可以在库或框架 jar 的 `META-INF` 目录中指定和包含。`WEB-INF/lib` 目录中没有 `web-fragment.xml` 的普通旧 jar 文件也被视为一个片段。其中指定的任何注释将根据 8.2.3 中定义的规则进行处理。容器将根据以下定义的规则选取并使用配置。
+>
+> Web 片段是对 Web 应用程序的逻辑分区，使得 Web 应用程序中使用的框架可以在不要求开发人员编辑或添加 `web.xml` 中信息的情况下定义所有工件。它可以包括 `web.xml` 描述符使用的几乎所有相同的元素。但是，描述符的顶级元素**必须**是 `web-fragment`，并且相应的描述符文件**必须**称为 `web-fragment.xml`。`web-fragment.xml` 和 `web.xml` 之间与排序相关的元素也有所不同。请参阅第 14 章部署描述符部分中 Web 片段的相应模式。
+>
+> 如果框架打包为 jar 文件并具有部署描述符形式的元数据信息，则 `web-fragment.xml` 描述符必须位于 jar 文件的 `META-INF/` 目录中。
+>
+> 如果框架希望其 `META-INF/web-fragment.xml` 以增强 Web 应用程序 `web.xml` 的方式得到遵守，则该框架必须捆绑在 Web 应用程序的 `WEB-INF/lib` 目录内。为了使框架的任何其他类型资源（例如类文件）对 Web 应用程序可用，框架出现在 Web 应用程序的类加载器委托链中的任何位置就足够了。换句话说，只有捆绑在 Web 应用程序 `WEB-INF/lib` 目录中的 JAR 文件，而不是那些在类加载委托链中更高级别的 JAR 文件，需要被扫描以查找 `web-fragment.xml`。
+>
+> 在部署期间，容器负责扫描上述指定位置并发现和处理 `web-fragment.xml`。当前针对单个 `web.xml` 存在的名称唯一性要求同样适用于 `web.xml` 和所有适用的 `web-fragment.xml` 文件的并集。
+>
+> 以下是库或框架可以包含的内容的示例：
+>
+> ```xml
+> <web-fragment>
+>     <servlet>
+>         <servlet-name>welcome</servlet-name>
+>         <servlet-class>WelcomeServlet</servlet-class>
+>     </servlet>
+>     <listener>
+>         <listener-class>RequestListener</listener-class>
+>     </listener>
+> </web-fragment>
+> ```
+>
+> 上述 `web-fragment.xml` 将包含在框架 jar 文件的 `META-INF/` 目录中。应用来自 `web-fragment.xml` 和注释的配置的顺序是未定义的。如果排序对特定应用程序是重要方面，请参阅下面定义的规则以了解如何实现所需的顺序。
+
+**<a id="bookmark120"></a>8.2.2 web.xml 和 web-fragment.xml 的排序**
+
+> 由于规范允许应用程序配置资源由多个配置文件（`web.xml` 和 `web-fragment.xml`）组成，这些文件从应用程序中的多个不同位置发现和加载，因此必须解决排序问题。本节指定配置资源作者如何声明其工件的排序要求。
+>
+> `web-fragment.xml` 可以有一个 `javaee:java-identifierType` 类型的顶级 `<name>` 元素。一个 `web-fragment.xml` 中只能有一个 `<name>` 元素。如果存在 `<name>` 元素，则必须考虑其用于工件的排序（除非适用重复名称异常，如下所述）。
+>
+> 必须考虑两种情况，以允许应用程序配置资源表达其排序偏好。
+>
+> **1. 绝对排序：** `web.xml` 中的 `<absolute-ordering>` 元素。一个 `web.xml` 中只能有一个 `<absolute-ordering>` 元素。
+>
+> a. 在这种情况下，本应由下面第 2 种情况处理的排序偏好必须被忽略。
+>
+> b. `web.xml` 和 `WEB-INF/classes`**必须**在 `absolute-ordering` 元素中列出的任何 web 片段之前处理。
+>
+> c. `<absolute-ordering>` 的直接子元素中的任何 `<name>` 元素**必须**被解释为指示那些可能存在的命名 web 片段的处理绝对顺序。
+>
+> d. `<absolute-ordering>` 元素可以包含零个或一个 `<others/>` 元素。此元素所需的操作如下所述。如果 `<absolute-ordering>` 元素不包含 `<others/>` 元素，则任何未在 `<name/>` 元素中明确提及的 web 片段**必须**被忽略。被排除的 jar 不会被扫描以查找带注释的 servlet、过滤器或监听器。但是，如果被排除 jar 中的 servlet、过滤器或监听器在 `web.xml` 或非排除的 `web-fragment.xml` 中列出，则其注释将适用，除非被 `metadata-complete` 排除。
+>
+> 在被排除 jar 的 TLD 文件中发现的 `ServletContextListener` 无法使用编程式 API 配置过滤器和 servlet。任何尝试这样做都将导致 `IllegalStateException`。如果从被排除的 jar 中发现 `ServletContainerInitializer`，它将被忽略。无论 `metadata-complete` 的设置如何，被 `<absolute-ordering>` 元素排除的 jar 都不会被扫描以供任何 `ServletContainerInitializer` 处理的类。
+>
+> e. **重复名称异常：** 如果遍历 `<absolute-ordering>` 的子元素时遇到多个具有相同 `<name>` 元素的子元素，则**必须**只考虑第一个这样的出现。
+>
+> **2. 相对排序：** `web-fragment.xml` 中的 `<ordering>` 元素。一个 `web-fragment.xml` 中只能有一个 `<ordering>` 元素。
+>
+> a. `web-fragment.xml` 可以有一个 `<ordering>` 元素。如果有，此元素必须包含零个或一个 `<before>` 元素以及零个或一个 `<after>` 元素。这些元素的含义如下所述。
+>
+> b. `web.xml` 和 `WEB-INF/classes`**必须**在排序元素中列出的任何 web 片段之前处理。
+>
+> c. **重复名称异常：** 如果遍历 web 片段时遇到多个具有相同 `<name>` 元素的成员，应用程序必须记录包含有助于解决问题的信息的错误消息，并且**必须**部署失败。例如，解决此问题的一种方法是用户使用绝对排序，在这种情况下相对排序被忽略。
+>
+> d. 考虑这个缩写但说明性的例子。应用程序中有 3 个 web 片段 - `MyFragment1`、`MyFragment2` 和 `MyFragment3`，还包括一个 `web.xml`。
+>
+> `web-fragment.xml` (MyFragment1)
+> ```xml
+> <web-fragment>
+>     <name>MyFragment1</name>
+>     <ordering><after><name>MyFragment2</name></after></ordering>
+>     ...
+> </web-fragment>
+> ```
+>
+> `web-fragment.xml` (MyFragment2)
+> ```xml
+> <web-fragment>
+>     <name>MyFragment2</name>
+>     ..
+> </web-fragment>
+> ```
+>
+> `web-fragment.xml` (MyFragment3)
+> ```xml
+> <web-fragment>
+>     <name>MyFragment3</name>
+>     <ordering><before><others/></before></ordering>
+>     ..
+> </web-fragment>
+> ```
+>
+> `web.xml`
+> ```xml
+> <web-app>
+>     ...
+> </web-app>
+> ```
+>
+> 在此示例中，处理顺序将是：
+>
+> ```
+> web.xml
+> MyFragment3
+> MyFragment2
+> MyFragment1
+> ```
+>
+> 前面的示例说明了一些（但非全部）以下原则。
+>
+> ■ `<before>` 表示文档必须排在名称与嵌套 `<name>` 元素中指定的内容匹配的文档之前。
+>
+> ■ `<after>` 表示文档必须排在名称与嵌套 `<name>` 元素中指定的内容匹配的文档之后。
+>
+> ■ 有一个特殊元素 `<others/>`，可以在 `<before>` 或 `<after>` 元素中包含零次或一次，或者在 `<absolute-ordering>` 元素中直接包含零次或一次。`<others/>` 元素必须按以下方式处理。
+>
+> ■ 如果 `<before>` 元素包含嵌套的 `<others/>`，该文档将被移动到已排序文档列表的开头。如果有多个文档声明 `<before><others/>`，它们都将位于已排序文档列表的开头，但此类文档组内的排序是未指定的。
+>
+> ■ 如果 `<after>` 元素包含嵌套的 `<others/>`，该文档将被移动到已排序文档列表的末尾。如果有多个文档需要 `<after><others/>`，它们都将位于已排序文档列表的末尾，但此类文档组内的排序是未指定的。
+>
+> ■ 在 `<before>` 或 `<after>` 元素内，如果存在 `<others/>` 元素，但它不是其父元素中唯一的 `<name>` 元素，则**必须**在排序过程中考虑该父元素中的其他元素。
+>
+> ■ 如果 `<others/>` 元素直接出现在 `<absolute-ordering>` 元素内部，运行时**必须**确保任何未在 `<absolute-ordering>` 部分明确命名的 web 片段在该处理点被包含。
+>
+> ■ 如果 `web-fragment.xml` 文件没有 `<ordering>` 元素，或者 `web.xml` 没有 `<absolute-ordering>` 元素，则假定工件没有任何排序依赖关系。
+>
+> ■ 如果运行时发现循环引用，**必须**记录信息性消息，并且应用程序**必须**部署失败。同样，用户可以采取的一种行动方案是在 `web.xml` 中使用绝对排序。
+>
+> ■ 前面的示例可以扩展以说明 `web.xml` 包含排序部分的情况。
+>
+> `web.xml`
+> ```xml
+> <web-app>
+>     <absolute-ordering>
+>         <name>MyFragment3</name>
+>         <name>MyFragment2</name>
+>     </absolute-ordering>
+>     ...
+> </web-app>
+> ```
+>
+> 在此示例中，各种元素的排序将是：
+>
+> ```
+> web.xml
+> MyFragment3
+> MyFragment2
+> ```
+>
+> 下面包含一些额外的示例场景。所有这些都适用于相对排序，而非绝对排序。
+>
+> **示例 1:**
+> - 文档 A: `<after><others/><name>C</name></after>`
+> - 文档 B: `<before><others/></before>`
+> - 文档 C: `<after><others/></after>`
+> - 文档 D: 无排序
+> - 文档 E: 无排序
+> - 文档 F: `<before><others/><name>B</name></before>`
+>
+> **结果解析顺序:** `web.xml, F, B, D, E, C, A.`
+>
+> **示例 2:**
+> - 文档 `<无标识>`: `<after><others/></after><before><name>C</name></before>` (注意：此描述可能有误，一个文档中不应同时有 `<after>` 和 `<before>` 直接作为 `<ordering>` 的子元素。规范此处可能有笔误或缩写不当。)
+> - 文档 B: `<before><others/></before>`
+> - 文档 C: 无排序
+> - 文档 D: `<after><others/></after>`
+> - 文档 E: `<before><others/></before>`
+> - 文档 F: 无排序
+>
+> **可能的解析顺序**（规范给出了多个，表明非确定性）:
+> ```
+> ■ B, E, F, <no id>, C, D
+> ■ B, E, F, <no id>, D, C
+> ■ E, B, F, <no id>, C, D
+> ■ E, B, F, <no id>, D, C
+> ■ E, B, F, D, <no id>, C
+> ■ E, B, F, D, <no id>, D (最后一项 D 重复，可能为笔误，应为 C)
+> ```
+>
+> **示例 3:**
+> - 文档 A: `<after><name>B</name></after>`
+> - 文档 B: 无排序
+> - 文档 C: `<before><others/></before>`
+> - 文档 D: 无排序
+>
+> **结果解析顺序:** `C, B, D, A.` 也可能是: `C, D, B, A` 或 `C, B, A, D`
+
+**<a id="bookmark121"></a>8.2.3 从 web.xml、web-fragment.xml 和注释组装描述符**
+
+> 如果监听器、servlet、过滤器的调用顺序对应用程序很重要，则必须使用部署描述符。此外，如果需要，可以使用上面定义的排序元素。如上所述，当使用注释定义监听器、servlet 和过滤器时，它们的调用顺序是未指定的。以下是一组适用于组装应用程序最终部署描述符的规则：
+>
+> **1.** 监听器、servlet、过滤器的相关顺序（如果有）必须在 `web-fragment.xml` 或 `web.xml` 中指定。
+>
+> **2.** 排序将基于它们在描述符中定义的顺序，以及 `web.xml` 中的 `absolute-ordering` 元素或 `web-fragment.xml` 中存在的 `ordering` 元素（如果存在）。
+>
+> a. 匹配请求的过滤器按照它们在 `web.xml` 中声明的顺序链接。
+>
+> b. Servlet 要么在请求处理时延迟初始化，要么在部署时急切初始化。在后一种情况下，它们按照 `load-on-startup` 元素指示的顺序初始化。
+>
+> c. 监听器按照它们在 `web.xml` 中声明的顺序调用，具体如下：
+>
+> i. `javax.servlet.ServletContextListener` 的实现按其 `contextInitialized` 方法在它们声明的顺序被调用，并按相反顺序调用 `contextDestroyed` 方法。
+>
+> ii. `javax.servlet.ServletRequestListener` 的实现按其 `requestInitialized` 方法在它们声明的顺序被调用，并按相反顺序调用 `requestDestroyed` 方法。
+>
+> iii. `javax.servlet.http.HttpSessionListener` 的实现按其 `sessionCreated` 方法在它们声明的顺序被调用，并按相反顺序调用 `sessionDestroyed` 方法。
+>
+> iv. `javax.servlet.ServletContextAttributeListener`、`javax.servlet.ServletRequestAttributeListener` 和 `javax.servlet.http.HttpSessionAttributeListener` 的实现的方法在相应事件触发时按照它们声明的顺序调用。
+>
+> **3.** 如果使用 `web.xml` 中引入的 `enabled` 元素禁用了 servlet，则该 servlet 将无法在其指定的 `url-pattern` 上使用。
+>
+> **4.** 在解决 `web.xml`、`web-fragment.xml` 和注释之间的冲突时，Web 应用程序的 `web.xml` 具有最高优先级。
+>
+> **5.** 如果描述符中未指定 `metadata-complete`，或者在部署描述符中设置为 `false`，则应用程序的有效元数据通过组合注释和描述符中存在的元数据派生。合并规则如下：
+>
+> a. Web 片段中的配置设置用于增强主 `web.xml` 中指定的设置，其方式如同它们在同一 `web.xml` 中指定的一样。
+>
+> b. Web 片段的配置设置添加到主 `web.xml` 中的顺序如上文[第 8.2.2 节 "web.xml 和 web-fragment.xml 的排序"](#bookmark120)（第 8-76 页）所述。
+>
+> c. 当在主 `web.xml` 中设置为 `true` 时，`metadata-complete` 属性被认为是完整的，并且不会在部署时扫描注释和片段。如果存在 `absolute-ordering` 和 `ordering` 元素，它们将被忽略。当在片段上设置为 `true` 时，`metadata-complete` 属性仅适用于扫描该特定 jar 中的注释。
+>
+> d. Web 片段被合并到主 `web.xml` 中，除非 `metadata-complete` 设置为 `true`。合并发生在对相应片段进行注释处理之后。
+>
+> e. 在通过 web 片段增强 `web.xml` 时，以下情况被视为配置冲突：
+>
+> i. 多个具有相同 `<param-name>` 但不同 `<param-value>` 的 `<init-param>` 元素。
+>
+> ii. 多个具有相同 `<extension>` 但不同 `<mime-type>` 的 `<mime-mapping>` 元素。
+>
+> f. 上述配置冲突按如下方式解决：
+>
+> i. 主 `web.xml` 与 web 片段之间的配置冲突，以使 `web.xml` 中的配置优先的方式解决。
+>
+> ii. 两个 web 片段之间的配置冲突（冲突中心的元素在主 `web.xml` 中不存在）将导致错误。**必须**记录信息性消息，并且应用程序**必须**部署失败。
+>
+> g. 解决上述冲突后，应用以下附加规则：
+>
+> i. 可以声明任意次数的元素在生成的 `web.xml` 中的各个 web 片段之间是累加的。例如，具有不同 `<param-name>` 的 `<context-param>` 元素是累加的。
+>
+> ii. 可以声明任意次数的元素，如果在 `web.xml` 中指定，则覆盖具有相同名称的 web 片段中指定的值。
+>
+> iii. 如果一个最小出现次数为零、最大出现次数为一的元素出现在 web 片段中，而在主 `web.xml` 中缺失，则主 `web.xml` 从 web 片段继承该设置。如果该元素既出现在主 `web.xml` 中也出现在 web 片段中，则主 `web.xml` 中的配置设置优先。例如，如果主 `web.xml` 和 web 片段都声明了同一个 servlet，并且 web 片段中的 servlet 声明指定了一个 `<load-on-startup>` 元素，而主 `web.xml` 中的没有，那么 `<load-on-startup>` 元素将从 web 片段中用于合并后的 `web.xml`。
+>
+> iv. 如果一个最小出现次数为零、最大出现次数为一的元素在两个 web 片段中以不同方式指定，而在主 `web.xml` 中缺失，则被视为错误。例如，如果两个 web 片段声明同一个 servlet，但带有不同的 `<load-on-startup>` 元素，并且同一个 servlet 也在主 `web.xml` 中声明，但没有任何 `<load-on-startup>`，那么**必须**报告错误。
+>
+> v. `<welcome-file>` 声明是累加的。
+>
+> vi. 具有相同 `<servlet-name>` 的 `<servlet-mapping>` 元素在各个 web 片段之间是累加的。`web.xml` 中指定的 `<servlet-mapping>` 覆盖具有相同 `<servlet-name>` 的 web 片段中指定的值。
+>
+> vii. 具有相同 `<filter-name>` 的 `<filter-mapping>` 元素在各个 web 片段之间是累加的。`web.xml` 中指定的 `<filter-mapping>` 覆盖具有相同 `<filter-name>` 的 web 片段中指定的值。
+>
+> viii. 多个具有相同 `<listener-class>` 的 `<listener>` 元素被视为单个 `<listener>` 声明。
+>
+> ix. 合并产生的 `web.xml` 仅当 `web.xml` 和所有 web 片段都标记为 `<distributable>` 时才被视为 `<distributable>`。
+>
+> x. web 片段的顶级 `<icon>` 及其子元素、`<display-name>` 和 `<description>` 元素被忽略。
+>
+> xi. `jsp-property-group` 是累加的。建议在 jar 文件的 `META-INF/resources` 目录中捆绑静态资源时，`jsp-config` 元素使用 `url-pattern` 而不是扩展映射。此外，片段的 JSP 资源应放在与片段名称相同的子目录中（如果存在）。这有助于防止 web 片段的 `jsp-property-group` 影响应用程序主文档根目录中的 JSP，以及防止 `jsp-property-group` 影响片段 `META-INF/resources` 目录中的 JSP。
+>
+> h. 对于所有资源引用元素（`env-entry`、`ejb-ref`、`ejb-local-ref`、`service-ref`、`resource-ref`、`resource-env-ref`、`message-destination-ref`、`persistence-context-ref` 和 `persistence-unit-ref`），适用以下规则：
+>
+> i. 如果任何资源引用元素出现在 web 片段中，而在主 `web.xml` 中缺失，则主 `web.xml` 从 web 片段继承该值。如果该元素既出现在主 `web.xml` 中也出现在 web 片段中，且具有相同的名称，则 `web.xml` 优先。来自片段的任何子元素都不会合并到主 `web.xml` 中，除了下面指定的 `injection-target`。例如，如果主 `web.xml` 和 web 片段都声明了具有相同 `<resource-ref-name>` 的 `<resource-ref>`，则将使用来自 `web.xml` 的 `<resource-ref>`，而不会合并来自片段的任何子元素，除了下面描述的 `<injection-target>`。
+>
+> ii. 如果资源引用元素在两个片段中指定，而在主 `web.xml` 中缺失，并且资源引用元素的所有属性和子元素都相同，则资源引用将被合并到主 `web.xml` 中。如果资源引用元素在两个片段中指定了相同的名称，而在主 `web.xml` 中缺失，并且两个片段中的属性和子元素不完全相同，则被视为错误。**必须**报告错误，并且应用程序**必须**部署失败。例如，如果两个 web 片段声明了具有相同 `<resource-ref-name>` 元素的 `<resource-ref>`，但一个的类型指定为 `javax.sql.DataSource`，而另一个的类型是 JavaMail 资源的类型，则这是一个错误，应用程序将部署失败。
+>
+> iii. 对于具有相同名称的资源引用元素，来自片段的 `<injection-target>` 元素将被合并到主 `web.xml` 中。
+>
+> i. 除了上述定义的 web 片段合并规则外，使用资源引用注释（`@Resource`、`@Resources`、`@EJB`、`@EJBs`、`@WebServiceRef`、`@WebServiceRefs`、`@PersistenceContext`、`@PersistenceContexts`、`@PersistenceUnit`、`@PersistenceUnits`）时，还适用以下规则：
+>
+> 如果资源引用注释应用于类，则它等同于定义资源，但并不等同于定义 `injection-target`。在这种情况下，上述规则适用于 `injection-target` 元素。如果资源引用注释用于字段，则等同于在 `web.xml` 中定义 `injection-target` 元素。但是，如果描述符中没有 `injection-target` 元素，则来自片段的 `injection-target` 仍将如上所述合并到 `web.xml` 中。另一方面，如果主 `web.xml` 中有 `injection-target`，并且存在具有相同资源名称的资源引用注释，则这被认为是对资源引用注释的覆盖。在这种情况下，由于描述符中指定了 `injection-target`，除了覆盖资源引用注释的值之外，上述定义的规则也适用。
+>
+> j. 如果 `data-source` 元素在两个片段中指定，而在主 `web.xml` 中缺失，并且 `data-source` 元素的所有属性和子元素都相同，则 `data-source` 将被合并到主 `web.xml` 中。如果 `data-source` 元素在两个片段中指定了相同的名称，而在主 `web.xml` 中缺失，并且两个片段中的属性和子元素不完全相同，则被视为错误。在这种情况下，**必须**报告错误，并且应用程序**必须**部署失败。
+>
+> 以下是一些示例，展示了不同情况下的结果。
+>
+> **代码示例 8-4**
+> - `web.xml`: 无 `resource-ref` 定义
+> - 片段 1 `web-fragment.xml`:
+>   ```xml
+>   <resource-ref>
+>       <resource-ref-name>foo</resource-ref-name>
+>       ...
+>       <injection-target>
+>           <injection-target-class>com.example.Bar.class</injection-target-class>
+>           <injection-target-name>baz</injection-target-name>
+>       </injection-target>
+>   </resource-ref>
+>   ```
+>
+> **有效元数据将是:**
+>   ```xml
+>   <resource-ref>
+>       <resource-ref-name>foo</resource-ref-name>
+>       ....
+>       <injection-target>
+>           <injection-target-class>com.example.Bar.class</injection-target-class>
+>           <injection-target-name>baz</injection-target-name>
+>       </injection-target>
+>   </resource-ref>
+>   ```
+>
+> **代码示例 8-5**
+> - `web.xml`:
+>   ```xml
+>   <resource-ref>
+>       <resource-ref-name>foo</resource-ref-name>
+>       ...
+>   </resource-ref>
+>   ```
+> - 片段 1 `web-fragment.xml`:
+>   ```xml
+>   <resource-ref>
+>       <resource-ref-name>foo</resource-ref-name>
+>       ...
+>       <injection-target>
+>           <injection-target-class>com.example.Bar.class</injection-target-class>
+>           <injection-target-name>baz</injection-target-name>
+>       </injection-target>
+>   </resource-ref>
+>   ```
+> - 片段 2 `web-fragment.xml`:
+>   ```xml
+>   <resource-ref>
+>       <resource-ref-name>foo</resource-ref-name>
+>       ...
+>       <injection-target>
+>           <injection-target-class>com.example.Bar2.class</injection-target-class>
+>           <injection-target-name>baz2</injection-target-name>
+>       </injection-target>
+>   </resource-ref>
+>   ```
+>
+> **有效元数据将是:**
+>   ```xml
+>   <resource-ref>
+>       <resource-ref-name>foo</resource-ref-name>
+>       ....
+>       <injection-target>
+>           <injection-target-class>com.example.Bar.class</injection-target-class>
+>           <injection-target-name>baz</injection-target-name>
+>       </injection-target>
+>       <injection-target>
+>           <injection-target-class>com.example.Bar2.class</injection-target-class>
+>           <injection-target-name>baz2</injection-target-name>
+>       </injection-target>
+>   </resource-ref>
+>   ```
+>
+> **代码示例 8-6**
+> - `web.xml`:
+>   ```xml
+>   <resource-ref>
+>       <resource-ref-name>foo</resource-ref-name>
+>       <injection-target>
+>           <injection-target-class>com.example.Bar3.class</injection-target-class>
+>           <injection-target-name>baz3</injection-target-name>
+>       </injection-target>
+>       ...
+>   </resource-ref>
+>   ```
+> - 片段 1 `web-fragment.xml`:
+>   ```xml
+>   <resource-ref>
+>       <resource-ref-name>foo</resource-ref-name>
+>       ...
+>       <injection-target>
+>           <injection-target-class>com.example.Bar.class</injection-target-class>
+>           <injection-target-name>baz</injection-target-name>
+>       </injection-target>
+>   </resource-ref>
+>   ```
+> - 片段 2 `web-fragment.xml`:
+>   ```xml
+>   <resource-ref>
+>       <resource-ref-name>foo</resource-ref-name>
+>       ...
+>       <injection-target>
+>           <injection-target-class>com.example.Bar2.class</injection-target-class>
+>           <injection-target-name>baz2</injection-target-name>
+>       </injection-target>
+>   </resource-ref>
+>   ```
+>
+> **有效元数据将是:**
+>   ```xml
+>   <resource-ref>
+>       <resource-ref-name>foo</resource-ref-name>
+>       <injection-target>
+>           <injection-target-class>com.example.Bar3.class</injection-target-class>
+>           <injection-target-name>baz3</injection-target-name>
+>           <injection-target-class>com.example.Bar.class</injection-target-class>
+>           <injection-target-name>baz</injection-target-name>
+>           <injection-target-class>com.example.Bar2.class</injection-target-class>
+>           <injection-target-name>baz2</injection-target-name>
+>       </injection-target>
+>       ...
+>   </resource-ref>
+>   ```
+>
+> 来自片段 1 和 2 的 `<injection-target>` 将被合并到主 `web.xml` 中。
+>
+> k. 如果主 `web.xml` 没有指定任何 `<post-construct>` 元素，而 web 片段指定了 `<post-construct>`，则 `<post-construct>` 元素将从片段合并到主 `web.xml` 中。但是，如果在主 `web.xml` 中至少指定了一个 `<post-construct>` 元素，则来自片段的 `<post-construct>` 元素将不会被合并。`web.xml` 的作者有责任确保 `<post-construct>` 列表是完整的。
+>
+> l. 如果主 `web.xml` 没有指定任何 `<pre-destroy>` 元素，而 web 片段指定了 `<pre-destroy>`，则 `<pre-destroy>` 元素将从片段合并到主 `web.xml` 中。但是，如果在主 `web.xml` 中至少指定了一个 `<pre-destroy>` 元素，则来自片段的 `<pre-destroy>` 元素将不会被合并。`web.xml` 的作者有责任确保 `<pre-destroy>` 列表是完整的。
+>
+> m. 在处理 `web-fragment.xml` 之后，在处理下一个片段之前，会处理来自相应片段的注释以完成该片段的有效元数据。处理注释使用以下规则：
+>
+> n. 通过注释指定的、描述符中尚不存在的任何元数据将用于增强有效描述符。
+>
+> i. 在主 `web.xml` 或 web 片段中指定的配置优先于通过注释指定的配置。
+>
+> ii. 对于通过 `@WebServlet` 注释定义的 servlet，要通过描述符覆盖值，描述符中的 servlet 名称**必须**与通过注释指定的 servlet 名称匹配（显式指定或在注释中未指定时的默认名称）。
+>
+> iii. 通过注释定义的 servlet 和过滤器的初始化参数，如果初始化参数的名称与通过注释指定的名称完全匹配，则将在描述符中被覆盖。注释和描述符之间的初始化参数是累加的。
+>
+> iv. 描述符中为给定 servlet 名称指定的 `url-patterns` 将覆盖通过注释指定的 url 模式。
+>
+> v. 对于通过 `@WebFilter` 注释定义的过滤器，要通过描述符覆盖值，描述符中的过滤器名称**必须**与通过注释指定的过滤器名称匹配（显式指定或在注释中未指定时的默认名称）。
+>
+> vi. 描述符中为给定过滤器名称指定的、过滤器应用到的 `url-patterns` 将覆盖通过注释指定的 url 模式。
+>
+> vii. 描述符中为给定过滤器名称指定的、过滤器应用到的 `DispatcherTypes` 将覆盖通过注释指定的 `DispatcherTypes`。
+>
+> viii. 以下示例演示了上述的一些规则：
+>
+> 通过注释声明并与描述符中相应的 `web.xml` 打包在一起的 Servlet：
+>
+> ```java
+> @WebServlet(urlPatterns="/MyPattern", initParams={@WebInitParam(name="ccc", value="333")})
+> public class com.example.Foo extends HttpServlet {
+>     //...
+> }
+> ```
+>
+> `web.xml`:
+> ```xml
+> <servlet>
+>     <servlet-class>com.example.Foo</servlet-class>
+>     <servlet-name>Foo</servlet-name>
+>     <init-param>
+>         <param-name>aaa</param-name>
+>         <param-value>111</param-value>
+>     </init-param>
+> </servlet>
+> <servlet>
+>     <servlet-class>com.example.Foo</servlet-class>
+>     <servlet-name>Fum</servlet-name>
+>     <init-param>
+>         <param-name>bbb</param-name>
+>         <param-value>222</param-value>
+>     </init-param>
+> </servlet>
+> <servlet-mapping>
+>     <servlet-name>Foo</servlet-name>
+>     <url-pattern>/foo/*</url-pattern>
+> </servlet-mapping>
+> <servlet-mapping>
+>     <servlet-name>Fum</servlet-name>
+>     <url-pattern>/fum/*</url-pattern>
+> </servlet-mapping>
+> ```
+>
+> 由于通过注释声明的 servlet 名称与 `web.xml` 中声明的 servlet 名称不匹配，注释除了 `web.xml` 中的其他声明外，还指定了一个新的 servlet 声明，等效于：
+>
+> ```xml
+> <servlet>
+>     <servlet-class>com.example.Foo</servlet-class>
+>     <servlet-name>com.example.Foo</servlet-name>
+>     <init-param>
+>         <param-name>ccc</param-name>
+>         <param-value>333</param-value>
+>     </init-param>
+> </servlet>
+> ```
+>
+> 如果上面的 `web.xml` 被替换为以下内容：
+>
+> ```xml
+> <servlet>
+>     <servlet-class>com.example.Foo</servlet-class>
+>     <servlet-name>com.example.Foo</servlet-name>
+>     <init-param>
+>         <param-name>aaa</param-name>
+>         <param-value>111</param-value>
+>     </init-param>
+> </servlet>
+> <servlet-mapping>
+>     <servlet-name>com.example.Foo</servlet-name>
+>     <url-pattern>/foo/*</url-pattern>
+> </servlet-mapping>
+> ```
+>
+> 那么有效描述符将等效于：
+>
+> ```xml
+> <servlet>
+>     <servlet-class>com.example.Foo</servlet-class>
+>     <servlet-name>com.example.Foo</servlet-name>
+>     <init-param>
+>         <param-name>aaa</param-name>
+>         <param-value>111</param-value>
+>     </init-param>
+>     <init-param>
+>         <param-name>ccc</param-name>
+>         <param-value>333</param-value>
+>     </init-param>
+> </servlet>
+> <servlet-mapping>
+>     <url-pattern>/foo/*</url-pattern>
+> </servlet-mapping>
+> ```
+
+**8.2.4 共享库/运行时可插拔性**
+
+> 除了支持片段和注释的使用，其中一个要求是，不仅能够插入捆绑在 `WEB-INF/lib` 中的东西，还能插入框架的共享副本 - 包括能够插入构建在 Web 容器之上的 JAX-WS、JAX-RS 和 JSF 等东西。`ServletContainerInitializer` 允许处理如下所述的此类用例。
+>
+> `ServletContainerInitializer` 类通过 jar 服务 API 查找。对于每个应用程序，容器在应用程序启动时会创建 `ServletContainerInitializer` 的一个实例。提供 `ServletContainerInitializer` 实现的框架**必须**按照 jar 服务 API，在 jar 文件的 `META-INF/services` 目录中捆绑一个名为 `javax.servlet.ServletContainerInitializer` 的文件，该文件指向 `ServletContainerInitializer` 的实现类。
+>
+> 除了 `ServletContainerInitializer`，我们还有一个注释 - `HandlesTypes`。`ServletContainerInitializer` 实现上的 `HandlesTypes` 注释用于表达对可能具有 `HandlesTypes` 值中指定的注释（类型、方法或字段级注释）的类的兴趣，或者如果它扩展/实现了这些类中的任何一个（在类的任何超类型中）。无论 `metadata-complete` 的设置如何，都会应用 `HandlesTypes` 注释。
+>
+> 当检查应用程序的类以查看它们是否匹配 `ServletContainerInitializer` 的 `HandlesTypes` 注释指定的任何条件时，如果应用程序的一个或多个可选 JAR 文件缺失，容器可能会遇到类加载问题。由于容器无法判断这些类型的类加载失败是否会阻止应用程序正常工作，它**必须**忽略它们，同时提供一个记录这些错误的配置选项。
+>
+> 如果 `ServletContainerInitializer` 的实现没有 `@HandlesTypes` 注释，或者没有任何 `HandlesType` 的匹配项，那么它将被每个应用程序调用一次，并将 `Set` 的值作为 `null`。这将允许初始化器根据应用程序中可用的资源来决定是否需要初始化 servlet/过滤器。
+>
+> `ServletContainerInitializer` 的 `onStartup` 方法将在应用程序启动时，在任何 servlet 监听器事件触发之前被调用。
+>
+> `ServletContainerInitializer` 的 `onStartup` 方法被调用时带有一个 `Class` 的 `Set`，这些类要么扩展/实现了初始化器感兴趣的类，要么被 `@HandlesTypes` 注释指定的任何类所注释。
+>
+> 下面的具体示例展示了这将如何工作。
+>
+> 以 JAX-WS Web 服务运行时为例。
+>
+> JAX-WS 运行时的实现通常不会捆绑在每个 war 文件中。该实现会捆绑一个 `ServletContainerInitializer` 的实现（如下所示），容器将使用服务 API 查找它（jar 文件将在其 `META-INF/services` 目录中捆绑一个名为 `javax.servlet.ServletContainerInitializer` 的文件，该文件指向下面所示的 `JAXWSServletContainerInitializer`）。
+>
+> ```java
+> @HandlesTypes(WebService.class)
+> public class JAXWSServletContainerInitializer implements ServletContainerInitializer {
+>     public void onStartup(Set<Class<?>> c, ServletContext ctx) throws ServletException {
+>         // JAX-WS 特定代码，用于初始化运行时并设置映射等。
+>         ServletRegistration reg = ctx.addServlet("JAXWSServlet", "com.sun.webservice.JAXWSServlet");
+>         reg.addServletMapping("/foo");
+>     }
+> }
+> ```
+>
+> 框架 jar 文件也可以捆绑在 war 文件的 `WEB-INF/lib` 目录中。如果 `ServletContainerInitializer` 捆绑在应用程序 `WEB-INF/lib` 目录内的 JAR 文件中，则其 `onStartup` 方法仅在捆绑应用程序启动期间调用一次。另一方面，如果 `ServletContainerInitializer` 捆绑在 `WEB-INF/lib` 目录外但仍可通过运行时的服务提供者查找机制发现的 JAR 文件中，则每次启动应用程序时都会调用其 `onStartup` 方法。
+>
+> `ServletContainerInitializer` 接口的实现将通过运行时的服务查找机制或语义上等同于它的容器特定机制来发现。无论哪种情况，来自绝对排序中排除的 web 片段 JAR 文件的 `ServletContainerInitializer` 服务**必须**被忽略，并且这些服务的发现顺序**必须**遵循应用程序的类加载委托模型。
+
+---
+
+> **8.3 JSP 容器可插拔性**
+>
+> `ServletContainerInitializer` 和编程式注册功能使得 Servlet 和 JSP 容器之间的职责清晰分离成为可能，方法是使 Servlet 容器仅负责解析 `web.xml` 和 `web-fragment.xml` 资源，并将标记库描述符（TLD）资源的解析委托给 JSP 容器。
+>
+> 以前，Web 容器必须扫描 TLD 资源以查找任何监听器声明。在 Servlet 3.0 及更高版本中，此职责可以委托给 JSP 容器。嵌入在 Servlet 容器中的 JSP 容器可以提供自己的 `ServletContainerInitializer` 实现，搜索传递给其 `onStartup` 方法的 `ServletContext` 以查找任何 TLD 资源，扫描这些资源以查找监听器声明，并将相应的监听器注册到 `ServletContext`。
+>
+> 此外，在 Servlet 3.0 之前，JSP 容器过去必须扫描应用程序的部署描述符以查找任何 `jsp-config` 相关配置。在 Servlet 3.0 及更高版本中，Servlet 容器**必须**通过 `ServletContext.getJspConfigDescriptor` 方法提供应用程序 `web.xml` 和 `web-fragment.xml` 部署描述符中的任何 `jsp-config` 相关配置。
+>
+> 在 TLD 中发现并以编程方式注册的任何 `ServletContextListener` 在其提供的功能上是有限的。任何尝试调用自 Servlet 3.0 以来添加的 `ServletContext` API 方法都将导致 `UnsupportedOperationException`。
+>
+> 此外，符合 Servlet 3.0 或更高版本的 Servlet 容器**必须**提供一个名为 `javax.servlet.context.orderedLibs` 的 `ServletContext` 属性，其值（类型为 `java.util.List<java.lang.String>`）包含由 `ServletContext` 表示的应用程序的 `WEB-INF/lib` 目录中的 JAR 文件名称列表，按其 web 片段名称排序（如果片段 JAR 文件已从绝对排序中排除，则可能进行排除），如果应用程序未指定任何绝对或相对排序，则为 `null`。
+
+---
+
+**<a id="bookmark124"></a>8.4 处理注释和片段**
+
+> Web 应用程序可以同时包含注释和 `web.xml`/`web-fragment.xml` 部署描述符。如果没有部署描述符，或者有描述符但 `metadata-complete` 未设置为 `true`，则如果应用程序中使用了 `web.xml`、`web-fragment.xml` 和注释，则必须处理它们。下表描述了是否处理注释和 `web.xml` 片段的要求。
+
+**表 8-1 注释和 web 片段处理要求**
+
+| **部署描述符** | **metadata-complete** | **处理注释和 web 片段** |
+| :--- | :--- | :--- |
+| `web.xml 2.5` | 是 | 否 |
+| `web.xml 2.5` | 否 | 是 |
+| `web.xml 3.0 或更高` | 是 | 否 |
+| `web.xml 3.0 或更高` | 否 | 是 |
+
+---
+
+**第 9 章**
+**请求分发**
+
+---
+
+> 构建 Web 应用程序时，将请求的处理转发给另一个 servlet，或者在响应中包含另一个 servlet 的输出通常很有用。`RequestDispatcher` 接口提供了一种实现此功能的机制。
+>
+> 当请求上启用异步处理时，`AsyncContext` 允许用户将请求分派回 servlet 容器。
+
+---
+
+> **9.1 获取 RequestDispatcher**
+>
+> 可以通过 `ServletContext` 的以下方法获取实现 `RequestDispatcher` 接口的对象：
+>
+> ■ `getRequestDispatcher`
+>
+> ■ `getNamedDispatcher`
+>
+> `getRequestDispatcher` 方法接受一个描述 `ServletContext` 范围内路径的字符串参数。此路径必须相对于 `ServletContext` 的根，并以 '/' 开头，或者为空。该方法使用该路径查找 servlet（使用[第 12 章 "将请求映射到 Servlet"](#bookmark304)中的 servlet 路径匹配规则），将其包装在 `RequestDispatcher` 对象中，并返回结果对象。如果无法根据给定路径解析到任何 servlet，则提供一个返回该路径内容的 `RequestDispatcher`。
+>
+> `getNamedDispatcher` 方法接受一个字符串参数，指示 `ServletContext` 已知的 servlet 名称。如果找到 servlet，则将其包装在 `RequestDispatcher` 对象中并返回该对象。如果没有与给定名称关联的 servlet，该方法必须返回 `null`。
+>
+> 为了允许使用相对于当前请求路径（而非相对于 `ServletContext` 根路径）的相对路径获取 `RequestDispatcher` 对象，在 `ServletRequest` 接口中提供了 `getRequestDispatcher` 方法。
+>
+> 此方法的行为类似于 `ServletContext` 中的同名方法。servlet 容器使用请求对象中的信息将给定的相对于当前 servlet 的相对路径转换为完整路径。例如，在根目录为 '/' 的上下文中，对 `/garden/tools.html` 的请求，通过 `ServletRequest.getRequestDispatcher("header.html")` 获取的请求分发器将完全像调用 `ServletContext.getRequestDispatcher("/garden/header.html")` 一样。
+>
+> **9.1.1 请求分发器路径中的查询字符串**
+>
+> 使用路径信息创建 `RequestDispatcher` 对象的 `ServletContext` 和 `ServletRequest` 方法允许可选地将查询字符串信息附加到路径上。例如，开发人员可以使用以下代码获取 `RequestDispatcher`：
+>
+> ```java
+> String path = "/raisins.jsp?orderno=5";
+> RequestDispatcher rd = context.getRequestDispatcher(path);
+> rd.include(request, response);
+> ```
+>
+> 用于创建 `RequestDispatcher` 的查询字符串中指定的参数优先于传递给被包含 servlet 的同名其他参数。与 `RequestDispatcher` 关联的参数的作用域仅限于包含或转发调用的持续时间内。
+
+---
+
+> **9.2 使用请求分发器**
+>
+> 要使用请求分发器，servlet 调用 `RequestDispatcher` 接口的 `include` 方法或 `forward` 方法。这些方法的参数可以是传递到 `javax.servlet.Servlet` 接口的 `service` 方法中的请求和响应参数，也可以是为规范 2.3 版引入的请求和响应包装器类的子类实例。在后一种情况下，包装器实例必须包装容器传递给 `service` 方法的请求或响应对象。
+>
+> 容器提供商应确保将请求分派到目标 servlet 发生在与原始请求相同的 JVM 的同一线程中。
+
+---
+
+> **9.3 Include 方法**
+>
+> 可以随时调用 `RequestDispatcher` 接口的 `include` 方法。`include` 方法的目标 servlet 可以访问请求对象的所有方面，但其对响应对象的使用更受限制。
+>
+> 它只能向响应对象的 `ServletOutputStream` 或 `Writer` 写入信息，并通过写入超出响应缓冲区末端的内容或显式调用 `ServletResponse` 接口的 `flushBuffer` 方法来提交响应。它不能设置标头或调用任何影响响应标头的方法，除了 `HttpServletRequest.getSession()` 和 `HttpServletRequest.getSession(boolean)` 方法。任何设置标头的尝试都必须被忽略，并且如果响应已提交，任何需要添加 Cookie 响应头的 `HttpServletRequest.getSession()` 或 `HttpServletRequest.getSession(boolean)` 调用都必须抛出 `IllegalStateException`。
+>
+> 如果默认 servlet 是 `RequestDispatch.include()` 的目标，并且请求的资源不存在，则默认 servlet**必须**抛出 `FileNotFoundException`。如果未捕获和处理异常，并且响应尚未提交，则状态代码**必须**设置为 500。
+>
+> **9.3.1 包含的请求参数**
+>
+> 除了通过使用 `getNamedDispatcher` 方法获取的 servlet 外，通过使用 `RequestDispatcher` 的 `include` 方法被另一个 servlet 调用的 servlet 有权访问其被调用的路径。
+>
+> **必须**设置以下请求属性：
+>
+> ```
+> javax.servlet.include.request_uri
+> javax.servlet.include.context_path
+> javax.servlet.include.servlet_path
+> javax.servlet.include.mapping
+> javax.servlet.include.path_info
+> javax.servlet.include.query_string
+> ```
+>
+> 这些属性可以通过请求对象上的 `getAttribute` 方法从被包含的 servlet 访问，并且它们的值必须分别等于被包含 servlet 的请求 URI、上下文路径、servlet 路径、路径信息和查询字符串。如果请求随后被包含，则这些属性将被该包含替换。
+>
+> **第 9 章 分发请求 9-101**
+>
+> 如果被包含的 servlet 是通过使用 `getNamedDispatcher` 方法获取的，则这些属性**不得**设置。
+
+---
+
+> **9.4 Forward 方法**
+>
+> 只有在没有输出已提交给客户端时，调用 servlet 才能调用 `RequestDispatcher` 接口的 `forward` 方法。如果响应缓冲区中存在尚未提交的输出数据，则在调用目标 servlet 的 `service` 方法之前**必须**清除内容。如果响应已提交，**必须**抛出 `IllegalStateException`。
+>
+> 暴露给目标 servlet 的请求对象的路径元素**必须**反映用于获取 `RequestDispatcher` 的路径。
+>
+> 唯一的例外是如果 `RequestDispatcher` 是通过 `getNamedDispatcher` 方法获取的。在这种情况下，请求对象的路径元素**必须**反映原始请求的路径元素。
+>
+> 在 `RequestDispatcher` 接口的 `forward` 方法无异常返回之前，除非请求被置于异步模式，否则**必须**由 servlet 容器发送、提交并关闭响应内容。如果 `RequestDispatcher.forward()` 的目标发生错误，异常可能会通过所有调用过滤器和 servlet 传播回容器。
+>
+> **9.4.1 查询字符串**
+>
+> 请求分发机制负责在转发或包含请求时聚合查询字符串参数。
+>
+> **9.4.2 转发的请求参数**
+>
+> 除了通过使用 `getNamedDispatcher` 方法获取的 servlet 外，通过使用 `RequestDispatcher` 的 `forward` 方法被另一个 servlet 调用的 servlet 有权访问原始请求的路径。
+>
+> **必须**设置以下请求属性：
+>
+> ```
+> javax.servlet.forward.mapping
+> javax.servlet.forward.request_uri
+> javax.servlet.forward.context_path
+> javax.servlet.forward.servlet_path
+> javax.servlet.forward.path_info
+> javax.servlet.forward.query_string
+> ```
+>
+> 这些属性的值必须分别等于在从客户端接收请求的调用链中的第一个 servlet 对象上调用请求对象的 `HttpServletRequest` 方法 `getRequestURI`、`getContextPath`、`getServletPath`、`getPathInfo`、`getQueryString` 的返回值。
+>
+> 这些属性可以通过请求对象上的 `getAttribute` 方法从被转发的 servlet 访问。请注意，即使调用了多次转发和后续包含，这些属性也**必须**始终反映原始请求中的信息。
+>
+> 如果被转发的 servlet 是通过使用 `getNamedDispatcher` 方法获取的，则这些属性**不得**设置。
+
+---
+
+> **9.5 错误处理**
+>
+> 如果作为请求分发器目标的 servlet 抛出运行时异常或类型为 `ServletException` 或 `IOException` 的受检异常，则应将其传播给调用 servlet。所有其他异常应包装为 `ServletException`，并将异常的根原因设置为原始异常，因为它不应传播。
+
+---
+
+> **9.6 获取 AsyncContext**
+>
+> 可以通过 `ServletRequest` 的某个 `startAsync` 方法获取实现 `AsyncContext` 接口的对象。一旦拥有 `AsyncContext`，就可以使用它通过 `complete()` 方法完成请求的处理，或者使用下面描述的某个分派方法。
+
+---
+
+> **9.7 分派方法**
+>
+> 可以使用以下方法从 `AsyncContext` 分派请求：
+>
+> ■ `dispatch(path)`
+>
+> `dispatch` 方法接受一个描述 `ServletContext` 范围内路径的字符串参数。此路径必须相对于 `ServletContext` 的根，并以 '/' 开头。
+>
+> ■ `dispatch(servletContext, path)`
+>
+> `dispatch` 方法接受一个描述指定 `ServletContext` 范围内路径的字符串参数。此路径必须相对于指定 `ServletContext` 的根，并以 '/' 开头。
+>
+> ■ `dispatch()`
+>
+> `dispatch` 方法不接受参数。它使用原始 URI 作为路径。如果 `AsyncContext` 是通过 `startAsync(ServletRequest, ServletResponse)` 初始化的，并且传递的请求是 `HttpServletRequest` 的实例，则分派到 `HttpServletRequest.getRequestURI()` 返回的 URI。否则，分派到容器上次分派请求时的 URI。
+>
+> 等待异步事件发生的应用程序可以调用 `AsyncContext` 接口的某个 `dispatch` 方法。如果已在 `AsyncContext` 上调用了 `complete()`，则**必须**抛出 `IllegalStateException`。所有 `dispatch` 方法的变体都立即返回，并且不提交响应。
+>
+> 暴露给目标 servlet 的请求对象的路径元素**必须**反映 `AsyncContext.dispatch` 中指定的路径。
+>
+> **9.7.1 查询字符串**
+>
+> 请求分发机制负责在分派请求时聚合查询字符串参数。
+>
+> **9.7.2 分派的请求参数**
+>
+> 通过使用 `AsyncContext` 的 `dispatch` 方法调用的 servlet 有权访问原始请求的路径。
+>
+> **必须**设置以下请求属性：
+>
+> ```
+> javax.servlet.async.mapping
+> javax.servlet.async.request_uri
+> javax.servlet.async.context_path
+> javax.servlet.async.servlet_path
+> javax.servlet.async.path_info
+> javax.servlet.async.query_string
+> ```
+>
+> 这些属性的值必须分别等于在从客户端接收请求的调用链中的第一个 servlet 对象上调用请求对象的 `HttpServletRequest` 方法 `getRequestURI`、`getContextPath`、`getServletPath`、`getPathInfo`、`getQueryString` 的返回值。
+>
+> 这些属性可以通过请求对象上的 `getAttribute` 方法从被分派的 servlet 访问。请注意，即使调用了多次分派，这些属性也**必须**始终反映原始请求中的信息。
+
+---
+
+**第 10 章**
+**Web 应用程序**
+
+---
+
+> Web 应用程序是 servlet、HTML 页面、类以及构成 Web 服务器上完整应用程序的其他资源的集合。Web 应用程序可以捆绑并在来自多个供应商的多个容器上运行。
+
+---
+
+> **10.1 Web 服务器中的 Web 应用程序**
+>
+> Web 应用程序在 Web 服务器内的特定路径下建立根目录。例如，目录应用程序可以位于 `http://www.example.com/catalog`。所有以此前缀开头的请求都将被路由到表示目录应用程序的 `ServletContext`。
+>
+> servlet 容器可以建立自动生成 Web 应用程序的规则。例如，可以使用 `~user/` 映射来映射到基于 `/home/user/public_html/` 的 Web 应用程序。
+>
+> 默认情况下，一个 Web 应用程序实例在任何时候必须在一个 VM 上运行。如果应用程序通过其部署描述符标记为"可分发"，则可以覆盖此行为。标记为可分发的应用程序必须遵守比普通 Web 应用程序更严格的规则。这些规则在本规范中各处列出。
+
+---
+
+> **10.2 与 ServletContext 的关系**
+>
+> servlet 容器**必须**强制 Web 应用程序与 `ServletContext` 之间的一一对应关系。`ServletContext` 对象为 servlet 提供其应用程序视图。
+
+---
+
+> **10.3 Web 应用程序的要素**
+>
+> Web 应用程序可能包含以下项目：
+>
+> ■ Servlets
+>
+> ■ JSP™ 页面<sup>1</sup>
+>
+> ■ 工具类
+>
+> ■ 静态文档（HTML、图像、声音等）
+>
+> ■ 客户端 Java 小程序、bean 和类
+>
+> ■ 描述性元信息，将上述所有元素联系在一起
+
+---
+
+> **10.4 部署层次结构**
+>
+> 本规范定义了一个用于部署和打包目的的分层结构，该结构可以存在于开放文件系统、归档文件或其他形式中。建议（但不是必需）servlet 容器支持此结构作为运行时表示。
+
+---
+
+> **10.5 目录结构**
+>
+> Web 应用程序以结构化的目录层次结构存在。此层次结构的根目录用作应用程序中文件的文档根目录。例如，对于 Web 容器中上下文路径为 `/catalog` 的 Web 应用程序，位于 Web 应用程序层次结构基目录下的 `index.html` 文件，或位于 `WEB-INF/lib` 内且在 `META-INF/resources` 目录下包含 `index.html` 的 JAR 文件中的 `index.html`，可以用来满足对 `/catalog/index.html` 的请求。如果 `index.html` 同时存在于根上下文和应用程序 `WEB-INF/lib` 目录中 JAR 文件的 `META-INF/resources` 目录中，则**必须**使用根上下文中可用的文件。将 URL 匹配到上下文路径的规则在[第 12 章 "将请求映射到 Servlet"](#bookmark304)中说明。由于应用程序的上下文路径决定了 Web 应用程序内容的 URL 命名空间，Web 容器**必须**拒绝定义可能导致此 URL 命名空间潜在冲突的上下文路径的 Web 应用程序。例如，尝试部署具有相同上下文路径的第二个 Web 应用程序可能会导致这种情况。
+
+---
+
+> <sup>1</sup> 请参阅从 <https://jcp.org/en/jsr/detail?id=245> 获取的 JavaServer Pages 规范。
+>
+> 由于请求以区分大小写的方式与资源匹配，因此确定潜在冲突也必须以区分大小写的方式进行。
+>
+> 应用程序层次结构中存在一个名为 `"WEB-INF"` 的特殊目录。此目录包含与应用程序相关的所有不属于应用程序文档根目录的内容。`WEB-INF` 节点的大部分不是应用程序公共文档树的一部分。除了位于 `WEB-INF/lib` 目录中的 JAR 文件的 `META-INF/resources` 中打包的静态资源和 JSP 之外，容器**不得**直接将 `WEB-INF` 目录中包含的任何其他文件提供给客户端。但是，`WEB-INF` 目录的内容对使用 `ServletContext` 上的 `getResource` 和 `getResourceAsStream` 方法调用的 servlet 代码是可见的，并且可以使用 `RequestDispatcher` 调用公开。因此，如果应用程序开发人员需要从 servlet 代码访问他不希望直接暴露给 Web 客户端的、应用程序特定的配置信息，他可以将其放在此目录下。由于请求以区分大小写的方式与资源映射匹配，因此对 `'/WEB-INF/foo'`、`'/WEb-iNf/foo'` 等客户端请求不应导致返回位于 `/WEB-INF` 下的 Web 应用程序内容，也不应返回任何形式的目录列表。
+>
+> `WEB-INF` 目录的内容是：
+>
+> ■ `/WEB-INF/web.xml` 部署描述符。
+>
+> ■ `/WEB-INF/classes/` 目录，用于 servlet 和工具类。此目录中的类必须对应用程序类加载器可用。
+>
+> ■ `/WEB-INF/lib/*.jar` 区域，用于 Java 归档文件。这些文件包含打包在 JAR 文件中的 servlet、bean、静态资源和 JSP，以及对 Web 应用程序有用的其他工具类。Web 应用程序类加载器必须能够从任何这些归档文件加载类。
+>
+> Web 应用程序类加载器必须首先从 `WEB-INF/classes` 目录加载类，然后从 `WEB-INF/lib` 目录中的库 JAR 加载。此外，除了静态资源打包在 JAR 文件中的情况外，对客户端访问 `WEB-INF/` 目录中资源的任何请求都必须返回 `SC_NOT_FOUND(404)` 响应。
+
+**第 10 章 Web 应用程序 10-109**
+
+> **10.5.1 应用程序目录结构示例**
+> 以下是示例 Web 应用程序中所有文件的列表：
+
 ```
-
-以下是使用此注解并指定更多属性的示例。
-
-**代码示例 8-2 使用其他注解属性的 @WebServlet 注解示例**
-```java
-@WebServlet(name="MyServlet", urlPatterns={"/foo", "/bar"))
-public class SampleUsingAnnotationAttributes extends HttpServlet {
-    public void doGet(HttpServletRequest req, HttpServletResponse res) {
-    }
-}
+/index.html
+/howto.jsp
+/feedback.jsp
+/images/banner.gif
+/images/jumping.gif
+/WEB-INF/web.xml
+/WEB-INF/lib/jspbean.jar
+/WEB-INF/lib/catalog.jar!/META-INF/resources/catalog/moreOffers/books.html
+/WEB-INF/classes/com/mycorp/servlets/MyServlet.class
+/WEB-INF/classes/com/mycorp/util/MyUtils.class
 ```
 
 ---
 
-**第 8 章 注解和可插入性 8-71**
-
-#### 8.1.2 @WebFilter
-
-此注解用于在 Web 应用程序中定义过滤器。此注解在类上指定，并包含有关被声明的过滤器的元数据。如果未指定，过滤器的默认名称是完全限定的类名。注解的 `urlPatterns` 属性、`servletNames` 属性或 `value` 属性**必须**指定。所有其他属性都是可选的，具有默认设置（更多详细信息请参见 javadoc）。建议当注解上唯一的属性是 URL 模式时使用 `value`，当也使用其他属性时使用 `urlPatterns` 属性。在同一注解上同时使用 `value` 和 `urlPatterns` 属性是非法的。
-
-用 `@WebFilter` 注解的类**必须**实现 `javax.servlet.Filter`。
-
-以下是此注解的使用示例。
-
-**代码示例 8-3 @WebFilter 注解示例**
-```java
-@WebFilter("/foo")
-public class MyFilter implements Filter {
-    public void doFilter(HttpServletRequest req, HttpServletResponse res) {
-        ...
-    }
-}
-```
-
-#### 8.1.3 @WebInitParam
-
-此注解用于指定必须传递给 Servlet 或过滤器的任何初始化参数。它是 `WebServlet` 和 `WebFilter` 注解的属性。
-
-#### 8.1.4 @WebListener
-
-`WebListener` 注解用于注解监听器，以获取对特定 Web 应用程序上下文的各种操作的事件。用 `@WebListener` 注解的类**必须**实现以下接口之一：
-*   `javax.servlet.ServletContextListener`
-*   `javax.servlet.ServletContextAttributeListener`
-*   `javax.servlet.ServletRequestListener`
-*   `javax.servlet.ServletRequestAttributeListener`
-*   `javax.servlet.http.HttpSessionListener`
-*   `javax.servlet.http.HttpSessionAttributeListener`
-*   `javax.servlet.http.HttpSessionIdListener`
-
-示例：
-```java
-@WebListener
-public class MyListener implements ServletContextListener {
-    public void contextInitialized(ServletContextEvent sce) {
-        ServletContext sc = sce.getServletContext();
-        sc.addServlet("myServlet", "Sample servlet",
-            "foo.bar.MyServlet", null, -1);
-        sc.addServletMapping("myServlet", new String[] { "/urlpattern/*" });
-    }
-}
-```
+> **10.6 Web 应用程序归档文件**
+>
+> 可以使用标准 Java 归档工具将 Web 应用程序打包并签名到 Web 归档格式（WAR）文件中。例如，问题跟踪应用程序可以分发在名为 `issuetrack.war` 的归档文件中。
+>
+> 当打包成这种形式时，将存在一个 `META-INF` 目录，其中包含对 Java 归档工具有用的信息。容器**不得**直接将其作为内容服务于 Web 客户端的请求，尽管其内容通过 `ServletContext` 上的 `getResource` 和 `getResourceAsStream` 调用对 servlet 代码可见。此外，任何访问 `META-INF` 目录中资源的请求都必须返回 `SC_NOT_FOUND(404)` 响应。
 
 ---
 
-**8-72 Java Servlet 规范 • 2017 年 7 月**
+> **10.7 Web 应用程序部署描述符**
+>
+> Web 应用程序部署描述符（参见[第 14 章 "部署描述符"](#bookmark284)）包括以下类型的配置和部署信息：
+>
+> ■ `ServletContext` 初始化参数
+>
+> ■ 会话配置
+>
+> ■ Servlet/JSP 定义
+>
+> ■ Servlet/JSP 映射
+>
+> ■ MIME 类型映射
+>
+> ■ 欢迎文件列表
+>
+> ■ 错误页面
+>
+> ■ 安全性
 
-#### 8.1.5 @MultipartConfig
+**10.7.1 对扩展的依赖**
 
-此注解在 `Servlet` 上指定时，表示它期望的请求类型为 `multipart/form-data`。相应 Servlet 的 `HttpServletRequest` 对象**必须**通过 `getParts` 和 `getPart` 方法提供对各个 `mime` 附件的访问，以便遍历它们。`javax.servlet.annotation.MultipartConfig` 的 `location` 属性和 `<multipart-config>` 的 `<location>` 元素被解释为绝对路径，默认值为 `javax.servlet.context.tempdir` 的值。如果指定了相对路径，它将相对于 `tempdir` 位置。绝对路径与相对路径的测试必须通过 `java.io.File.isAbsolute` 完成。
+> 当许多应用程序使用相同的代码或资源时，它们通常作为库文件安装在容器中。这些文件通常是常见或标准的 API，可以在不影响可移植性的情况下使用。仅由一个或几个应用程序使用的文件将作为 Web 应用程序的一部分提供访问。
+>
+> 容器必须为这些库提供一个目录。放置在此目录中的文件必须对所有 Web 应用程序可用。此目录的位置是容器特定的。servlet 容器用于加载这些库文件的类加载器对于同一 JVM 内的所有 Web 应用程序必须相同。此类加载器实例必须位于 Web 应用程序类加载器的父类加载器链中的某个位置。
+>
+> 应用程序开发人员需要知道 Web 容器上安装了哪些扩展，容器需要知道 WAR 中的 servlet 对此类库的依赖关系，以保持可移植性。
+>
+> 依赖于此扩展或多个扩展的应用程序开发人员**必须**在 WAR 文件中提供一个 `META-INF/MANIFEST.MF` 条目，列出 WAR 所需的所有扩展。清单条目的格式应遵循标准 JAR 清单格式。在 Web 应用程序部署期间，Web 容器必须按照*可选包版本控制*机制（[http://docs.oracle.com/javase/8/docs/technotes/guides/extensions/versioning.html](http://docs.oracle.com/javase/8/docs/technotes/guides/extensions/versioning.html)）定义的规则，使正确版本的扩展对应用程序可用。
+>
+> Web 容器还必须能够识别在 WAR 的 `WEB-INF/lib` 条目下的任何库 JAR 的清单条目中声明的依赖关系。
+>
+> 如果 Web 容器无法满足以这种方式声明的依赖关系，它应该拒绝该应用程序并显示信息性错误消息。
 
-#### 8.1.6 其他注解/约定
+**10.7.2 Web 应用程序类加载器**
 
-除了这些注解，第 15.5 节"注解和资源注入"中定义的所有注解将继续在这些新注解的上下文中工作。
-
-默认情况下，所有应用程序的 `welcome-file-list` 中将包含 `index.htm(l)` 和 `index.jsp`。可以使用描述符来覆盖这些默认设置。
-
-使用注解时，从 `WEB-INF/classes` 或 `WEB-INF/lib` 中的各种框架 jar/类加载监听器、Servlet 的顺序是未指定的。如果顺序很重要，请查看下面关于 web.xml 的模块化以及 web.xml 和 web-fragment.xml 排序的部分。只能在部署描述符中指定顺序。
-
----
-
-**8-74 Java Servlet 规范 • 2017 年 7 月**
-
-### 8.2 可插入性
-
-#### 8.2.1 web.xml 的模块化
-
-使用上述定义的注解使得 web.xml 的使用成为可选。但是，为了覆盖默认值或通过注解设置的值，需要使用部署描述符。和以前一样，如果在 web.xml 描述符中将 `metadata-complete` 元素设置为 `true`，则将不处理打包在 jar 中的类文件和 web-fragments 中指定部署信息的注解。这意味着应用程序的所有元数据都是通过 web.xml 描述符指定的。
-
-为了更好的可插入性和对开发人员更少的配置，我们引入了 Web 模块部署描述符片段（web fragment）的概念。Web 片段是 web.xml 的一部分或全部，可以在库或框架 jar 的 META-INF 目录中指定和包含。`WEB-INF/lib` 目录中没有 web-fragment.xml 的普通旧 jar 文件也被视为一个片段。其中指定的任何注解将根据第 8.2.3 节中定义的规则进行处理。容器将根据下面定义的规则拾取并使用配置。
-
-Web 片段是 Web 应用程序的逻辑分区，使得 Web 应用程序内使用的框架可以定义所有工件，而无需开发人员编辑或添加 web.xml 中的信息。它可以包含 web.xml 描述符使用的几乎相同的元素。但是，描述符的顶级元素**必须**是 `web-fragment`，相应的描述符文件**必须**称为 `web-fragment.xml`。排序相关的元素在 `web-fragment.xml` 和 `web.xml` 之间也有所不同。有关 web-fragments 的相应模式，请参阅第 14 章的部署描述符部分。
-
-如果框架打包为 jar 文件并具有部署描述符形式的元数据信息，则 `web-fragment.xml` 描述符必须位于 jar 文件的 META-INF/ 目录中。
-
-如果框架希望其 META-INF/web-fragment.xml 以增强 Web 应用程序 web.xml 的方式得到尊重，则必须将该框架捆绑在 Web 应用程序的 `WEB-INF/lib` 目录内。为了使框架的任何其他类型的资源（例如类文件）对 Web 应用程序可用，将框架放置在 Web 应用程序类加载器委托链中的任何位置就足够了。换句话说，只有捆绑在 Web 应用程序 `WEB-INF/lib` 目录中的 JAR 文件，而不是类加载委托链中更高位置的 JAR 文件，才需要被扫描以查找 `web-fragment.xml`。
-
----
-
-**第 8 章 注解和可插入性 8-75**
-
-在部署期间，容器负责扫描上面指定的位置并发现 `web-fragment.xml` 并处理它们。当前针对单个 web.xml 存在的关于名称唯一性的要求也适用于 web.xml 和所有适用的 web-fragment.xml 文件的并集。
-
-下面显示了库或框架可以包含的内容的示例：
-```xml
-<web-fragment>
-    <servlet>
-        <servlet-name>welcome</servlet-name>
-        <servlet-class>WelcomeServlet</servlet-class>
-    </servlet>
-    <listener>
-        <listener-class>RequestListener</listener-class>
-    </listener>
-</web-fragment>
-```
-
-上述 `web-fragment.xml` 将包含在框架 jar 文件的 META-INF/ 目录中。应用来自 `web-fragment.xml` 和注解的配置的顺序是未定义的。如果顺序对特定应用程序很重要，请参阅下面定义的规则以了解如何实现所需的顺序。
-
-#### 8.2.2 web.xml 和 web-fragment.xml 的排序
-
-由于规范允许应用程序配置资源由多个配置文件（web.xml 和 web-fragment.xml）组成，从应用程序的几个不同位置发现和加载，因此必须解决排序问题。本节指定配置资源作者如何声明其工件的排序要求。
-
-`web-fragment.xml` 可能有一个类型为 `javaee:java-identifierType` 的顶级 `<name>` 元素。一个 `web-fragment.xml` 中只能有一个 `<name>` 元素。如果存在 `<name>` 元素，则必须考虑它来进行工件的排序（除非适用重复名称异常，如下所述）。
-
-必须考虑两种情况，以允许应用程序配置资源表达其排序偏好。
-1.  **绝对排序：** web.xml 中的 `<absolute-ordering>` 元素。一个 web.xml 中只能有一个 `<absolute-ordering>` 元素。
-    a. 在这种情况下，原本由下面的情况 2 处理的排序偏好必须被忽略。
-    b. web.xml 和 WEB-INF/classes 必须在任何列在 absolute-ordering 元素中的 web-fragments 之前被处理。
-    c. `<absolute-ordering>` 的任何直接子元素 `<name>` 必须被解释为指示那些可能不存在也可能存在的命名 web-fragments 的绝对处理顺序。
-    d. `<absolute-ordering>` 元素可以包含零个或一个 `<others/>` 元素。此元素的所需操作如下所述。如果 `<absolute-ordering>` 元素不包含 `<others/>` 元素，则任何未在 `<name/>` 元素中明确提到的 web-fragment 必须被忽略。被排除的 jar 不会被扫描以查找带注解的 Servlet、过滤器或监听器。但是，如果来自被排除 jar 的 Servlet、过滤器或监听器列在 web.xml 或非排除的 web-fragment.xml 中，那么它的注解将适用，除非被 metadata-complete 排除。在被排除的 jar 的 TLD 文件中发现的 `ServletContextListeners` 无法使用编程式 API 配置过滤器和 Servlet。任何尝试这样做的行为都将导致 `IllegalStateException`。如果从被排除的 jar 中发现 `ServletContainerInitializer`，它将被忽略。无论 `metadata-complete` 的设置如何，被 `<absolute-ordering>` 元素排除的 jar 都不会被扫描以查找要由任何 `ServletContainerInitializer` 处理的类。
-    e. **重复名称异常：** 如果遍历 `<absolute-ordering>` 的子元素时遇到多个具有相同 `<name>` 元素的子元素，则只考虑第一个这样的出现。
-
-2.  **相对排序：** web-fragment.xml 内的 `<ordering>` 元素。一个 web-fragment.xml 中只能有一个 `<ordering>` 元素。
-    a. 一个 web-fragment.xml 可能有一个 `<ordering>` 元素。如果是这样，此元素必须包含零个或一个 `<before>` 元素和零个或一个 `<after>` 元素。这些元素的含义如下所述。
-    b. web.xml 和 WEB-INF/classes 必须在任何列在 ordering 元素中的 web-fragments 之前被处理。
-    c. **重复名称异常：** 如果遍历 web-fragments 时遇到多个具有相同 `<name>` 元素的成员，则应用程序必须记录包含帮助解决问题的信息的错误消息，并且必须无法部署。例如，解决此问题的一种方法是让用户使用绝对排序，在这种情况下相对排序被忽略。
-    d. 考虑这个简化的但说明性的示例。3 个 web-fragments - MyFragment1、MyFragment2 和 MyFragment3 是应用程序的一部分，该应用程序还包括一个 web.xml。
-
-        web-fragment.xml
-        ```xml
-        <web-fragment>
-            <name>MyFragment1</name>
-            <ordering><after><name>MyFragment2</name></after></ordering>
-            ...
-        </web-fragment>
-        ```
-
-        web-fragment.xml
-        ```xml
-        <web-fragment>
-            <name>MyFragment2</name>
-            ...
-        </web-fragment>
-        ```
-
-        web-fragment.xml
-        ```xml
-        <web-fragment>
-            <name>MyFragment3</name>
-            <ordering><before><others/></before></ordering>
-            ...
-        </web-fragment>
-        ```
-
-        web.xml
-        ```xml
-        <web-app>
-            ...
-        </web-app>
-        ```
-
-        在此示例中，处理顺序将是：
-        1. web.xml
-        2. MyFragment3
-        3. MyFragment2
-        4. MyFragment1
-
-        前面的示例说明了一些（但非全部）以下原则：
-        * `<before>` 意味着文档必须排序在嵌套的 `<name>` 元素内指定的名称匹配的文档之前。
-        * `<after>` 意味着文档必须排序在嵌套的 `<name>` 元素内指定的名称匹配的文档之后。
-        * 有一个特殊的元素 `<others/>`，可以在 `<before>` 或 `<after>` 元素中包含零次或一次，或者在 `<absolute-ordering>` 元素内直接包含零次或一次。必须如下处理 `<others/>` 元素：
-            * 如果 `<before>` 元素包含嵌套的 `<others/>`，文档将被移到已排序文档列表的开头。如果有多个文档声明 `<before><others/>`，它们都将位于已排序文档列表的开头，但此类文档组内的顺序是未指定的。
-            * 如果 `<after>` 元素包含嵌套的 `<others/>`，文档将被移到已排序文档列表的末尾。如果有多个文档要求 `<after><others/>`，它们都将位于已排序文档列表的末尾，但此类文档组内的顺序是未指定的。
-            * 在 `<before>` 或 `<after>` 元素内，如果存在 `<others/>` 元素，但并非其父元素中唯一的 `<name>` 元素，则必须考虑该父元素内的其他元素在排序过程中。
-            * 如果 `<others/>` 元素直接出现在 `<absolute-ordering>` 元素内，则运行时必须确保任何未在 `<absolute-ordering>` 部分中明确命名的 web-fragments 在该处理顺序点被包含。
-        * 如果一个 web-fragment.xml 文件没有 `<ordering>` 元素或者 web.xml 没有 `<absolute-ordering>` 元素，则假定工件没有任何排序依赖。
-        * 如果运行时发现循环引用，则必须记录信息性消息，并且应用程序必须无法部署。同样，用户可以采取的一种措施是在 web.xml 中使用绝对排序。
-        * 前面的示例可以扩展以说明当 web.xml 包含排序部分时的情况。
-
-            web.xml
-            ```xml
-            <web-app>
-                <absolute-ordering>
-                    <name>MyFragment3</name>
-                    <name>MyFragment2</name>
-                </absolute-ordering>
-                ...
-            </web-app>
-            ```
-
-            在此示例中，各种元素的顺序将是：
-            1. web.xml
-            2. MyFragment3
-            3. MyFragment2
-
-        下面包含了一些额外的示例场景。所有这些都适用于相对排序，而不是绝对排序。
-
-        文档 A：
-        ```xml
-        <after>
-            <others/>
-            <name>C</name>
-        </after>
-        ```
-
-        文档 B：
-        ```xml
-        <before>
-            <others/>
-        </before>
-        ```
-
-        文档 C：
-        ```xml
-        <after>
-            <others/>
-        </after>
-        ```
-
-        文档 D：无排序
-
-        文档 E：无排序
-
-        文档 F：
-        ```xml
-        <before>
-            <others/>
-            <name>B</name>
-        </before>
-        ```
-
-        生成的解析顺序：web.xml, F, B, D, E, C, A。
-
-        文档 <no id>：
-        ```xml
-        <after>
-            <others/>
-        </after>
-        <before>
-            <name>C</name>
-        </before>
-        ```
-
-        文档 B：
-        ```xml
-        <before>
-            <others/>
-        </before>
-        ```
-
-        文档 C：无排序
-
-        文档 D：
-        ```xml
-        <after>
-            <others/>
-        </after>
-        ```
-
-        文档 E：
-        ```xml
-        <before>
-            <others/>
-        </before>
-        ```
-
-        文档 F：无排序
-
-        生成的解析顺序可以是以下之一：
-        * B, E, F, <no id>, C, D
-        * B, E, F, <no id>, D, C
-        * E, B, F, <no id>, C, D
-        * E, B, F, <no id>, D, C
-        * E, B, F, D, <no id>, C
-        * E, B, F, D, <no id>, D
-
-        文档 A：
-        ```xml
-        <after>
-            <name>B</name>
-        </after>
-        ```
-
-        文档 B：无排序
-
-        文档 C：
-        ```xml
-        <before>
-            <others/>
-        </before>
-        ```
-
-        文档 D：无排序
-
-        生成的解析顺序：C, B, D, A。解析顺序也可能是：C, D, B, A 或 C, B, A, D
+> 容器用于加载 WAR 中 servlet 的类加载器**必须**允许开发人员使用 `getResource` 加载 WAR 内库 JAR 中包含的任何资源，遵循正常的 Java SE 语义。如 Java EE 许可协议所述，非 Java EE 产品一部分的 servlet 容器不应允许应用程序覆盖 Java SE 不允许修改的 Java SE 平台类，例如 `java.*` 和 `javax.*` 命名空间中的类。容器不应允许应用程序覆盖或访问容器的实现类。还建议实现应用程序类加载器，以便优先加载打包在 WAR 内的类和资源，而不是驻留在容器范围库 JAR 中的类和资源。实现**必须**保证，对于部署在容器中的每个 Web 应用程序，对 `Thread.currentThread().getContextClassLoader()` 的调用**必须**返回一个实现本节中指定的契约的 `ClassLoader` 实例。
+>
+> 此外，对于每个已部署的 Web 应用程序，`ClassLoader` 实例**必须**是一个单独的实例。容器在回调（包括监听器回调）进入 Web 应用程序之前，**必须**如上所述设置线程上下文 `ClassLoader`，并在回调返回后将其设置回原始 `ClassLoader`。
 
 ---
 
-**第 8 章 注解和可插入性 8-81**
+> **10.8 替换 Web 应用程序**
+>
+> 服务器应该能够在无需重新启动容器的情况下用新版本替换应用程序。当应用程序被替换时，容器应该提供一种健壮的方法来保留该应用程序内的会话数据。
 
-#### 8.2.3 从 web.xml、web-fragment.xml 和注解组装描述符
+---
 
-如果监听器、Servlet、过滤器被调用的顺序对应用程序很重要，则必须使用部署描述符。此外，如果需要，可以使用上面定义的排序元素。如上所述，当使用注解定义监听器、Servlet 和过滤器时，它们被调用的顺序是未指定的。以下是一组适用于组装应用程序最终部署描述符的规则：
+> **10.9 错误处理**
+>
+> **10.9.1 请求属性**
+>
+> Web 应用程序必须能够指定，当发生错误时，使用应用程序中的其他资源来提供错误响应的内容主体。这些资源的规范在部署描述符中完成。
+>
+> 如果错误处理程序的位置是 servlet 或 JSP 页面：
+>
+> ■ 将容器创建的原始未包装的请求和响应对象传递给 servlet 或 JSP 页面。
+>
+> ■ 请求路径和属性设置为如同已对错误资源执行了 `RequestDispatcher.forward`。
+>
+> ■ 必须设置[表 10-1](#bookmark309) 中的请求属性。
+>
+> <a id="bookmark309"></a>**表 10-1** 请求属性及其类型
+>
+> | **请求属性** | **类型** |
+> | :--- | :--- |
+> | `javax.servlet.error.status_code` | `java.lang.Integer` |
+> | `javax.servlet.error.exception_type` | `java.lang.Class` |
+> | `javax.servlet.error.message` | `java.lang.String` |
+> | `javax.servlet.error.exception` | `java.lang.Throwable` |
+> | `javax.servlet.error.request_uri` | `java.lang.String` |
+> | `javax.servlet.error.servlet_name` | `java.lang.String` |
+>
+> 这些属性允许 servlet 根据状态码、异常类型、错误消息、传播的异常对象、发生错误的 servlet 处理的请求的 URI（由 `getRequestURI` 调用确定）以及发生错误的 servlet 的逻辑名称生成专门的内容。
+>
+> 随着本规范 2.3 版将异常对象引入属性列表，异常类型和错误消息属性变得冗余。为了与早期版本的 API 向后兼容，保留了它们。
 
-1.  监听器、Servlet、过滤器的顺序（如果相关）必须在 web-fragment.xml 或 web.xml 中指定。
-2.  排序将基于它们在描述符中定义的顺序以及 web.xml 中的 absolute-ordering 元素或 web-fragment.xml 中的 ordering 元素（如果存在）。
-    a. 匹配请求的过滤器按照它们在 web.xml 中声明的顺序链接。
-    b. Servlet 要么在请求处理时延迟初始化，要么在部署期间急切初始化。在后一种情况下，它们按照其 load-on-startup 元素指示的顺序初始化。
-    c. 监听器按照它们在 web.xml 中声明的顺序调用，具体如下：
-        i. `javax.servlet.ServletContextListener` 的实现按照它们声明的顺序调用其 `contextInitialized` 方法，并按照相反顺序调用其 `contextDestroyed` 方法。
-        ii. `javax.servlet.ServletRequestListener` 的实现按照它们声明的顺序调用其 `requestInitialized` 方法，并按照相反顺序调用其 `requestDestroyed` 方法。
-        iii. `javax.servlet.http.HttpSessionListener` 的实现按照它们声明的顺序调用其 `sessionCreated` 方法，并按照相反顺序调用其 `sessionDestroyed` 方法。
-        iv. `javax.servlet.ServletContextAttributeListener`、`javax.servlet.ServletRequestAttributeListener` 和 `javax.servlet.HttpSessionAttributeListener` 的实现的方法在触发相应事件时按照它们声明的顺序调用。
+**10.9.2 错误页面**
 
-3.  如果使用 web.xml 中引入的 `enabled` 元素禁用 Servlet，则该 Servlet 将无法在其指定的 url-pattern 处使用。
-4.  Web 应用程序的 web.xml 在解决 web.xml、web-fragment.xml 和注解之间的冲突时具有最高优先级。
-5.  如果描述符中未指定 `metadata-complete`，或者在部署描述符中设置为 `false`，则应用程序的有效元数据通过组合注解和描述符中存在的元数据派生。合并规则如下：
-    a. web fragments 中的配置设置用于补充主 web.xml 中指定的设置，就像它们在同一 web.xml 中指定一样。
-    b. web fragments 的配置设置添加到主 web.xml 的顺序如上面第 8.2.2 节"web.xml 和 web-fragment.xml 的排序"中所述。
-    c. 当在主 web.xml 中设置为 `true` 时，`metadata-complete` 属性被认为是完整的，并且在部署时将不会扫描注解和片段。如果存在，将忽略 `absolute-ordering` 和 `ordering` 元素。当在片段上设置为 `true` 时，`metadata-complete` 属性仅适用于该特定 jar 中的注解扫描。
-    d. 除非 `metadata-complete` 设置为 `true`，否则 Web fragments 会合并到主 web.xml 中。合并发生在对相应片段进行注解处理之后。
-    e. 当用 web fragments 扩充 web.xml 时，以下情况被认为是配置冲突：
-        i. 多个具有相同 `<param-name>` 但不同 `<param-value>` 的 `<init-param>` 元素。
-        ii. 多个具有相同 `<extension>` 但不同 `<mime-type>` 的 `<mime-mapping>` 元素。
-    f. 上述配置冲突的解决如下：
-        i. 主 web.xml 和 web fragment 之间的配置冲突的解决方式是 web.xml 中的配置优先。
-        ii. 两个 web fragments 之间的配置冲突（冲突中心的元素不在主 web.xml 中）将导致错误。必须记录信息性消息，并且应用程序必须无法部署。
-    g. 解决上述冲突后，应用以下附加规则：
-        i. 可以声明任意次数的元素在生成的 web.xml 中跨 web-fragments 是附加的。例如，具有不同 `<param-name>` 的 `<context-param>` 元素是附加的。
-        ii. 可以声明任意次数的元素，如果在 web.xml 中指定，则覆盖具有相同名称的 web-fragments 中指定的值。
-        iii. 如果最小出现次数为零，最大出现次数为一的元素存在于 web fragment 中，但主 web.xml 中缺失，则主 web.xml 继承 web fragment 的设置。如果该元素同时存在于主 web.xml 和 web fragment 中，则主 web.xml 中的配置设置优先。例如，如果主 web.xml 和 web fragment 都声明同一个 Servlet，并且 web fragment 中的 Servlet 声明指定了 `<load-on-startup>` 元素，而主 web.xml 中的没有指定，那么 web fragment 中的 `<load-on-startup>` 元素将在合并后的 web.xml 中使用。
-        iv. 如果最小出现次数为零，最大出现次数为一的元素在两个 web fragments 中指定不同，同时主 web.xml 中缺失，则认为是错误。例如，如果两个 web fragments 声明同一个 Servlet，但具有不同的 `<load-on-startup>` 元素，并且同一个 Servlet 也在主 web.xml 中声明，但没有任何 `<load-on-startup>`，则必须报告错误。
-        v. `<welcome-file>` 声明是附加的。
-        vi. 具有相同 `<servlet-name>` 的 `<servlet-mapping>` 元素跨 web-fragments 是附加的。web.xml 中指定的 `<servlet-mapping>` 覆盖具有相同 `<servlet-name>` 的 web-fragments 中指定的值。
-        vii. 具有相同 `<filter-name>` 的 `<filter-mapping>` 元素跨 web-fragments 是附加的。web.xml 中指定的 `<filter-mapping>` 覆盖具有相同 `<filter-name>` 的 web-fragments 中指定的值。
-        viii. 多个具有相同 `<listener-class>` 的 `<listener>` 元素被视为单个 `<listener>` 声明。
-        ix. 仅当 web.xml 和所有 web fragments 都标记为 `<distributable>` 时，合并产生的 web.xml 才被认为是 `<distributable>`。
-        x. web fragment 的顶级 `<icon>` 及其子元素、`<display-name>` 和 `<description>` 元素被忽略。
-        xi. `jsp-property-group` 是附加的。建议在将静态资源捆绑在 jar 文件的 META-INF/resources 目录中时，`jsp-config` 元素使用 `url-pattern` 而不是扩展映射。此外，片段的 JSP 资源应位于与片段名称相同的子目录中（如果存在）。这有助于防止 web-fragment 的 `jsp-property-group` 影响应用程序主文档根中的 JSP，以及 `jsp-property-group` 影响片段的 META-INF/resources 目录中的 JSP。
-    h. 对于所有资源引用元素（`env-entry`、`ejb-ref`、`ejb-local-ref`、`service-ref`、`resource-ref`、`resource-env-ref`、`message-destination-ref`、`persistence-context-ref` 和 `persistence-unit-ref`），适用以下规则：
-        i. 如果任何资源引用元素存在于 web fragment 中，但在主 web.xml 中缺失，则主 web.xml 从 web fragment 继承该值。如果该元素同时存在于主 web.xml 和 web fragment 中，且名称相同，则 web.xml 优先。除 `injection-target` 外，片段中的任何子元素都不会合并到主 web.xml 中，如下所述。例如，如果主 web.xml 和 web fragment 都声明一个具有相同 `<resource-ref-name>` 的 `<resource-ref>`，则将使用来自 web.xml 的 `<resource-ref>`，而不会从片段合并任何子元素，除非如下所述的 `<injection-target>`。
-        ii. 如果资源引用元素在两个片段中指定，同时主 web.xml 中缺失，并且资源引用元素的所有属性和子元素都相同，则该资源引用将合并到主 web.xml 中。如果在两个片段中指定了具有相同名称的资源引用元素，同时主 web.xml 中缺失，并且这两个片段中的属性和子元素不完全相同，则认为是错误。必须报告错误，并且应用程序必须无法部署。例如，如果两个 web fragments 声明一个具有相同 `<resource-ref-name>` 元素的 `<resource-ref>`，但一个中的类型指定为 `javax.sql.DataSource`，而另一个中的类型是 JavaMail 资源，则这是错误，应用程序将无法部署。
-        iii. 对于具有相同名称的资源引用元素，片段中的 `<injection-target>` 元素将合并到主 web.xml 中。
-    i. 除了上面定义的 web-fragment.xml 合并规则外，使用资源引用注解 `@Resource`、`@Resources`、`@EJB`、`@EJBs`、`@WebServiceRef`、`@WebServiceRefs`、`@PersistenceContext`、`@PersistenceContexts`、`@PersistenceUnit` 和 `@PersistenceUnits`）时，适用以下规则：
-        如果将资源引用注解应用于类，则等效于定义资源，但不等于定义 `injection-target`。在这种情况下，上述规则适用于 `injection-target` 元素。
-        如果在字段上使用资源引用注解，则等效于在 web.xml 中定义 `injection-target` 元素。但是，如果描述符中没有 `injection-target` 元素，则片段中的 `injection-target` 仍将如上所述合并到 web.xml 中。
-        另一方面，如果主 web.xml 中有 `injection-target`，并且有具有相同资源名称的资源引用注解，则视为覆盖资源引用注解。在这种情况下，由于描述符中指定了 `injection-target`，除了覆盖资源引用注解的值外，上述定义的规则也将适用。
-    j. 如果 `data-source` 元素在两个片段中指定，同时主 web.xml 中缺失，并且 `data-source` 元素的所有属性和子元素都相同，则该 `data-source` 将合并到主 web.xml 中。如果在两个片段中指定了具有相同名称的 `data-source` 元素，同时主 web.xml 中缺失，并且这两个片段中的属性和子元素不完全相同，则认为是错误。在这种情况下，必须报告错误，并且应用程序必须无法部署。
+> 为了允许开发人员自定义 servlet 生成错误时返回给 Web 客户端的内容的外观，部署描述符定义了错误页面描述的列表。该语法允许配置容器返回的资源，当 servlet 或过滤器针对特定状态代码在响应上调用 `sendError` 时，或者当 servlet 生成传播到容器的异常或错误时。
+>
+> 如果在响应上调用了 `sendError` 方法，容器会为 Web 应用程序查阅使用 `status-code` 语法的错误页面声明列表并尝试匹配。如果匹配成功，容器返回 `location` 条目指示的资源。
+>
+> servlet 或过滤器在处理请求期间可能抛出以下异常：
+>
+> ■ 运行时异常或错误
+>
+> ■ `ServletException` 或其子类
+>
+> ■ `IOException` 或其子类
+>
+> Web 应用程序可能已使用 `exception-type` 元素声明了错误页面。在这种情况下，容器通过比较抛出的异常与使用 `exception-type` 元素的错误页面定义列表来匹配异常类型。匹配成功导致容器返回 `location` 条目指示的资源。类层次结构中最接近的匹配胜出。
+>
+> 如果没有任何包含 `exception-type` 的错误页面声明使用类层次结构匹配成功，并且抛出的异常是 `ServletException` 或其子类，则容器提取包装的异常，如 `ServletException.getRootCause` 方法所定义。再次对错误页面声明进行第二轮处理，再次尝试匹配错误页面声明，但使用包装的异常。
+>
+> 部署描述符中使用 `exception-type` 元素的错误页面声明在异常类型的类名方面必须是唯一的。类似地，部署描述符中使用 `status-code` 元素的错误页面声明在状态码方面必须是唯一的。
+>
+> 如果部署描述符中的 `error-page` 元素不包含 `exception-type` 或 `error-code` 元素，则该错误页面是默认错误页面。
+>
+> 描述的错误页面机制在使用 `RequestDispatcher` 或 `filter.doFilter` 方法调用时不会介入。这样，使用 `RequestDispatcher` 的过滤器或 servlet 就有机会处理生成的错误。
+>
+> 如果 servlet 生成的错误未按上述错误页面机制处理，容器**必须**确保发送状态为 500 的响应。
+>
+> 默认 servlet 和容器将使用 `sendError` 方法发送 4xx 和 5xx 状态响应，以便可以调用错误机制。默认 servlet 和容器将对 2xx 和 3xx 响应使用 `setStatus` 方法，并且不会调用错误页面机制。
+>
+> 如果应用程序使用[第 2.3.3.3 节 "异步处理"](#bookmark26)（第 2-10 页）中描述的异步操作，则应用程序有责任处理应用程序创建线程中的所有错误。容器**可以**处理通过 `AsyncContext.start` 发出的线程中的错误。有关处理 `AsyncContext.dispatch` 期间发生的错误，请参阅[第...节 "在分派方法执行期间可能发生的任何错误或异常**必须**由容器捕获并按如下方式处理："](#bookmark293)（第 2-17 页）。
 
-下面是一些示例，展示了不同情况下的结果。
+**10.9.3 错误过滤器**
 
-**代码示例 8-4**
-web.xml - 无 resource-ref 定义
+> 错误页面机制在容器创建的原始未包装/未过滤的请求和响应对象上操作。[第 6.2.5 节 "过滤器与 RequestDispatcher"](#bookmark94) 中描述的机制可用于指定在生成错误响应之前应用的过滤器。
 
-片段 1 web-fragment.xml
-```xml
-<resource-ref>
-    <resource-ref-name>foo</resource-ref-name>
-    ...
-    <injection-target>
-        <injection-target-class>com.example.Bar.class</injection-target-class>
-        <injection-target-name>baz</injection-target-name>
-    </injection-target>
-</resource-ref>
-```
+---
 
-有效元数据将是：
-```xml
-<resource-ref>
-    <resource-ref-name>foo</resource-ref-name>
-    ...
-    <injection-target>
-        <injection-target-class>com.example.Bar.class</injection-target-class>
-        <injection-target-name>baz</injection-target-name>
-    </injection-target>
-</resource-ref>
-```
+> **10.10 欢迎文件**
+>
+> Web 应用程序开发人员可以在 Web 应用程序部署描述符中定义一个有序的部分 URI 列表，称为欢迎文件。该列表的部署描述符语法在 Web 应用程序部署描述符模式中描述。
+>
+> 此机制的目的是允许部署者指定一个有序的部分 URI 列表，供容器在请求对应于 WAR 中未映射到 Web 组件的目录条目时用于附加到 URI 后面。这种请求称为有效的部分请求。
+>
+> 通过以下常见示例可以清楚地看出此设施的用途：可以定义一个 'index.html' 的欢迎文件，以便对像 `host:port/webapp/directory/` 这样的 URL 的请求（其中 'directory' 是 WAR 中未映射到 servlet 或 JSP 页面的条目）返回给客户端为 `host:port/webapp/directory/index.html`。
+>
+> 如果 Web 容器收到有效的部分请求，则 Web 容器**必须**检查部署描述符中定义的欢迎文件列表。欢迎文件列表是一个没有前导或尾随 `/` 的有序部分 URL 列表。Web 服务器**必须**按照部署描述符中指定的顺序将每个欢迎文件附加到部分请求，并检查 WAR 中是否有静态资源映射到该请求 URI。如果未找到匹配项，Web 服务器**必须**再次按照部署描述符中指定的顺序将每个欢迎文件附加到部分请求，并检查是否有 servlet 映射到该请求 URI。Web 容器**必须**将请求发送给 WAR 中第一个匹配的资源。容器可以通过转发、重定向或与直接请求无法区分的容器特定机制将请求发送到欢迎资源。
+>
+> 如果未按所述方式找到匹配的欢迎文件，容器可以以其认为合适的方式处理请求。对于某些配置，这可能意味着返回目录列表，或者对于其他配置返回 404 响应。
+>
+> 考虑一个 Web 应用程序，其中：
+>
+> ■ 部署描述符列出以下欢迎文件。
+>
+> ```xml
+> <welcome-file-list>
+>     <welcome-file>index.html</welcome-file>
+>     <welcome-file>default.jsp</welcome-file>
+> </welcome-file-list>
+> ```
+>
+> ■ WAR 中的静态内容如下：
+>
+> ```
+> /foo/index.html
+> /foo/default.jsp
+> /foo/orderform.html
+> /foo/home.gif
+> /catalog/default.jsp
+> /catalog/products/shop.jsp
+> /catalog/products/register.jsp
+> ```
+>
+> ■ 对 `/foo` 的请求 URI 将重定向到 `/foo/`。
+>
+> ■ 对 `/foo/` 的请求 URI 将作为 `/foo/index.html` 返回。
+>
+> ■ 对 `/catalog` 的请求 URI 将重定向到 `/catalog/`。
+>
+> ■ 对 `/catalog/` 的请求 URI 将作为 `/catalog/default.jsp` 返回。
+>
+> ■ 对 `/catalog/index.html` 的请求 URI 将导致 404 未找到。
+>
+> ■ 对 `/catalog/products` 的请求 URI 将重定向到 `/catalog/products/`。
+>
+> ■ 对 `/catalog/products/` 的请求 URI 将传递给"默认" servlet（如果有）。如果没有映射"默认" servlet，请求可能导致 404 未找到，可能导致包含 `shop.jsp` 和 `register.jsp` 的目录列表，或者可能导致容器定义的其他行为。请参阅[第 12.2 节 "映射规范"](#bookmark305)了解"默认" servlet 的定义。
+>
+> ■ 所有上述静态内容也可以打包在 JAR 文件中，其中内容列在 jar 文件的 `META-INF/resources` 目录中。然后可以将 JAR 文件包含在 Web 应用程序的 `WEB-INF/lib` 目录中。
 
-**代码示例 8-5**
-web.xml
-```xml
-<resource-ref>
-    <resource-ref-name>foo</resource-ref-name>
-    ...
-</resource-ref>
-```
+---
 
-片段 1 web-fragment.xml
-```xml
-<resource-ref>
-    <resource-ref-name>foo</resource-ref-name>
-    ...
-    <injection-target>
-        <injection-target-class>com.example.Bar.class</injection-target-class>
-        <injection-target-name>baz</injection-target-name>
-    </injection-target>
-</resource-ref>
-```
+> **10.11 Web 应用程序环境**
+>
+> 鼓励（但不要求）非 Java EE 技术兼容实现一部分的 Servlet 容器实现[第 15.2.2 节 "Web 应用程序环境"](#bookmark286) 和 Java EE 规范中描述的应用程序环境功能。如果它们未实现支持此环境所需的设施，则在部署依赖于此环境的应用程序时，容器应提供警告。
 
-片段 2 web-fragment.xml
-```xml
-<resource-ref>
-    <resource-ref-name>foo</resource-ref-name>
-    ...
-    <injection-target>
-        <injection-target-class>com.example.Bar2.class</injection-target-class>
-        <injection-target-name>baz2</injection-target-name>
-    </injection-target>
-</resource-ref>
-```
+---
 
-有效元数据将是：
-```xml
-<resource-ref>
-    <resource-ref-name>foo</resource-ref-name>
-    ...
-    <injection-target>
-        <injection-target-class>com.example.Bar.class</injection-target-class>
-        <injection-target-name>baz</injection-target-name>
-    </injection-target>
-    <injection-target>
-        <injection-target-class>com.example.Bar2.class</injection-target-class>
-        <injection-target-name>baz2</injection-target-name>
-    </injection-target>
-</resource-ref>
-```
+> **10.12 Web 应用程序部署**
+>
+> 当 Web 应用程序部署到容器中时，在 Web 应用程序开始处理客户端请求之前，**必须**按此顺序执行以下步骤。
+>
+> ■ 实例化部署描述符中每个 `<listener>` 元素标识的事件监听器的一个实例。
+>
+> ■ 对于实现 `ServletContextListener` 的已实例化的监听器实例，调用 `contextInitialized()` 方法。
+>
+> ■ 实例化部署描述符中每个 `<filter>` 元素标识的过滤器的一个实例，并调用每个过滤器实例的 `init()` 方法。
+>
+> ■ 实例化部署描述符中包含 `<load-on-startup>` 元素的每个 `<servlet>` 元素标识的 servlet 的一个实例，按照 `load-on-startup` 元素值定义的顺序，并调用每个 servlet 实例的 `init()` 方法。
 
-**代码示例 8-6**
-web.xml
-```xml
-<resource-ref>
-    <resource-ref-name>foo</resource-ref-name>
-    <injection-target>
-        <injection-target-class>com.example.Bar3.class</injection-target-class>
-        <injection-target-name>baz3</injection-target-name>
-    </injection-target>
-    ...
-</resource-ref>
-```
+---
 
-片段 1 web-fragment.xml
-```xml
-<resource-ref>
-    <resource-ref-name>foo</resource-ref-name>
-    ...
-    <injection-target>
-        <injection-target-class>com.example.Bar.class</injection-target-class>
-        <injection-target-name>baz</injection-target-name>
-    </injection-target>
-</resource-ref>
-```
+> **10.13 包含 web.xml 部署描述符**
+>
+> 如果 Web 应用程序**不**包含任何 Servlet、Filter 或 Listener 组件，或者使用注释声明相同的组件，则**不需要**包含 `web.xml`。换句话说，仅包含静态文件或 JSP 页面的应用程序不需要存在 `web.xml`。
 
-片段 2 web-fragment.xml
-```xml
-<resource-ref>
-    <resource-ref-name>foo</resource-ref-name>
-    ...
-    <injection-target>
-        <injection-target-class>com.example.Bar2.class</injection-target-class>
-        <injection-target-name>baz2</injection-target-name>
-    </injection-target>
-</resource-ref>
-```
-
-有效元数据将是：
-```xml
-<resource-ref>
-    <resource-ref-name>foo</resource-ref-name>
-    <injection-target>
-        <injection-target-class>com.example.Bar3.class</injection-target-class>
-        <injection-target-name>baz3</injection-target-name>
-    </injection-target>
-    <injection-target>
-        <injection-target-class>com.example.Bar.class</injection-target-class>
-        <injection-target-name>baz</injection-target-name>
-    </injection-target>
-    <injection-target>
-        <injection-target-class>com.example.Bar2.class</injection-target-class>
-        <injection-target-name>baz2</injection-target-name>
-    </injection-target>
-    ...
-</resource-ref>
-```
-
-片段 1 和 2 的 `<injection-target>` 将合并到主 web.xml 中。
-
-    k. 如果主 web.xml 没有指定任何 `<post-construct>` 元素，并且 web-fragments 指定了 `<post-construct>`，则片段中的 `<post-construct>` 元素将合并到主 web.xml 中。但是，如果在主 web.xml 中至少指定了一个 `<post-construct>` 元素，则片段中的 `<post-construct>` 元素将不会被合并。web.xml 的作者有责任确保 `<post-construct>` 列表是完整的。
-    l. 如果主 web.xml 没有指定任何 `<pre-destroy>` 元素，并且 web-fragments 指定了 `<pre-destroy>`，则片段中的 `<pre-destroy>` 元素将合并到主 web.xml 中。但是，如果在主 web.xml 中至少指定了一个 `<pre-destroy>` 元素，则片段中的 `<pre-destroy>` 元素将不会被合并。web.xml 的作者有责任确保 `<pre-destroy>` 列表是完整的。
-    m. 处理完 web-fragment.xml 后，在
