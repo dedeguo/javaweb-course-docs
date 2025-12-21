@@ -1,8 +1,8 @@
 ---
-title: 实验2：Session 登录实战
+title: 实验2：用户登录与数据API
 ---
 
-# 实验2：Session 登录实战
+# 实验2：用户登录与数据API
 
 !!! abstract "实验信息"
     - **实验学时**：2 学时

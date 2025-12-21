@@ -7,14 +7,14 @@
 ### 🛠️ 1. 沉浸式体验：VMware 虚拟机搭建
 如果你想完整体验 **龙蜥操作系统 (Anolis OS)** 的安装与运维，请参考此教程。你将在虚拟机中拥有一个原汁原味的国产 Linux 操作系统。
 
-* **文档链接**: [📄 基于 VMware 虚拟机的国产化环境搭建](appendix/localization.md)
+* **文档链接**: [📄 基于 VMware 虚拟机的国产化环境搭建](localization.md)
 * **难度系数**: ⭐⭐⭐⭐
 * **硬件要求**: 建议内存 >= 16GB
 
 ### 📚 2. 轻量级方案：Docker 极速部署
 如果你熟悉容器技术，只想在 Windows 上快速运行 **OpenGauss** 数据库，而不关心操作系统细节，Docker 是最快的选择。
 
-* **文档链接**: [🐳 Windows 系统下基于 Docker 安装 OpenGauss](appendix/opengauss_install.md)
+* **文档链接**: [🐳 Windows 系统下基于 Docker 安装 OpenGauss](opengauss_install.md)
 * **难度系数**: ⭐⭐⭐
 * **前提条件**: 需安装 Docker Desktop
 
@@ -24,7 +24,7 @@
 ### 📊3. 行业风向标：2024-2025 Java Web 全景深度报告
 如果你对未来感到迷茫，或者想知道“在 AI 时代，为什么还要学 Java？”，这份报告会给你答案。它不讲代码细节，只讲**技术趋势**与**职业前景**。
 
-* **职业规划必读**: [📈 2024-2025 全球及中国 Java Web 开发全景深度研究报告](appendix/javaweb-report.md)
+* **职业规划必读**: [📈 2024-2025 全球及中国 Java Web 开发全景深度研究报告](javaweb-report.md)
     * **推荐理由**：深度解析“信创崛起”与“AI 冲击”下的 Java 就业市场，帮你从宏观角度理解技术栈的选择逻辑，拒绝盲目内卷。
 <!-- * **核心看点**:
     * **市场真实数据**：Java 在全球及中国信创市场的真实占有率与薪资水平。

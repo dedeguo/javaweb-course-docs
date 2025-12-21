@@ -34,13 +34,16 @@ nav:
       - AI 结对编程 : chapter01/ai-tools.md
       - 实验1：Web环境与AI助手配置: chapter01/lab1.md
 
-  - 第二篇｜Web 底层原理:
+  - 第二篇｜Web 底层原理:   # Web核心与Servlet
+      # - 章节大纲: chapter02/00-chapter-syllabus.md
       - 第2章 导读: chapter02/index.md
-      - HTTP 协议详解: chapter02/http-protocol.md
-      - Request / Response: chapter02/request-response.md
-      - Cookie 与 Session: chapter02/session.md
-      - JSON 与数据交互: chapter02/json.md
-      - 实验2：Session 登录实战: chapter02/experiment.md
+      - HTTP协议与开发者工具: chapter02/01-http-protocol.md
+      - Servlet起步与生命周期: chapter02/02-servlet-basics.md    
+      - 请求与响应对象详解: chapter02/03-request-response.md
+      - 会话跟踪技术 (Cookie & Session): chapter02/04-state-management.md
+      - 过滤器与上下文 (Filter & ServletContext): chapter02/05-filter-listener.md
+      - JSON与前后端交互: chapter02/06-json-interaction.md
+      - 实验2：用户登录与数据API: chapter02/lab2.md
 
   - 第三篇｜Spring Boot 核心开发:
       - 第3章 导读: chapter03/index.md
@@ -77,6 +80,7 @@ nav:
   - 附录 进阶资源:
       - 进阶资源: appendix/index.md
       - 精选 JavaWeb 开源项目库: appendix/javaweb-projects-share.md
+      - Servlet规范 4.0中文版: appendix/Servlet_Specification_4.0.md
       - OpenGauss 数据库安装指南: appendix/opengauss_install.md
       - 基于VMware虚拟机的国产化环境搭建:  appendix/localization.md
       - 2024-2025年全球及中国Java Web开发全景深度研究报告: appendix/javaweb-report.md
@@ -85,6 +89,9 @@ nav:
 plugins:
   - search:
       lang: zh
+  # - print-site:
+  #     add_to_navigation: true # 在导航栏添加“打印页”链接
+  #     print_page_title: '打印完整文档'
 
 markdown_extensions:
   - admonition

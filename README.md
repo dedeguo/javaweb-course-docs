@@ -41,6 +41,18 @@ hide:
       * 在 `chapter04/opengauss.md` 中，可以加入您之前研究过的 **“Docker 部署 openGauss”** 的简易命令，方便有能力的学生自己折腾。
 
 ```
+
+docs/
+├── chapter2/
+│   ├── 01-http-protocol.md      # 2.1 HTTP协议与开发者工具
+│   ├── 02-servlet-basics.md     # 2.2 Servlet起步与生命周期
+│   ├── 03-request-response.md   # 2.3 请求与响应对象详解 (Request/Response)
+│   ├── 04-state-management.md   # 2.4 会话跟踪技术 (Cookie & Session)
+│   ├── 05-filter-listener.md    # 2.5 过滤器与上下文 (Filter & ServletContext)
+│   ├── 06-json-interaction.md   # 2.6 JSON与前后端交互
+│   └── 07-comprehensive-lab.md  # 2.7 综合实验：用户登录与数据API
+
+
 .
 ├── mkdocs.yml
 └── docs/
@@ -86,26 +98,7 @@ hide:
     │   ├── prompt.md
     │   ├── response.md
     │   └── experiment.md               # 实验5
-    │
-    ├── project/                        # 第六篇：综合项目
-    │   ├── index.md                    # 项目概述
-    │   ├── architecture.md
-    │   ├── user.md
-    │   ├── flight.md
-    │   ├── ai.md
-    │   └── deploy.md
-    │
-    ├── experiments/                    # 实验与项目指导
-    │   ├── rules.md
-    │   ├── git.md
-    │   ├── report.md
-    │   └── faq.md
-    │
-    └── appendix/                       # 附录
-        ├── faq.md
-        ├── rest.md
-        ├── sql.md
-        ├── prompt.md
-        └── xinchuang.md
+  
+    
 
 ```
