@@ -76,20 +76,11 @@ nav:
       - 实验6: chapter06/lab6.md
   - 附录 进阶资源:
       - 进阶资源: appendix/index.md
+      - 精选 JavaWeb 开源项目库: appendix/javaweb-projects-share.md
       - OpenGauss 数据库安装指南: appendix/opengauss_install.md
       - 基于VMware虚拟机的国产化环境搭建:  appendix/localization.md
       - 2024-2025年全球及中国Java Web开发全景深度研究报告: appendix/javaweb-report.md
       # - Java Web 常见问题: appendix/faq.md
-      # - RESTful API 规范: appendix/rest.md
-      # - MyBatis SQL 模板: appendix/sql.md
-      # - AI Prompt 示例库: appendix/prompt.md
-      # - 信创技术说明: appendix/xinchuang.md
-      #     - 概述: experiments/index.md
-        # - 实验与项目指导: 
-  #     - 实验说明与评分标准: experiments/rules.md
-  #     - Git 提交规范: experiments/git.md
-  #     - 实验报告模板: experiments/report.md
-  #     - 常见错误汇总: experiments/faq.md
 
 plugins:
   - search:
