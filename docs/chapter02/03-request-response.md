@@ -1,198 +1,205 @@
-# 2. Servlet 起步与生命周期
+# 3. Request 与 Response 对象详解
 
 !!! quote "本节目标"
-    上一章我们学会了如何用浏览器“点菜”（发送 HTTP 请求）。
+    如果把 Servlet 比作餐厅服务员，那么：
     
-    现在，我们要进入后厨，学习**如何用 Java 代码接单并做菜**。本节将带你手写第一个 **Servlet**，并深入理解它从出生到销毁的全过程（面试必问）。
+    * **HttpServletRequest (请求对象)**：就是**用户的点餐单**。用户想要什么（参数）、用户是谁（Header）、从哪来（IP），都在这里。
+    * **HttpServletResponse (响应对象)**：就是**服务员的托盘**。你要给用户上什么菜（HTML/JSON）、告诉他多少钱（状态码），都通过它操作。
+    
+    掌握这两个对象，你就能在浏览器和服务器之间自如地传递数据。
 
 ---
 
-## 🚀 第一步：什么是 Servlet？
+## 📨 第一步：Request 对象 (读取请求)
 
-**Servlet** (Server Applet) 也就是“运行在服务器端的小程序”。
+**HttpServletRequest** 封装了浏览器发送给服务器的所有信息。
 
-如果把 Web 服务器（Tomcat）比作一家餐厅，那么 Servlet 就是**服务员**。它的核心职责只有三件事：
+### 1. 获取请求参数 (核心)
+这是最常用的功能。无论前端是 GET 还是 POST 请求，获取参数的方法是一样的。
 
-1.  **接单 (Request)**：接收浏览器发来的请求数据（用户填的表单、JSON）。
-2.  **干活 (Service)**：调用业务逻辑（找厨师做菜、查数据库）。
-3.  **上菜 (Response)**：把结果（HTML 页面、JSON 数据）端给浏览器。
+| 方法名 | 作用 | 示例场景 |
+| :--- | :--- | :--- |
+| `String getParameter(String name)` | 获取单个值 | 用户名、密码、年龄 |
+| `String[] getParameterValues(String name)` | 获取多个值 | 复选框 (爱好: 唱、跳、Rap) |
+| `Map<String, String[]> getParameterMap()` | 获取所有参数 | 框架底层自动封装数据时用 |
 
----
+### 2. 实战代码示例
 
-## 👩‍💻 第二步：第一个 Hello World
-
-拒绝纸上谈兵，我们直接动手写一个能运行的 Servlet。
-
-### 1. 编写 Java 类
-在项目中创建一个类 `HelloServlet`，继承 `HttpServlet`，并打上注解。
-
-```java title="src/main/java/com/example/servlet/HelloServlet.java"
-package com.example.servlet;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-
-// ✅ 关键点：@WebServlet 注解告诉 Tomcat，只要有人访问 /hello，就找我！
-@WebServlet("/hello") 
-public class HelloServlet extends HttpServlet {
-
-    // 浏览器发来 GET 请求时，Tomcat 会自动调用这个方法
+```java title="RequestDemoServlet.java"
+@WebServlet("/request-demo")
+public class RequestDemoServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // 1. 获取基本信息
+        String method = req.getMethod(); // GET
+        String uri = req.getRequestURI(); // /request-demo
         
-        // 1. 设置响应格式 (告诉浏览器：我给你的是 HTML，编码是 UTF-8)
-        resp.setContentType("text/html;charset=UTF-8");
+        // 2. 获取请求头 (Header)
+        // 场景：判断用户是用电脑还是手机访问
+        String userAgent = req.getHeader("User-Agent");
         
-        // 2. 获取输出流 (相当于拿到了通向浏览器的管道)
-        PrintWriter out = resp.getWriter();
+        // 3. 获取参数 (Parameter) - 最重要！
+        // 假设 URL 是：/request-demo?username=zhangsan&age=18
+        String username = req.getParameter("username");
+        String ageStr = req.getParameter("age");
         
-        // 3. 写入数据
-        out.println("<h1>Hello, Servlet!</h1>");
-        out.println("<p>这是我的第一个 Java Web 程序。</p>");
-        out.println("<p>服务器时间：" + new java.util.Date() + "</p>");
+        System.out.println("用户: " + username + ", 年龄: " + ageStr);
     }
 }
 
 ```
 
-### 2. 运行与验证
-
-启动 Tomcat，打开浏览器访问：`http://localhost:8080/hello`
-
-!!! success "所见即所得"
-    如果你在页面上看到了 **Hello, Servlet!** 和当前时间，恭喜你，你已经打通了从“浏览器 -> Tomcat -> Java代码”的完整链路！
+!!! warning "避坑指南：参数类型转换"
+    `getParameter()` 返回的永远是 **String**。
+    如果你需要数字，必须自己转换，例如 `Integer.parseInt(ageStr)`。转换前记得**判空**，否则会报空指针异常（NPE）或格式转换异常。
 
 ---
 
-## 🧬 第三步：生命周期 (核心考点)
+## 😵‍💫 第二步：解决中文乱码 (请求篇)
 
-Servlet 不是普通的 Java 类，你**不需要**自己 `new HelloServlet()`。它的生老病死全权由 **Web 容器（Tomcat）** 管理。
+这是新手噩梦 Top 1。当你表单提交中文（如“张三”）时，后台可能打印出 `å¼ ä¸` 这样的乱码。
 
-Servlet 的生命周期主要包含四个阶段：**加载与实例化** -> **初始化** -> **服务** -> **销毁**。
+### 解决方案
 
+在获取任何参数**之前**，强制设置字符集。
 
-```mermaid
-graph TD
-    start((开始)) --> request["浏览器发送请求 /hello"]
-    request --> check{"内存中已有实例?"}
-    
-    %% 第一次访问
-    check -- No (第一次访问) --> construct["1. 构造方法 (实例化)"]
-    construct --> init["2. 初始化 init()<br/>(只执行一次)"]
-    init --> service
-    
-    %% 后续访问
-    check -- Yes (后续请求) --> service["3. 服务 service()<br/>(多线程处理)"]
-    
-    service --> dispatch{"请求类型?"}
-    dispatch -- GET --> doget[doGet]
-    dispatch -- POST --> dopost[doPost]
-    
-    doget --> response[返回响应]
-    dopost --> response
-    
-    %% 销毁
-    response -.-> close[服务器关闭/应用卸载]
-    close --> destroy["4. 销毁 destroy()<br/>(释放资源)"]
-    destroy --> stop((结束))
+```java
+// ✅ 必须放在 getParameter 之前！
+req.setCharacterEncoding("UTF-8");
 
-    style init fill:#e1f5fe,stroke:#01579b
-    style service fill:#fff9c4,stroke:#fbc02d
-    style destroy fill:#ffebee,stroke:#b71c1c
+String username = req.getParameter("username"); // 现在正常了
 
 ```
 
-### 阶段详解表
-
-
-| 阶段 | 方法 | 说明 | 执行次数 |
-| --- | --- | --- | --- |
-| **1. 实例化** | `Constructor` | Tomcat 通过反射 `new` 出 Servlet 对象。默认是**懒加载**（第一次被访问时才创建）。 | **1次** |
-| **2. 初始化** | `init()` | 实例创建后立刻调用。通常用于加载资源（如读取配置文件、建立数据库连接池）。 | **1次** |
-| **3. 服务** | `service()` | 每次请求都会调用。它会自动判断请求是 GET 还是 POST，然后分发给 `doGet` 或 `doPost`。 | **N次** |
-| **4. 销毁** | `destroy()` | 当服务器关闭或项目被移除时调用。用于释放资源（如保存数据、断开连接）。 | **1次** |
-
-
-!!! warning "高频面试题：Servlet 是线程安全的吗？"
-    **不是！Servlet 是单例的 (Singleton)。**  
-    这意味着全网用户访问 `/hello` 时，都在共用**同一个** `HelloServlet` 对象。  
-    **❌ 禁忌**：千万不要在 Servlet 类中定义**成员变量**来存储用户数据（比如 `private String username;`）。否则，张三存进去的名字，可能会被李四读出来！
+!!! info "Tomcat 版本差异"
+    * **Tomcat 8.0 及以上**：GET 请求的乱码已自动解决，只需要处理 POST 请求。
+    * **Tomcat 7 及以下**：GET 请求也需要繁琐的手动转码（`new String(s.getBytes("ISO-8859-1"), "UTF-8")`），不过现在很少见到了。
 
 ---
 
-## ⚙️ 第四步：配置方式的演变 XML-->注解
+## 📤 第三步：Response 对象 (设置响应)
 
-在 Servlet 3.0 之前（十几年前），我们需要在 `web.xml` 文件中配置 Servlet。虽然现在很少用了，但看懂老项目是必要的技能。
+**HttpServletResponse** 用于向浏览器发送数据。
 
-=== "✅ 注解方式 (推荐)"
+### 1. 常用方法
 
-    这是现在的标准写法，简洁明了。
+| 方法 | 作用 |
+| --- | --- |
+| `PrintWriter getWriter()` | 获取字符输出流（输出 HTML、JSON 文本） |
+| `ServletOutputStream getOutputStream()` | 获取字节输出流（下载文件、图片时用） |
+| `void setContentType(String type)` | 告诉浏览器怎么解析数据 |
 
-    ```java
-    @WebServlet(
-        name = "MyServlet",
-        urlPatterns = {"/hello", "/hi"}, // 一个 Servlet 可以对应多个路径
-        loadOnStartup = 1 // 可选：服务器启动时就创建，不用等第一次请求
-    )
-    public class HelloServlet extends HttpServlet { ... }
-    ```
+### 2. 解决中文乱码 (响应篇)
 
-=== "👴 XML 方式 (历史)"
+如果你直接 `out.println("你好");`，浏览器可能会显示乱码。必须在获取流之前设置 Content-Type。
 
-    需要在 `src/main/webapp/WEB-INF/web.xml` 中写两段配置，非常繁琐。
+```java
+// ✅ 这一句代码解决了两个问题：
+// 1. 设置服务器发送的编码为 UTF-8
+// 2. 告诉浏览器用 UTF-8 打开
+resp.setContentType("text/html;charset=utf-8");
 
-    ```xml
-    <web-app>
-        <servlet>
-            <servlet-name>MyServlet</servlet-name>
-            <servlet-class>com.example.servlet.HelloServlet</servlet-class>
-        </servlet>
+PrintWriter out = resp.getWriter();
+out.println("<h1>你好，世界！</h1>");
+
+```
+
+!!! failure "严重错误：流的冲突"
+    在一个 Servlet 中，`getWriter()` 和 `getOutputStream()` **只能选一个用**。
+    如果你既想输出文本，又想输出文件流，服务器会报错抛出异常。
+
+---
+
+## 🔀 第四步：请求转发 vs 重定向 (面试必考)
+
+这是 Web 开发中最容易混淆的两个概念。
+
+### 1. 核心区别图解
+
+```mermaid
+sequenceDiagram
+    participant B as 浏览器
+    participant S1 as Servlet A (前台)
+    participant S2 as Servlet B (经理)
+
+    Note over B, S2: 情况一：请求转发 (Forward)
+    B->>S1: 我要办事
+    S1->>S2: (内部转交) 你来处理一下
+    S2-->>B: 办好了 (响应)
+    Note right of B: 浏览器不知道 Servlet B 的存在<br/>地址栏没变
     
-        <servlet-mapping>
-            <servlet-name>MyServlet</servlet-name>
-            <url-pattern>/hello</url-pattern>
-        </servlet-mapping>
-    </web-app>
+    Note over B, S2: 情况二：重定向 (Redirect)
+    B->>S1: 我要办事
+    S1-->>B: 我办不了，你去我们要个部门找 Servlet B
+    B->>S2: (重新拨号) 我要办事
+    S2-->>B: 办好了
+    Note right of B: 浏览器发了两次请求<br/>地址栏变了
+
+```
+
+### 2. 对比总结表
+
+| 特性 | 请求转发 (Forward) | 重定向 (Redirect) |
+| --- | --- | --- |
+| **比喻** | **“借钱”**：A找B借钱，B没有，B找C借到后给A。A不知道钱其实是C的。 | **“指路”**：A找B借钱，B说“我没有，你去找C借”。A得自己再跑一趟找C。 |
+| **地址栏** | **不变** (用户不知道内部发生了跳转) | **变化** (变成了新的 URL) |
+| **请求次数** | **1 次** | **2 次** |
+| **数据共享** | 可以共享 `request` 域中的数据 | **不可以** (因为是全新的请求) |
+| **跳转范围** | 只能在**当前项目内部**跳转 | 可以跳转到**外部网站** (如百度) |
+| **代码** | `req.getRequestDispatcher("/target").forward(req, resp);` | `resp.sendRedirect("/target");` |
+
+---
+
+## 🧪 第五步：随堂实验 (综合练习)
+
+!!! question "练习：简单的登录逻辑"
+    **需求**：
+
+    1.  创建一个 `LoginServlet`。
+    2.  接收参数 `username` 和 `password`。
+    3.  如果 `username` 是 "admin" 且 `password` 是 "123"：
+        * **转发**到 `/home` (模拟首页)，并显示 "欢迎你，管理员"。
+    4.  否则：
+        * **重定向**到 `/login_fail.html` (模拟错误页)，或直接打印 "登录失败"。
+
+    ```java title="LoginServlet.java 参考代码"
+    @WebServlet("/login")
+    public class LoginServlet extends HttpServlet {
+        protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+            // 1. 处理乱码
+            req.setCharacterEncoding("UTF-8");
+            resp.setContentType("text/html;charset=utf-8");
+            
+            // 2. 获取参数
+            String u = req.getParameter("username");
+            String p = req.getParameter("password");
+            
+            // 3. 逻辑判断
+            if ("admin".equals(u) && "123".equals(p)) {
+                // --- 登录成功：转发 ---
+                // 可以在 request 里存个数据带过去
+                req.setAttribute("msg", "欢迎尊贵的管理员！");
+                // 转发是服务器内部路径，不需要写项目名
+                req.getRequestDispatcher("/home").forward(req, resp);
+            } else {
+                // --- 登录失败：重定向 ---
+                // 重定向建议写完整的路径
+                resp.sendRedirect("/app/login_fail.html"); 
+            }
+        }
+    }
     ```
 
 ---
 
-## 🧪 第五步：随堂实验
+## 📝 总结
 
-!!! question "练习：验证生命周期"
-    请修改你的 `HelloServlet`，重写 `init()` 和 `destroy()` 方法，并在所有方法（包括构造方法）中加入 `System.out.println("xxx 方法执行了");`。
+* **Request** 是“输入”，用来拿参数 (`getParameter`)。
+* **Response** 是“输出”，用来写页面 (`getWriter`)。
+* 遇到中文**乱码**，先检查是否设置了 `setCharacterEncoding` 和 `setContentType`。
+* **转发**是内部的事（一次请求），**重定向**是外部的事（两次请求）。
 
-    ---
+[下一节：会话管理 (Cookie & Session)](04-state-management.md){ .md-button .md-button--primary }
 
-    **操作步骤：**
 
-    1.  **启动服务器**：观察控制台日志。
-    2.  **首次访问**：打开浏览器访问 `/hello`（观察控制台）。
-    3.  **多次刷新**：刷新浏览器 3 次（观察控制台，哪行语句重复了？）。
-    4.  **关闭服务**：停止 Tomcat 服务器（观察控制台）。
 
-    **预期结果：**
-
-    * `init` 只出现一次。
-    * 每次刷新，`doGet` 都会出现。
-    * 关闭时，`destroy` 出现。
-
----
-
-## 📝 总结与展望
-
-Servlet 是 Java Web 的基石。无论后续学习多么高级的框架（Spring MVC, Spring Boot），它们底层**本质上都是一个封装好的 Servlet**（`DispatcherServlet`）。
-
-* **Request/Response** 对象怎么用？
-* 如何处理中文乱码？
-* 如何获取请求参数？
-
-这些实战技巧，我们将在下一节逐一攻克。
-
-[下一节：Request 请求对象详解](https://www.google.com/search?q=03-request-response.md){ .md-button .md-button--primary }
