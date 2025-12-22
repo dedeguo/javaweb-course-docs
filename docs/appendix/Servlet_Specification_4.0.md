@@ -1467,7 +1467,7 @@ Servlet 可以通过名称将对象属性绑定到 `HttpSession` 实现中。绑
 >
 > Web 应用程序部署描述符在 `web-app` 元素上包含一个 `"metadata-complete"` 属性。该属性定义此部署描述符以及任何存在的 web 片段是否完整，或者是否应检查为此模块可用并与本应用程序打包在一起的类文件中的注释是否指定了部署信息。部署信息在此意义上指的是任何本可以通过部署描述符或片段指定，但改为通过类上的注释指定的信息。
 >
-> 如果 `"metadata-complete"` 属性的值指定为 `true`，则部署工具必须忽略 Web 应用程序中打包的类文件中指定此类部署信息的任何注释。有关 `"metadata-complete"` 处理的更多详细信息，请参阅[第 8.2.3 节 "从 web.xml、web-fragment.xml 和注释组装描述符"](#bookmark121)（第 8-82 页）、[第 8.4 节 "处理注释和片段"](#bookmark124)（第 8-97 页）以及[第 15.5.1 节 "metadata-complete 的处理"](#bookmark307)（第 15-194 页）。
+> 如果 `"metadata-complete"` 属性的值指定为 `true`，则部署工具必须忽略 Web 应用程序中打包的类文件中指定此类部署信息的任何注释。有关 `"metadata-complete"` 处理的更多详细信息，请参阅[第 8.2.3 节 "从 web.xml、web-fragment.xml 和注释组装描述符"](121)（第 8-82 页）、[第 8.4 节 "处理注释和片段"](124)（第 8-97 页）以及[第 15.5.1 节 "metadata-complete 的处理"](307)（第 15-194 页）。
 >
 > 如果未指定 `"metadata-complete"` 属性，或其值为 `false`，则部署工具必须检查应用程序的类文件以查找此类注释。请注意，`"metadata-complete"` 的值为 `true` 并不会**抢占所有**注释的处理，而只是抢占下面列出的那些注释。
 >
@@ -1581,7 +1581,7 @@ Servlet 可以通过名称将对象属性绑定到 `HttpSession` 实现中。绑
 
 **第 8 章 注释与可插拔性 8-71**
 
-> 如果通过[第 4.4.1 节 "以编程方式添加和配置 Servlets"](#bookmark53)（第 4-35 页）定义的程序化 API 以不同名称将相同的 servlet 类添加到 `ServletContext`，则**必须**忽略通过 `@WebServlet` 注释声明的属性值，并且**必须**创建具有指定名称的 servlet 新实例。
+> 如果通过[第 4.4.1 节 "以编程方式添加和配置 Servlets"](53)（第 4-35 页）定义的程序化 API 以不同名称将相同的 servlet 类添加到 `ServletContext`，则**必须**忽略通过 `@WebServlet` 注释声明的属性值，并且**必须**创建具有指定名称的 servlet 新实例。
 >
 > 使用 `@WebServlet` 注释的类**必须**扩展 `javax.servlet.http.HttpServlet` 类。
 >
@@ -1669,7 +1669,7 @@ Servlet 可以通过名称将对象属性绑定到 `HttpSession` 实现中。绑
 
 **8.1.6 其他注释/约定**
 
-> 除了这些注释，[第 15.5 节 "注释与资源注入"](#bookmark308)（第 15-193 页）中定义的所有注释在这些新注释的上下文中将继续有效。
+> 除了这些注释，[第 15.5 节 "注释与资源注入"](308)（第 15-193 页）中定义的所有注释在这些新注释的上下文中将继续有效。
 >
 > 默认情况下，所有应用程序的 `welcome-file-list` 中将包含 `index.htm(l)` 和 `index.jsp`。描述符可用于覆盖这些默认设置。
 >
@@ -1892,7 +1892,7 @@ Servlet 可以通过名称将对象属性绑定到 `HttpSession` 实现中。绑
 >
 > a. Web 片段中的配置设置用于增强主 `web.xml` 中指定的设置，其方式如同它们在同一 `web.xml` 中指定的一样。
 >
-> b. Web 片段的配置设置添加到主 `web.xml` 中的顺序如上文[第 8.2.2 节 "web.xml 和 web-fragment.xml 的排序"](#bookmark120)（第 8-76 页）所述。
+> b. Web 片段的配置设置添加到主 `web.xml` 中的顺序如上文[第 8.2.2 节 "web.xml 和 web-fragment.xml 的排序"](120)（第 8-76 页）所述。
 >
 > c. 当在主 `web.xml` 中设置为 `true` 时，`metadata-complete` 属性被认为是完整的，并且不会在部署时扫描注释和片段。如果存在 `absolute-ordering` 和 `ordering` 元素，它们将被忽略。当在片段上设置为 `true` 时，`metadata-complete` 属性仅适用于扫描该特定 jar 中的注释。
 >
@@ -2274,7 +2274,7 @@ Servlet 可以通过名称将对象属性绑定到 `HttpSession` 实现中。绑
 >
 > ■ `getNamedDispatcher`
 >
-> `getRequestDispatcher` 方法接受一个描述 `ServletContext` 范围内路径的字符串参数。此路径必须相对于 `ServletContext` 的根，并以 '/' 开头，或者为空。该方法使用该路径查找 servlet（使用[第 12 章 "将请求映射到 Servlet"](#bookmark304)中的 servlet 路径匹配规则），将其包装在 `RequestDispatcher` 对象中，并返回结果对象。如果无法根据给定路径解析到任何 servlet，则提供一个返回该路径内容的 `RequestDispatcher`。
+> `getRequestDispatcher` 方法接受一个描述 `ServletContext` 范围内路径的字符串参数。此路径必须相对于 `ServletContext` 的根，并以 '/' 开头，或者为空。该方法使用该路径查找 servlet（使用[第 12 章 "将请求映射到 Servlet"](304)中的 servlet 路径匹配规则），将其包装在 `RequestDispatcher` 对象中，并返回结果对象。如果无法根据给定路径解析到任何 servlet，则提供一个返回该路径内容的 `RequestDispatcher`。
 >
 > `getNamedDispatcher` 方法接受一个字符串参数，指示 `ServletContext` 已知的 servlet 名称。如果找到 servlet，则将其包装在 `RequestDispatcher` 对象中并返回该对象。如果没有与给定名称关联的 servlet，该方法必须返回 `null`。
 >
@@ -2480,7 +2480,7 @@ Servlet 可以通过名称将对象属性绑定到 `HttpSession` 实现中。绑
 
 > **10.5 目录结构**
 >
-> Web 应用程序以结构化的目录层次结构存在。此层次结构的根目录用作应用程序中文件的文档根目录。例如，对于 Web 容器中上下文路径为 `/catalog` 的 Web 应用程序，位于 Web 应用程序层次结构基目录下的 `index.html` 文件，或位于 `WEB-INF/lib` 内且在 `META-INF/resources` 目录下包含 `index.html` 的 JAR 文件中的 `index.html`，可以用来满足对 `/catalog/index.html` 的请求。如果 `index.html` 同时存在于根上下文和应用程序 `WEB-INF/lib` 目录中 JAR 文件的 `META-INF/resources` 目录中，则**必须**使用根上下文中可用的文件。将 URL 匹配到上下文路径的规则在[第 12 章 "将请求映射到 Servlet"](#bookmark304)中说明。由于应用程序的上下文路径决定了 Web 应用程序内容的 URL 命名空间，Web 容器**必须**拒绝定义可能导致此 URL 命名空间潜在冲突的上下文路径的 Web 应用程序。例如，尝试部署具有相同上下文路径的第二个 Web 应用程序可能会导致这种情况。
+> Web 应用程序以结构化的目录层次结构存在。此层次结构的根目录用作应用程序中文件的文档根目录。例如，对于 Web 容器中上下文路径为 `/catalog` 的 Web 应用程序，位于 Web 应用程序层次结构基目录下的 `index.html` 文件，或位于 `WEB-INF/lib` 内且在 `META-INF/resources` 目录下包含 `index.html` 的 JAR 文件中的 `index.html`，可以用来满足对 `/catalog/index.html` 的请求。如果 `index.html` 同时存在于根上下文和应用程序 `WEB-INF/lib` 目录中 JAR 文件的 `META-INF/resources` 目录中，则**必须**使用根上下文中可用的文件。将 URL 匹配到上下文路径的规则在[第 12 章 "将请求映射到 Servlet"](304)中说明。由于应用程序的上下文路径决定了 Web 应用程序内容的 URL 命名空间，Web 容器**必须**拒绝定义可能导致此 URL 命名空间潜在冲突的上下文路径的 Web 应用程序。例如，尝试部署具有相同上下文路径的第二个 Web 应用程序可能会导致这种情况。
 
 ---
 
@@ -2530,7 +2530,7 @@ Servlet 可以通过名称将对象属性绑定到 `HttpSession` 实现中。绑
 
 > **10.7 Web 应用程序部署描述符**
 >
-> Web 应用程序部署描述符（参见[第 14 章 "部署描述符"](#bookmark284)）包括以下类型的配置和部署信息：
+> Web 应用程序部署描述符（参见[第 14 章 "部署描述符"](284)）包括以下类型的配置和部署信息：
 >
 > ■ `ServletContext` 初始化参数
 >
@@ -2588,7 +2588,7 @@ Servlet 可以通过名称将对象属性绑定到 `HttpSession` 实现中。绑
 >
 > ■ 请求路径和属性设置为如同已对错误资源执行了 `RequestDispatcher.forward`。
 >
-> ■ 必须设置[表 10-1](#bookmark309) 中的请求属性。
+> ■ 必须设置[表 10-1](309) 中的请求属性。
 >
 > <a id="bookmark309"></a>**表 10-1** 请求属性及其类型
 >
@@ -2633,11 +2633,11 @@ Servlet 可以通过名称将对象属性绑定到 `HttpSession` 实现中。绑
 >
 > 默认 servlet 和容器将使用 `sendError` 方法发送 4xx 和 5xx 状态响应，以便可以调用错误机制。默认 servlet 和容器将对 2xx 和 3xx 响应使用 `setStatus` 方法，并且不会调用错误页面机制。
 >
-> 如果应用程序使用[第 2.3.3.3 节 "异步处理"](#bookmark26)（第 2-10 页）中描述的异步操作，则应用程序有责任处理应用程序创建线程中的所有错误。容器**可以**处理通过 `AsyncContext.start` 发出的线程中的错误。有关处理 `AsyncContext.dispatch` 期间发生的错误，请参阅[第...节 "在分派方法执行期间可能发生的任何错误或异常**必须**由容器捕获并按如下方式处理："](#bookmark293)（第 2-17 页）。
+> 如果应用程序使用[第 2.3.3.3 节 "异步处理"](26)（第 2-10 页）中描述的异步操作，则应用程序有责任处理应用程序创建线程中的所有错误。容器**可以**处理通过 `AsyncContext.start` 发出的线程中的错误。有关处理 `AsyncContext.dispatch` 期间发生的错误，请参阅[第...节 "在分派方法执行期间可能发生的任何错误或异常**必须**由容器捕获并按如下方式处理："](293)（第 2-17 页）。
 
 **10.9.3 错误过滤器**
 
-> 错误页面机制在容器创建的原始未包装/未过滤的请求和响应对象上操作。[第 6.2.5 节 "过滤器与 RequestDispatcher"](#bookmark94) 中描述的机制可用于指定在生成错误响应之前应用的过滤器。
+> 错误页面机制在容器创建的原始未包装/未过滤的请求和响应对象上操作。[第 6.2.5 节 "过滤器与 RequestDispatcher"](94) 中描述的机制可用于指定在生成错误响应之前应用的过滤器。
 
 ---
 
@@ -2688,7 +2688,7 @@ Servlet 可以通过名称将对象属性绑定到 `HttpSession` 实现中。绑
 >
 > ■ 对 `/catalog/products` 的请求 URI 将重定向到 `/catalog/products/`。
 >
-> ■ 对 `/catalog/products/` 的请求 URI 将传递给"默认" servlet（如果有）。如果没有映射"默认" servlet，请求可能导致 404 未找到，可能导致包含 `shop.jsp` 和 `register.jsp` 的目录列表，或者可能导致容器定义的其他行为。请参阅[第 12.2 节 "映射规范"](#bookmark305)了解"默认" servlet 的定义。
+> ■ 对 `/catalog/products/` 的请求 URI 将传递给"默认" servlet（如果有）。如果没有映射"默认" servlet，请求可能导致 404 未找到，可能导致包含 `shop.jsp` 和 `register.jsp` 的目录列表，或者可能导致容器定义的其他行为。请参阅[第 12.2 节 "映射规范"](305)了解"默认" servlet 的定义。
 >
 > ■ 所有上述静态内容也可以打包在 JAR 文件中，其中内容列在 jar 文件的 `META-INF/resources` 目录中。然后可以将 JAR 文件包含在 Web 应用程序的 `WEB-INF/lib` 目录中。
 
@@ -2696,7 +2696,7 @@ Servlet 可以通过名称将对象属性绑定到 `HttpSession` 实现中。绑
 
 > **10.11 Web 应用程序环境**
 >
-> 鼓励（但不要求）非 Java EE 技术兼容实现一部分的 Servlet 容器实现[第 15.2.2 节 "Web 应用程序环境"](#bookmark286) 和 Java EE 规范中描述的应用程序环境功能。如果它们未实现支持此环境所需的设施，则在部署依赖于此环境的应用程序时，容器应提供警告。
+> 鼓励（但不要求）非 Java EE 技术兼容实现一部分的 Servlet 容器实现[第 15.2.2 节 "Web 应用程序环境"](286) 和 Java EE 规范中描述的应用程序环境功能。如果它们未实现支持此环境所需的设施，则在部署依赖于此环境的应用程序时，容器应提供警告。
 
 ---
 

@@ -39,7 +39,8 @@
 
 * **通义灵码 (Tongyi Lingma)**：**[✅ IDEA 必装插件]**
     * **特点**：阿里出品，免费且强大。与我们课程使用的 **Dragonwell JDK** 同源，对 Java/Spring Boot 生态理解极深。
-    * **核心功能**：实时续写代码、一键生成 JUnit 单元测试、解释复杂代码段、自动生成规范的 Git Commit Message。
+    * **核心功能**：实时续写代码、一键生成 JUnit 单元测试、解释复杂代码段、自动生成规范的 Git Commit Message。在IDEA中安装通义灵码插件如下图：  
+![通义灵码安装](../assets/imgs/Tongyi-Lingma-install-crop.jpg){ width="100%" .shadow }
 
 * **Cursor**：**[行业标杆]**
     * **特点**：当前地表最强的 AI 原生编辑器（基于 VS Code 修改）。它具备强大的 `Composer` 功能，可以跨文件理解整个项目，实现“一句话修改整个模块”。
