@@ -57,18 +57,15 @@ public class RequestDemoServlet extends HttpServlet {
 
 ## 😵‍💫 第二步：解决中文乱码 (请求篇)
 
-这是新手噩梦 Top 1。当你表单提交中文（如“张三”）时，后台可能打印出 `å¼ ä¸` 这样的乱码。
 
-### 解决方案
+这是新手噩梦 Top 1。当你表单提交中文（如“张三”）时，后台可能打印出 `å¼ ä¸` 这样的乱码。
 
 在获取任何参数**之前**，强制设置字符集。
 
 ```java
 // ✅ 必须放在 getParameter 之前！
 req.setCharacterEncoding("UTF-8");
-
 String username = req.getParameter("username"); // 现在正常了
-
 ```
 
 !!! info "Tomcat 版本差异"
@@ -76,7 +73,6 @@ String username = req.getParameter("username"); // 现在正常了
     * **Tomcat 7 及以下**：GET 请求也需要繁琐的手动转码（`new String(s.getBytes("ISO-8859-1"), "UTF-8")`），不过现在很少见到了。
 
 ---
-
 ## 📤 第三步：Response 对象 (设置响应)
 
 **HttpServletResponse** 用于向浏览器发送数据。
@@ -89,7 +85,34 @@ String username = req.getParameter("username"); // 现在正常了
 | `ServletOutputStream getOutputStream()` | 获取字节输出流（下载文件、图片时用） |
 | `void setContentType(String type)` | 告诉浏览器怎么解析数据 |
 
-### 2. 解决中文乱码 (响应篇)
+### 2. 实战代码示例
+
+```java title="ResponseDemoServlet.java"
+@WebServlet("/response-demo")
+public class ResponseDemoServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // 1. 设置响应状态码 (可选，默认 200)
+        // resp.setStatus(500); // 如果你想模拟报错
+        
+        // 2. 设置响应头 (Header)
+        // 示例：告诉浏览器 2 秒后自动跳转到百度
+        resp.setHeader("Refresh", "2;URL=[https://www.baidu.com](https://www.baidu.com)");
+        
+        // 3. 设置响应内容类型 & 编码 (核心)
+        // ⚠️ 必须在 getWriter() 之前设置，否则乱码
+        resp.setContentType("text/html;charset=utf-8");
+        
+        // 4. 获取输出流并写入响应体 (Body)
+        PrintWriter out = resp.getWriter();
+        out.println("<h1>操作成功！</h1>");
+        out.println("<p>2秒后将跳转到百度...</p>");
+    }
+}
+
+```
+
+### 3. 解决中文乱码 (响应篇)
 
 如果你直接 `out.println("你好");`，浏览器可能会显示乱码。必须在获取流之前设置 Content-Type。
 

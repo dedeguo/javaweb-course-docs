@@ -42,16 +42,17 @@ hide:
 
 ```
 
-docs/
-├── chapter2/
-│   ├── 01-http-protocol.md      # 2.1 HTTP协议与开发者工具
-│   ├── 02-servlet-basics.md     # 2.2 Servlet起步与生命周期
-│   ├── 03-request-response.md   # 2.3 请求与响应对象详解 (Request/Response)
-│   ├── 04-state-management.md   # 2.4 会话跟踪技术 (Cookie & Session)
-│   ├── 05-filter-listener.md    # 2.5 过滤器与上下文 (Filter & ServletContext)
-│   ├── 06-json-interaction.md   # 2.6 JSON与前后端交互
-│   └── 07-comprehensive-lab.md  # 2.7 综合实验：用户登录与数据API
-
+- 第二篇｜Web 开发基石:
+    - 第2章 导读: chapter02/index.md
+    - HTTP 协议与开发者工具: chapter02/01-http-protocol.md
+    - Servlet 起步与生命周期: chapter02/02-servlet-basics.md
+    - 请求与响应详解 (Request & Response): chapter02/03-request-response.md
+    - 前后端数据交互 (JSON): chapter02/06-json-interaction.md  # 提前到这里，紧接响应对象
+    - 会话跟踪与作用域 (Cookie, Session, Context): chapter02/04-state-management.md # 强调作用域
+    - Web 组件进阶 (Filter & Listener): chapter02/05-filter-listener.md
+    - JDBC 数据库交互基础: chapter02/07-jdbc-intro.md
+    - 生产级连接池 (DataSource & Druid): chapter02/08-datasource-pool.md
+    - 实验2：用户登录与数据 API: chapter02/lab2.md
 
 .
 ├── mkdocs.yml
