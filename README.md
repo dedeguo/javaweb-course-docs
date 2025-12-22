@@ -40,8 +40,12 @@ hide:
       * 在 `chapter05/llm-api.md` 中，建议专门写一段 **“如何获取 DeepSeek API Key”** 的教程。
       * 在 `chapter04/opengauss.md` 中，可以加入您之前研究过的 **“Docker 部署 openGauss”** 的简易命令，方便有能力的学生自己折腾。
 
+todo 第二章未完成
+- [ ] 实验设计：  **实验2：用户登录与数据 API: chapter02/lab2.md**
+- [ ] 需要加入基础JDBC:生产级连接池 (DataSource & Druid): chapter02/08-datasource-pool.md
+- [ ] chapter02/05-filter-listener.md中的Context 拆到 会话跟踪与作用域 (Cookie, Session, Context)
+- [ ] 重新整理  第2章 导读: chapter02/index.md
 ```
-
 - 第二篇｜Web 开发基石:
     - 第2章 导读: chapter02/index.md
     - HTTP 协议与开发者工具: chapter02/01-http-protocol.md
