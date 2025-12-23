@@ -27,26 +27,13 @@ nav:
   - 课程介绍:
       - 课程介绍: index.md
       # - 教学大纲: syllabus.md
-  - 第1章｜Web开发基础与效能工具:
-      - 第1章导读：目标与任务: chapter01/index.md
-      - 开发环境搭建: chapter01/env-setup.md
-      - 工程化基石: chapter01/maven-git.md
-      - AI 结对编程 : chapter01/ai-tools.md
+  - 第1章｜开发环境与效能工具: 
+      - 第1章 导读: chapter01/index.md
+      - 01.开发环境安装: chapter01/env-setup.md
+      - 02.工程化基石：Git 版本控制与协作: chapter01/maven-git.md
+      - 03.AI 结对编程 : chapter01/ai-tools.md
       - 实验1：Web环境与AI助手配置: chapter01/lab1.md
-  # - 第二篇｜Web 底层原理:   # Web核心与Servlet
-  #     # - 章节大纲: chapter02/00-chapter-syllabus.md
-  #     - 第2章 导读: chapter02/index.md
-  #     - HTTP协议与开发者工具: chapter02/01-http-protocol.md
-  #     - Servlet起步与生命周期: chapter02/02-servlet-basics.md    
-  #     - 请求与响应对象详解: chapter02/03-request-response.md
-  #     - 前后端数据交互 (JSON): chapter02/04-json-interaction.md  
-  #     - 会话跟踪与三大作用域: chapter02/05-state-management.md 
-  #     - 过滤器与监听器: chapter02/06-filter-listener.md
-  #     - 数据持久化原理 (JDBC & Druid): chapter02/07-jdbc-core.md
-  #     # - JDBC 数据库交互基础: chapter02/07-jdbc-intro.md
-  #     # - 数据源与连接池 (DataSource & Druid): chapter02/08-datasource-pool.md
-  #     - 实验 2：Java Web 核心组件与数据持久化实战: chapter02/lab2.md
-  - 第二篇｜Web 底层原理:   # Web核心与Servlet
+  - 第二篇｜Web 底层原理:  
       - 第2章 导读: chapter02/index.md
       - 01.HTTP 协议与调试工具: chapter02/01-http-protocol.md
       - 02. Servlet 基础: chapter02/02-servlet-basics.md    
@@ -63,7 +50,6 @@ nav:
       - Controller 与 RESTful API: chapter03/controller.md
       - 接口测试与调试: chapter03/api-test.md
       - 实验3：航班查询 API: chapter03/experiment.md
-
   - 第四篇｜数据持久化与信创:
       - 第4章 导读: chapter04/index.md
       - MyBatis 基础: chapter04/01-mybatis-intro.md.md
@@ -71,7 +57,6 @@ nav:
       - 事务管理: chapter04/transaction.md
       - openGauss 实战: chapter04/opengauss.md
       - 实验4：航班数据管理: chapter04/experiment.md
-
   - 第五篇｜AI 集成与接口调用:
       - 第5章 导读: chapter05/index.md
       - Java HTTP 客户端: chapter05/http-client.md
@@ -91,7 +76,6 @@ nav:
   - 附录 进阶资源:
       - 进阶资源: appendix/index.md
       - 精选 JavaWeb 开源项目库: appendix/javaweb-projects-share.md
-      - Servlet规范 4.0中文版: appendix/Servlet_Specification_4.0.md
       - OpenGauss 数据库安装指南: appendix/opengauss_install.md
       - 基于VMware虚拟机的国产化环境搭建:  appendix/localization.md
       - 2024-2025年全球及中国Java Web开发全景深度研究报告: appendix/javaweb-report.md
