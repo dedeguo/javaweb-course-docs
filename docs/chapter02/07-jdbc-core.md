@@ -1,7 +1,7 @@
 ---
 title: 数据持久化原理 (JDBC & Druid)
 ---
-# 7. 数据持久化原理 (JDBC & Druid)
+# 数据持久化原理 (JDBC & Druid)
 
 !!! tip "本节目标：从内存到持久化"
     **痛点**：变量存在内存中，重启后数据丢失。  
@@ -61,9 +61,61 @@ graph LR
 
 ---
 
-## 🛡️ 第二部分：安全核心 (PreparedStatement)
+## 🔌 第二部分：JDBC 标准五步法 (原生写法)
 
-在 JDBC 的原生操作中，最核心的概念不是如何写代码，而是**Web 安全**。
+在学习高级连接池之前，我们先用最原始的 `DriverManager` 体验一次完整的交互。这是所有数据库操作的“内功心法”。
+
+### 1. 核心 API 速查
+
+* `DriverManager`：**老司机**，负责加载驱动，获取连接。
+* `Connection`：**电话线**，代表与数据库的连接通道。
+* `Statement/PreparedStatement`：**搬运工**，用于发送 SQL 语句。
+* `ResultSet`：**结果集**，查询返回的表格数据。
+
+### 2. 原生代码示例 (Hello World)
+
+```java title="JdbcHello.java"
+import java.sql.*;
+
+public class JdbcHello {
+    public static void main(String[] args) {
+        // 数据库配置
+        String url = "jdbc:postgresql://localhost:5432/postgres";
+        String user = "gaussdb";
+        String pwd = "SecretPassword@123";
+        
+        String sql = "SELECT id, username FROM t_user WHERE id > ?";
+
+        // ✅ 使用 try-with-resources 自动关闭资源
+        try (
+            // 1. 获取连接 (这一步很耗时，约100ms)
+            Connection conn = DriverManager.getConnection(url, user, pwd);
+            // 2. 获取预编译语句执行器
+            PreparedStatement pstmt = conn.prepareStatement(sql)
+        ) {
+            // 3. 设置参数 (填空)
+            pstmt.setInt(1, 0); 
+
+            // 4. 执行查询
+            try (ResultSet rs = pstmt.executeQuery()) {
+                // 5. 遍历结果集
+                while (rs.next()) {
+                    System.out.println("User: " + rs.getString("username"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+```
+
+---
+
+## 🛡️ 第三部分：安全核心 (PreparedStatement)
+
+在 JDBC 的操作中，最核心的概念不是如何写代码，而是**Web 安全**。
 
 ### 1. 致命错误：拼接 SQL
 
@@ -89,11 +141,11 @@ pstmt.setString(1, "张三");
 
 ---
 
-## 🔋 第三部分：性能核心 (连接池 Druid)
+## 🔋 第四部分：性能核心 (连接池 Druid)
 
 ### 1. 为什么要“池化”？
 
-传统的 JDBC 获取连接 (`DriverManager.getConnection`) 就像**“打车”**——每次都要呼叫、等待、建立 TCP 握手，用完就断开。这在并发高时会让服务器崩溃。
+上面的原生写法中，`DriverManager.getConnection` 就像**“打车”**——每次都要呼叫、等待、建立 TCP 握手，用完就断开。这在并发高时会让服务器崩溃。
 
 **连接池 (Connection Pool)** 就像**“公司班车”**：
 系统启动时预先创建好（比如 10 个）连接放在池子里。
@@ -137,7 +189,7 @@ maxWait=3000
 
 ---
 
-## 🛠️ 第四部分：通用工具类 JDBCUtils
+## 🛠️ 第五部分：通用工具类 JDBCUtils
 
 为了避免在每次操作时都写重复代码，我们将 Druid 封装为一个工具类。
 **这是本章最重要的代码，请务必掌握。**
@@ -231,6 +283,7 @@ public class JDBCUtils {
     ```
 
 ---
+
 
 
 ## 📝 总结

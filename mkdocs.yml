@@ -33,21 +33,29 @@ nav:
       - 工程化基石: chapter01/maven-git.md
       - AI 结对编程 : chapter01/ai-tools.md
       - 实验1：Web环境与AI助手配置: chapter01/lab1.md
-
+  # - 第二篇｜Web 底层原理:   # Web核心与Servlet
+  #     # - 章节大纲: chapter02/00-chapter-syllabus.md
+  #     - 第2章 导读: chapter02/index.md
+  #     - HTTP协议与开发者工具: chapter02/01-http-protocol.md
+  #     - Servlet起步与生命周期: chapter02/02-servlet-basics.md    
+  #     - 请求与响应对象详解: chapter02/03-request-response.md
+  #     - 前后端数据交互 (JSON): chapter02/04-json-interaction.md  
+  #     - 会话跟踪与三大作用域: chapter02/05-state-management.md 
+  #     - 过滤器与监听器: chapter02/06-filter-listener.md
+  #     - 数据持久化原理 (JDBC & Druid): chapter02/07-jdbc-core.md
+  #     # - JDBC 数据库交互基础: chapter02/07-jdbc-intro.md
+  #     # - 数据源与连接池 (DataSource & Druid): chapter02/08-datasource-pool.md
+  #     - 实验 2：Java Web 核心组件与数据持久化实战: chapter02/lab2.md
   - 第二篇｜Web 底层原理:   # Web核心与Servlet
-      # - 章节大纲: chapter02/00-chapter-syllabus.md
       - 第2章 导读: chapter02/index.md
-      - HTTP协议与开发者工具: chapter02/01-http-protocol.md
-      - Servlet起步与生命周期: chapter02/02-servlet-basics.md    
-      - 请求与响应对象详解: chapter02/03-request-response.md
-      - 前后端数据交互 (JSON): chapter02/04-json-interaction.md  # 提前到这里，紧接响应对象
-      - 会话跟踪与作用域 (Cookie, Session, Context): chapter02/05-state-management.md # 强调作用域
-      - Web 组件进阶 (Filter & Listener): chapter02/06-filter-listener.md
-      - 数据持久化原理 (JDBC & Druid): chapter02/07-jdbc-core.md
-      - JDBC 数据库交互基础: chapter02/07-jdbc-intro.md
-      - 数据源与连接池 (DataSource & Druid): chapter02/08-datasource-pool.md
-      - 实验2：用户登录与数据API: chapter02/lab2.md
-
+      - 01.HTTP 协议与调试工具: chapter02/01-http-protocol.md
+      - 02. Servlet 基础: chapter02/02-servlet-basics.md    
+      - 03. 请求与响应 (Req & Resp): chapter02/03-request-response.md
+      - 04. JSON 数据交互: chapter02/04-json-interaction.md  
+      - 05. 会话与状态 (Session): chapter02/05-state-management.md 
+      - 06. 过滤器与监听器: chapter02/06-filter-listener.md
+      - 07. JDBC 与连接池 (JDBC & Druid): chapter02/07-jdbc-core.md
+      - 实验 2：Web 核心综合实战: chapter02/lab2.md
   - 第三篇｜Spring Boot 核心开发:
       - 第3章 导读: chapter03/index.md
       - Spring Boot 项目结构: chapter03/project-structure.md

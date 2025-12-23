@@ -42,8 +42,8 @@ hide:
 
 todo 第二章未完成
 - [ ] 实验设计：  **实验2：用户登录与数据 API: chapter02/lab2.md**
-- [ ] 需要加入基础JDBC:生产级连接池 (DataSource & Druid): chapter02/08-datasource-pool.md
-- [ ] chapter02/05-filter-listener.md中的Context 拆到 会话跟踪与作用域 (Cookie, Session, Context)
+- [x] 需要加入基础JDBC:生产级连接池 (DataSource & Druid): chapter02/08-datasource-pool.md
+- [x] chapter02/05-filter-listener.md中的Context 拆到 会话跟踪与作用域 (Cookie, Session, Context)
 - [ ] 重新整理  第2章 导读: chapter02/index.md
 ```
 - 第二篇｜Web 开发基石:
