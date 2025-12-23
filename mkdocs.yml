@@ -29,9 +29,9 @@ nav:
       # - 教学大纲: syllabus.md
   - 第1章｜开发环境与效能工具: 
       - 第1章 导读: chapter01/index.md
-      - 01.开发环境安装: chapter01/env-setup.md
-      - 02.工程化基石：Git 版本控制与协作: chapter01/maven-git.md
-      - 03.AI 结对编程 : chapter01/ai-tools.md
+      - 01.开发环境安装: chapter01/01-env-setup.md
+      - 02.工程化基石：Git 版本控制与协作: chapter01/02-maven-git.md
+      - 03.AI 结对编程 : chapter01/03-ai-tools.md
       - 实验1：Web环境与AI助手配置: chapter01/lab1.md
   - 第二篇｜Web 底层原理:  
       - 第2章 导读: chapter02/index.md
@@ -45,14 +45,15 @@ nav:
       - 实验 2：Web 核心综合实战: chapter02/lab2.md
   - 第三篇｜Spring Boot 核心开发:
       - 第3章 导读: chapter03/index.md
-      - Spring Boot 项目结构: chapter03/project-structure.md
-      - IoC / DI 通俗理解: chapter03/ioc-di.md
-      - Controller 与 RESTful API: chapter03/controller.md
-      - 接口测试与调试: chapter03/api-test.md
-      - 实验3：航班查询 API: chapter03/experiment.md
+      - 01. 框架革命：Spring Boot 快速入门 : chapter03/01-springboot-start.md
+      - 02. 核心原理：IOC 容器与依赖注入 (DI): chapter03/02-ioc-di.md
+      - 03. 接口规范：RESTful 风格与统一响应: chapter03/03-restful-api.md
+      - 04. 架构设计：分层解耦 (Controller-Service-Dao):  chapter03/04-architecture.md
+      - 05. 全局兜底：异常处理与 AOP 简介:  chapter03/05-exception-aop.md        # 实战：@RestControllerAdvice
+      - 实验3：构建标准化的 RESTful 后端系统:  chapter03/lab3.md     # 综合实战
   - 第四篇｜数据持久化与信创:
       - 第4章 导读: chapter04/index.md
-      - MyBatis 基础: chapter04/01-mybatis-intro.md.md
+      - MyBatis 基础: chapter04/01-mybatis-intro.md
       - Mapper 与 CRUD: chapter04/crud.md
       - 事务管理: chapter04/transaction.md
       - openGauss 实战: chapter04/opengauss.md

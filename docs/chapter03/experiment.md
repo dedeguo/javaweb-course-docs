@@ -1,134 +1,136 @@
-## 实验3：航班查询 API 
-陈老师，非常抱歉搞错了实验的归属！您说得对，**实验 1 是第一章的环境搭建，实验 2 才是本章的核心产出**。
-
-这一章的实验设计思路应该是：**前面 7 节课是“练招式”，最后这一个实验是“打通关”**。
-
-我为您重新组织了 **`chapter02/index.md`** 的实战部分语言，重点突出了实验 2 的**“综合运用”**属性。请复制以下完整内容：
-
-```markdown
----
-title: 第二章：Java Web 核心原理
----
-
-# 第二章：Java Web 核心原理 (Servlet & JDBC)
-
-!!! quote "本章导读：揭开 Spring Boot 的面纱"
-    在第一章中，我们搭建好了开发环境。现在，我们将进入 Web 开发的**“深水区”**。
-    
-    你可能会问：*“现在都用 Spring Boot 了，为什么还要学 Servlet 和 JDBC？”*
-    
-    答案很简单：**万变不离其宗**。Spring Boot 的底层依然是 Servlet，MyBatis 的底层依然是 JDBC。
-    本章我们将**抛开所有高级框架**，用最原生的 Java API 手写一个具备**登录、认证、数据交互**功能的 Web 系统。只有懂了底层，未来遇到 Bug 你才知道去哪里修。
+# 实验3：航班查询 API 
 
 ---
 
-## 🗺️ 学习路线图：请求的“奇幻漂流”
+## 📂 目录结构建议
 
-本章的七节课，实际上是讲述了一个 **HTTP 请求** 从离开浏览器，到进入数据库，最后返回浏览器的完整旅程。
-
-```mermaid
-graph TD
-    User((用户)) -- 1. 发起 HTTP 请求 --> Browser[浏览器]
-    
-    subgraph "Web 服务器 (Tomcat)"
-        Browser -- "2. 报文传输 (HTTP)" --> Filter["🛡️ 过滤器 (Filter)"]
-        Filter -- "3. 拦截/放行" --> Servlet["🚀 Servlet (控制器)"]
-        
-        subgraph "Servlet 内部处理"
-            Servlet -- "4. 解析数据" --> Request[Request 对象]
-            Servlet -- "5. 读写状态" --> Session["Session / Cookie"]
-            Servlet -- "6. 生成数据" --> JSON["📦 JSON / Response"]
-        end
-        
-        Servlet -- "7. 业务调用" --> DAO[数据访问层]
-    end
-    
-    subgraph "数据存储"
-        DAO -- "8. JDBC 连接" --> Druid["🔋 Druid 连接池"]
-        Druid -- "9. SQL 交互" --> DB[("💾 数据库")]
-    end
-
-    style Filter fill:#ffcc80,stroke:#f57f17
-    style Servlet fill:#81c784,stroke:#2e7d32
-    style Session fill:#fff9c4,stroke:#fbc02d
-    style DB fill:#e1f5fe,stroke:#01579b
+```yaml
+- 第三篇｜Spring Boot 核心与 RESTful API:
+    - 第3章 导读: chapter03/index.md
+    - 01. 框架革命：Spring Boot 快速入门      # 对比 Servlet，感受“自动装配”的魔力
+    - 02. 核心原理：IOC 容器与依赖注入 (DI)     # 难点：通过“管家”的比喻讲清楚控制反转
+    - 03. 接口规范：RESTful 风格与统一响应      # 重点：@GetMapping, @PathVariable, Result<T>
+    - 04. 架构设计：分层解耦 (Controller-Service-Dao) # 工程化：代码怎么放才不乱
+    - 05. 全局兜底：异常处理与 AOP 简介        # 实战：@RestControllerAdvice
+    - 实验 3：构建标准化的 RESTful 后端系统     # 综合实战
 
 ```
 
 ---
 
-## 📚 课程目录与核心知识点
+## ⏱️ 详细课时安排 (8 学时)
 
-本章内容环环相扣，建议按顺序学习：
+### 第一讲：Spring Boot 启航与 IOC 思想 (2 学时)
 
-### **第一阶段：通信与控制 (Web 基础)**
-
-* **[01. HTTP 协议与开发者工具](https://www.google.com/search?q=01-http-protocol.md)**
-* **核心**：读懂请求头/响应头，学会用 F12 "抓包"。
-* **工具**：Chrome DevTools。
-
-
-* **[02. Servlet 起步与生命周期](https://www.google.com/search?q=02-servlet-basics.md)**
-* **核心**：编写第一个 Hello World，理解 `init`、`service`、`destroy` 三部曲。
-* **重点**：Servlet 是单例的（线程不安全）。
+* **目标**：跑通第一个 Spring Boot 应用，理解“对象不再由我 new，而是由 Spring 给”。
+* **核心内容**：
+1. **痛点回顾**：Servlet 需要配置 `web.xml`、Tomcat 版本不兼容、依赖冲突等噩梦。
+2. **Hello Spring Boot**：
+* 利用 IDEA Spring Initializr 快速创建项目。
+* 解释 `pom.xml` 中的 `spring-boot-starter-parent`（父工程管理依赖）。
+* 解释 `@SpringBootApplication`（启动类的作用）。
 
 
-* **[03. Request 与 Response 对象详解](https://www.google.com/search?q=03-request-response.md)**
-* **核心**：如何拿参数？如何解决乱码？如何跳转页面？
-* **难点**：请求转发 (Forward) vs 重定向 (Redirect) 的区别。
+3. **IOC (控制反转) 与 DI (依赖注入)**：
+* **比喻**：以前吃饭要自己买菜做饭 (new Object)，现在去餐厅点菜，后厨直接端给你 (@Autowired)。
+* **注解实战**：`@Component` (注册Bean) 与 `@Autowired` (注入Bean)。
 
 
 
-### **第二阶段：数据与交互 (前后端分离铺垫)**
 
-* **[04. 数据桥梁：JSON 与前后端交互](https://www.google.com/search?q=04-json-interaction.md)**
-* **核心**：后端不再返回 HTML，而是返回 JSON 数据。
-* **工具**：Jackson 注解 (`@JsonProperty`, `@JsonFormat`)。
+* **AI 辅助点**：让 AI 解释“什么是控制反转”，并生成一段 `@Autowired` 的示例代码。
 
+### 第二讲：RESTful 接口设计与规范 (2 学时)
 
-* **[05. 会话跟踪与三大作用域](https://www.google.com/search?q=05-state-management.md)**
-* **核心**：解决 HTTP "健忘"的问题。
-* **对比**：Cookie (客户端) vs Session (服务端)。
-
-
-
-### **第三阶段：全局管控与持久化 (系统成型)**
-
-* **[06. 过滤器与监听器 (Filter & Listener)](https://www.google.com/search?q=06-filter-listener.md)**
-* **核心**：AOP 思想的雏形。统一处理乱码、登录拦截、CORS 跨域。
+* **目标**：不仅会写接口，还要写出**符合大厂规范**的接口。
+* **核心内容**：
+1. **RESTful 风格**：
+* 动词对应：GET(查), POST(增), PUT(改), DELETE(删)。
+* 路径参数：`/users/{id}` (使用 `@PathVariable`)。
 
 
-* **[07. 数据持久化原理 (JDBC & Druid)](https://www.google.com/search?q=07-jdbc-core.md)**
-* **核心**：从内存数据走向磁盘存储。
-* **规范**：防止 SQL 注入 (`PreparedStatement`)，使用连接池 (`Druid`) 提升性能。
+2. **Spring MVC 常用注解**：
+* `@RequestMapping` vs `@GetMapping`。
+* `@RequestParam` (URL参数) vs `@RequestBody` (JSON参数)。
+
+
+3. **统一响应结构 (Result<T>)**：
+* **痛点**：不能直接返回 `Student` 对象，要返回 `{ code: 200, msg: "success", data: {...} }`。
+* **实战**：手写一个泛型 `Result` 类。
+
+
+
+
+* **AI 辅助点**：输入实体类，让 AI 生成一套标准的 RESTful 接口定义（Controller 层代码）。
+
+### 第三讲：三层架构与 Lombok 神器 (2 学时)
+
+* **目标**：告别“所有代码写在 Controller 里”的也就是面条代码，掌握分层解耦。
+* **核心内容**：
+1. **三层架构拆解**：
+* **Controller (表现层)**：只负责收参数、校验、返回 Result。
+* **Service (业务层)**：核心逻辑（如：转账判断余额、库存扣减）。
+* **Dao/Mapper (持久层)**：只负责 SQL 交互（本章暂用模拟数据或 JDBCUtils）。
+
+
+2. **Lombok 插件**：
+* 引入 `lombok` 依赖。
+* 注解：`@Data` (getter/setter/toString), `@Builder` (链式构建), `@Slf4j` (日志)。
+
+
+3. **实战重构**：将上一章的 `LoginServlet` 重构为 `LoginController` -> `UserService` -> `UserDao`。
+
+
+
+### 第四讲：全局异常处理与综合实战 (2 学时)
+
+* **目标**：给系统装上“安全气囊”，无论发生什么错误，都能返回优雅的 JSON。
+* **核心内容**：
+1. **全局异常处理**：
+* 使用 `@RestControllerAdvice` 和 `@ExceptionHandler`。
+* 捕获 `Exception`，返回 `{ code: 500, msg: "系统繁忙" }`，而不是满屏的堆栈信息。
+
+
+2. **AOP (面向切面) 概念引入** (选讲)：
+* 简单演示如何打印所有接口的耗时（不深究原理，只看效果）。
+
+
+3. **实验 3 启动与讲解**。
 
 
 
 ---
 
-## 💻 本章终极实战 (Lab)
+## 🧪 实验 3 设计预览
 
-纸上得来终觉浅。本章**只有一个**综合性的大实验，它是对本章所有知识点的**“大阅兵”**。
+**实验名称**：构建标准化的 RESTful 后端系统
 
-* **[👉 实验 2：核心组件与持久化综合实战](https://www.google.com/search?q=lab2.md)**
-* **任务目标**：抛弃内存模拟，直接连接 **openGauss/PostgreSQL** 数据库。
-* **综合技能**：你需要将 **Servlet** (接收参数)、**JDBC** (查询数据)、**Session** (保持登录)、**Filter** (权限拦截) 像乐高积木一样组装起来，构建一个真正能跑的**“用户登录与后台管理系统”**。
+**场景**：开发一个简单的“图书管理系统 (Library API)”后端。
+
+**任务**：
+
+1. **环境**：Spring Boot 3.x + JDK 17。
+2. **依赖**：Lombok, Spring Web。
+3. **需求**：
+* 设计 `Book` 实体 (id, name, author, price)。
+* 实现 **Controller-Service-Dao** 三层架构。
+* 完成 **CRUD 接口**：
+* `POST /books` (新增图书)
+* `GET /books/{id}` (查询单本)
+* `PUT /books` (修改信息)
+* `DELETE /books/{id}` (删除图书)
 
 
-> *注：请确保你已在第一章完成了环境配置实验（Lab 1），否则本实验无法进行。*
+* **统一规范**：所有接口必须返回 `Result<T>` 格式。
+* **异常拦截**：当查询 ID 不存在时，抛出自定义异常 `BusinessException`，并被全局拦截器捕获，返回特定错误码。
 
 
+
+**AI 结合点**：
+
+* Prompt: *"我是后端开发新手，请帮我检查我的 Controller 代码是否符合 RESTful 规范？"*
+* Prompt: *"请帮我生成一个基于 Spring Boot 的全局异常处理类，能够捕获 NullPointerException 并返回 JSON。"*
 
 ---
 
-## 🚀 准备好了吗？
-
-在开始之前，请确保你已经安装好了 **JDK 17**、**Maven**、**IDEA** 以及 **PostgreSQL/openGauss** 数据库。
-
-让我们从 Web 世界的通用语言——HTTP 协议开始吧！
-
-[开始第一节：HTTP 协议详解](https://www.google.com/search?q=01-http-protocol.md){ .md-button .md-button--primary .md-button--block }
-
-```
-
-```
+陈老师，这个规划是否符合您的预期？如果没问题，我可以开始为您撰写 **`01-springboot-start.md`** 的正文。
