@@ -203,5 +203,5 @@ public class JDBCUtils {
 
 第四章，我们将学习 **MyBatis** 框架，看看它如何帮我们自动“映射”结果集，真正解放双手。
 
-[MyBatis 入门与配置](../chapter04/01-mybatis-intro.md){ .md-button .md-button--primary }
+[MyBatis 入门与配置](../chapter04/01-orm-intro.md){ .md-button .md-button--primary }
 

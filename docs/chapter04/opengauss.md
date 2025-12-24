@@ -1,1 +1,0 @@
-## openGauss 实战 

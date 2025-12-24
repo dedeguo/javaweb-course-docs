@@ -221,4 +221,4 @@ IntelliJ IDEA 的强大离不开插件生态。为了统一开发规范，请务
 !!! success "通关标志"
     如果你能在浏览器看到 **"Hello Dragonwell! AI is ready!"**，并且你的 IDEA 右侧边栏能唤出 AI 助手对话框，那么恭喜你——**你的环境配置已达满分！**
 
-[下一步：学习 Maven 与 Git 工程化 >>](maven-git.md){ .md-button }
+[下一步：学习 Maven 与 Git 工程化 >>](02-maven-git.md){ .md-button }

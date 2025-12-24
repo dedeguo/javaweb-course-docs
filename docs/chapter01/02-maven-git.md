@@ -138,4 +138,4 @@ target/
 !!! success "工程化成就达成"
     当你看到控制台显示 `[master (root-commit)] init project` 时，你已经成功建立了工程化管理的基石。下一节，我们将解锁真正的 **AI 结对编程** 能力。
 
-[下一步：你的 AI 编程搭档 >>](ai-tools.md){ .md-button .md-button--primary }
+[下一步：你的 AI 编程搭档 >>](03-ai-tools.md){ .md-button .md-button--primary }

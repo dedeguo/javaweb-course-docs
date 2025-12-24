@@ -27,7 +27,7 @@ nav:
   - 课程介绍:
       - 课程介绍: index.md
       # - 教学大纲: syllabus.md
-  - 第1章｜开发环境与效能工具: 
+  - 第一篇｜开发环境与效能工具: 
       - 第1章 导读: chapter01/index.md
       - 01.开发环境安装: chapter01/01-env-setup.md
       - 02.工程化基石：Git 版本控制与协作: chapter01/02-maven-git.md
@@ -50,14 +50,19 @@ nav:
       - 03. 接口规范：RESTful 风格与统一响应: chapter03/03-restful-api.md
       - 04. 架构设计：分层解耦 (Controller-Service-Dao):  chapter03/04-architecture.md
       - 05. 全局兜底：异常处理与 AOP 简介:  chapter03/05-exception-aop.md        # 实战：@RestControllerAdvice
+      - 06. 生产级基石：日志管理与单元测试: chapter03/06-test-logging.md
       - 实验3：构建标准化的 RESTful 后端系统:  chapter03/lab3.md     # 综合实战
-  - 第四篇｜数据持久化与信创:
+  
+  - 第四篇｜数据持久化 MyBatis 与信创数据库:
       - 第4章 导读: chapter04/index.md
-      - MyBatis 基础: chapter04/01-mybatis-intro.md
-      - Mapper 与 CRUD: chapter04/crud.md
-      - 事务管理: chapter04/transaction.md
-      - openGauss 实战: chapter04/opengauss.md
-      - 实验4：航班数据管理: chapter04/experiment.md
+      - 01. ORM 思想与 MyBatis 初探:  chapter04/01-orm-intro.md
+      - 02. 整合信创数据库 (Spring Boot + openGauss): chapter04/02-integrate-gauss.md
+      - 03. Mapper 接口与 XML 映射:   chapter04/03-mapper-xml.md
+      - 04. MyBatis 的杀手锏：动态 SQL:  chapter04/04-dynamic-sql.md
+      - 05. 插件生态：PageHelper 分页查询:  chapter04/05-pagehelper.md
+      - 06. 事务管理：@Transactional 与 ACID:  chapter04/06-transaction.md
+      - 实验4：数据落地——从内存 Map 到 openGauss:  chapter04/lab4.md
+      
   - 第五篇｜AI 集成与接口调用:
       - 第5章 导读: chapter05/index.md
       - Java HTTP 客户端: chapter05/http-client.md
