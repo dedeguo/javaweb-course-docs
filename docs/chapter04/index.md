@@ -1,54 +1,122 @@
 ---
 title: 第4章 导读｜数据持久化与信创
 ---
+# 第4章 导读｜数据持久化与信创
 这份目录规划非常符合**“信创国产化”**和**“企业级实战”**的教学方向。
-
 第四章是整个后端开发中最关键的转折点：**从“面向对象”真正跨越到“面向关系型数据库”**。
 
-为了让学生平滑过渡，同时突出 **openGauss (高斯数据库)** 的信创特色，我建议在原有的知识点上增加 **“动态 SQL”** 和 **“分页插件”** 这两个必考点。
 
-以下是为您优化的目录结构及详细内容规划：
 
+### 第4章 知识逻辑关系
+这一章的知识点之间存在严格的**依赖关系**。我画了一张逻辑图，帮助理清思路。
+```mermaid
+graph TD
+    Start(第4章: 数据持久化) --> 01_Concept[01. 思想: ORM 与 MyBatis]
+    01_Concept --> 02_Env[02. 环境: 整合 openGauss]
+    02_Env --> 03_Basic[03. 基础: CRUD 与 结果映射]
+    
+    subgraph "核心技能 (必会)"
+    03_Basic -- 遇到复杂查询 --> 04_Dynamic[04. 进阶: 动态 SQL]
+    03_Basic -- 遇到海量数据 --> 05_Page[05. 插件: PageHelper 分页]
+    end
+    
+    04_Dynamic --> 06_Tx[06. 兜底: 事务管理]
+    05_Page --> 06_Tx
+    
+    06_Tx --> Lab4[实验4: 综合实战]
+
+    style 03_Basic fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
+    style Lab4 fill:#c8e6c9,stroke:#2e7d32
+
+```
 ---
 
+### 📂 详细目录与内容规划
 
+#### **📖 第4章 导读**
 
-### 📂 第四篇｜数据持久化：MyBatis 与信创数据库
+* **文件**: `chapter04/index.md`
+* **核心隐喻**: JDBC 是“手动挡”，Hibernate 是“无人驾驶”，MyBatis 是“自动挡”。
+* **目的**: 建立信心，说明为什么我们要学这个框架（为了能精准控制 SQL）。
 
-* **第4章 导读**: `chapter04/index.md`
-* *核心比喻*：如果 JDBC 是“手动挡赛车”，MyBatis 就是“自动挡跑车”。
+#### **01. ORM 思想与 MyBatis 初探**
 
-
-* **01. ORM 思想与 MyBatis 初探**: `chapter04/01-orm-intro.md`
-* *重点*：什么是 ORM？为什么说 MyBatis 是“半自动”ORM？（对比 Hibernate/JPA）
-
-
-* **02. 整合信创数据库 (Spring Boot + openGauss)**: `chapter04/02-integrate-gauss.md`
-* *重点*：Maven 依赖、`application.yml` 配置、openGauss 驱动兼容性。
-
-
-* **03. Mapper 接口与 XML 映射**: `chapter04/03-mapper-xml.md`
-* *重点*：`@Mapper` 注解、`namespace` 绑定、ResultMap 解决字段名不一致问题（`user_id` -> `userId`）。
-
-
-* **04. MyBatis 的杀手锏：动态 SQL**: `chapter04/04-dynamic-sql.md`
-* *重点*：`<if>`, `<where>`, `<foreach>` 标签。这是 JDBC 做不到的，也是 MyBatis 最强大的地方。
-
-
-* **05. 插件生态：PageHelper 分页查询**: `chapter04/05-pagehelper.md`
-* *重点*：物理分页 vs 逻辑分页，如何在 Spring Boot 中一键实现分页。
-
-
-* **06. 事务管理：@Transactional 与 ACID**: `chapter04/06-transaction.md`
-* *重点*：转账场景模拟，演示“原子性”，讲解 Spring 声明式事务。
-
-
-* **实验4：数据落地——从内存 Map 到 openGauss**: `chapter04/lab4.md`
-* *任务*：彻底改造第三章的 `UserDao`，接入真实数据库。
+* **文件**: `chapter04/01-orm-intro.md`
+* **内容**:
+  
+    * **痛点回顾**: JDBC 的样板代码（Boilerplate Code）有多繁琐。
+    * **概念**: ORM（对象-关系映射）图解。
+    * **对比**: 为什么互联网大厂和信创选 MyBatis 而不是 Hibernate？（强调 SQL 可控性）。
 
 
 
----
+#### **02. 整合信创数据库 (Spring Boot + openGauss)**
+
+* **文件**: `chapter04/02-integrate-gauss.md`
+* **内容**:
+  
+    * **信创背景**: 介绍 openGauss/OceanBase 等国产数据库崛起的大趋势。
+    * **实战**: 引入 `mybatis-starter` 和 `opengauss-jdbc` 依赖。
+    * **配置**: 在 `application.properties` 中完成连接池配置。
+    * **验证**: 编写单元测试确保能成功连接数据库。
+
+
+
+#### **🔥 03. 核心映射：Mapper 接口与 XML**
+
+* **文件**: `chapter04/03-mapper-xml.md`
+* **地位**: **本章最重要的一节**（核心基本功）。
+* **内容**:
+  
+* **双剑合璧**: Java 接口 (`UserMapper.java`) 与 XML (`UserMapper.xml`) 如何通过 `namespace` 绑定。
+* **基本 CRUD**: `<select>`, `<insert>`, `<update>`, `<delete>` 标签的使用。
+* **结果映射 (ResultMap)**: 重点解决数据库 `user_id` 与 Java `userId` 命名不一致的问题（新手最大的坑）。
+* **注解**: `@Mapper` 与 `@MapperScan` 的区别与使用。
+
+
+
+#### **⚡ 04. 动态 SQL：MyBatis 的杀手锏**
+
+* **文件**: `chapter04/04-dynamic-sql.md`
+* **逻辑**: 基础 CRUD 只能做固定查询，但在业务中通常需要“多条件灵活搜索”。
+* **内容**:
+  
+* **`<if>`**: 判空逻辑（有名字查名字，没名字查全部）。
+* **`<where>`**: 智能去除 SQL 语句中多余的 `AND`。
+* **`<foreach>`**: 批量删除/批量插入（提升性能的关键技术）。
+
+
+
+#### **📄 05. 插件生态：PageHelper 分页查询**
+
+* **文件**: `chapter04/05-pagehelper.md`
+* **逻辑**: 数据量大了不能一次全查出来，必须分页。
+* **内容**:
+* **原理**: 物理分页 (`LIMIT`) vs 逻辑分页的区别。
+* **实战**: 引入 PageHelper，一行代码实现分页 `PageHelper.startPage(1, 10)`。
+* **封装**: 如何将分页结果封装给前端 (`PageInfo` -> `Result`)。
+
+
+
+#### **🛡️ 06. 事务管理：@Transactional 与 ACID**
+
+ 06. 事务管理：@Transactional 与 ACID  06-transaction.md
+* **文件**: `chapter04/06-transaction.md`
+* **逻辑**: 写操作多了，如何保证数据一致性？
+* **内容**:
+* **场景模拟**: 模拟转账失败，钱丢了的严重后果。
+* **解决方案**: `@Transactional` 注解的使用。
+* **原理简介**: AOP 代理与数据库事务的提交/回滚机制。
+
+
+
+#### **🧪 实验 4：数据落地——从内存 Map 到 openGauss**
+
+* **文件**: `chapter04/lab4.md`
+* **任务**:
+* **清理**: 将第三章 `UserService` 中的 Mock 代码（静态 Map）全部删除。
+* **连接**: 真正连接 openGauss 数据库。
+* **功能**: 实现一个包含 **“模糊搜索”** + **“分页展示”** 的用户列表接口。
 
 ### 💡 各小节内容设计建议 (Teacher Chen's Notes)
 

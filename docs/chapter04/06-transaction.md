@@ -1,174 +1,211 @@
-# 插件生态：PageHelper 分页查询
+# 06. 事务管理：@Transactional 与 ACID
 
-!!! quote "拒绝无效内卷"
-想象一下，如果淘宝把几亿个商品一次性全加载出来，你的浏览器会直接崩溃。**分页（Pagination）** 是 Web 开发中最基础也最重要的功能。
-
-```
-在原生 JDBC 时代，我们需要手动计算 `limit offset, size`，极其繁琐且容易算错。今天，我们将引入 **PageHelper**，它能让你**彻底告别 SQL 分页语法**，用一行代码实现“魔法”分页。
-
-```
-
----
-
-## 📦 为什么要用 PageHelper?
-
-在没有 PageHelper 之前，实现一个分页查询，你需要在 Mapper XML 中写两遍 SQL：
-
-1. 查询数据列表：`SELECT * FROM user LIMIT ?, ?`
-2. 查询总记录数（为了算总页数）：`SELECT COUNT(*) FROM user`
-
-**PageHelper 的魔法：** 它利用 **MyBatis 拦截器（Interceptor）** 机制，在代码运行时自动拦截你的 SQL，并在后台悄悄帮你做两件事：
-
-* 自动追加 `LIMIT` 语句。
-* 自动执行 `COUNT` 查询计算总数。
-
----
-
-## 🚀 第一步：引入依赖
-
-请在项目的 `pom.xml` 中引入 `pagehelper-spring-boot-starter`。
-
-> **注意**：我们使用的是 Spring Boot 3 + JDK 17 环境，请务必使用 **1.4.6** 及以上版本（或适配 SB3 的最新版），避免循环依赖报错。
-
-```xml title="pom.xml"
-<dependencies>
-    <dependency>
-        <groupId>com.github.pagehelper</groupId>
-        <artifactId>pagehelper-spring-boot-starter</artifactId>
-        <version>2.1.0</version>
-    </dependency>
-</dependencies>
-
-```
-
-!!! tip "Maven 刷新提醒"
-修改 `pom.xml` 后，别忘了点击 IDEA 右上角的 **"Load Maven Changes"** (那个小刷新图标)，或者按 `Ctrl + Shift + O` 重新加载依赖。
-
----
-
-## ⚡ 第二步：Service 层实战 (核心)
-
-这是 PageHelper 最核心的用法，请务必背诵这 **"三部曲"**。
-
-=== "✅ 正确写法 (三部曲)"
-```java
-public PageInfo<User> findUserList(int pageNum, int pageSize) {
-// 1. 开启分页 (魔法开始的地方)
-// 这一句必须紧贴在查询语句之前！
-PageHelper.startPage(pageNum, pageSize);
-
-```
-    // 2. 执行查询
-    // 此时发出的 SQL 会自动包含 limit 语句
-    List<User> users = userMapper.selectAll();
+!!! quote "本节目标"
+    在之前的代码中，我们是一个个独立的 SQL 操作。但在真实业务中，往往需要多条 SQL **“同生共死”**。
     
-    // 3. 封装结果
-    // PageInfo 包含了总页数、总记录数、当前页数据等所有前端需要的信息
-    return new PageInfo<>(users);
-}
-```
+    最经典的场景就是**转账**：
 
-```
-
-=== "❌ 常见错误 (千万别犯)"
-```java
-// 错误示范：startPage 和查询之间隔了其他代码
-PageHelper.startPage(1, 10);
-
-```
-// 假如这里插入了一段逻辑，或者抛出了异常...
-doSomethingElse(); 
-
-// 这里的查询可能就不会被分页，或者消耗掉分页参数导致后续查询出错！
-// 因为 PageHelper 使用的是 ThreadLocal，必须保证 "即用即销"。
-List<User> users = userMapper.selectAll();
-```
-
-```
+    * 第一步：张三账户减 100 元。
+    * 第二步：李四账户加 100 元。
+    
+    如果第一步成功了，但第二步报错了，会发生什么？**钱凭空消失了！**
+    本节我们将学习数据库的**事务 (Transaction)** 机制，并掌握 Spring Boot 中只需一个注解就能搞定的 **`@Transactional`** 神器。
 
 ---
 
-## 📡 第三步：Controller 层响应
+## 💸 第一步：危机时刻——钱没了？
 
-前端通常需要知道“一共有多少页”、“当前是第几页”。`PageInfo` 对象完美封装了这些数据。
+我们先来看一个没有事务保护的“翻车现场”。
 
-```java title="UserController.java"
-@RestController
-@RequestMapping("/users")
-public class UserController {
+### 1. 模拟代码 (无事务)
+
+```java
+@Service
+public class AccountService {
 
     @Autowired
-    private UserService userService;
+    private AccountMapper accountMapper;
 
-    /**
-     * 分页查询用户列表
-     * @param page 当前页码 (默认第1页)
-     * @param size 每页显示条数 (默认10条)
-     */
-    @GetMapping
-    public Result<PageInfo<User>> list(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
+    public void transfer(int fromId, int toId, double money) {
+        // 1. 扣钱 (张三 - 100)
+        accountMapper.updateBalance(fromId, -money);
         
-        PageInfo<User> pageInfo = userService.findUserList(page, size);
-        return Result.success(pageInfo);
+        // 模拟：突然断电或代码抛出异常
+        int i = 1 / 0; 
+        
+        // 2. 加钱 (李四 + 100) —— 这一行永远不会执行！
+        accountMapper.updateBalance(toId, +money);
     }
 }
 
 ```
 
+### 2. 后果
+
+* **数据库状态**：张三的钱少了 100，但李四的钱没增加。
+* **业务结果**：数据**不一致**，这是金融系统的严重事故。
+
 ---
 
-## 🔍 第四步：验证与结果解析
+## 🛡️ 第二步：事务与 ACID 理论
 
-启动项目，使用浏览器或 Postman 访问接口：
-`http://localhost:8080/users?page=1&size=5`
+为了解决这个问题，数据库引入了 **事务 (Transaction)** 的概念。事务就是把一组操作打包成一个**原子包**：**要么全做，要么全不做**。
 
-你将得到如下结构的 JSON 响应。请仔细观察 `PageInfo` 自动帮我们计算了哪些字段：
+### 1. 核心理论：ACID
 
-```json
-{
-  "code": 200,
-  "msg": "success",
-  "data": {
-    "pageNum": 1,        // 当前页码
-    "pageSize": 5,       // 每页数量
-    "size": 5,           // 当前页实际数量
-    "total": 108,        // ✅ 数据库总记录数 (PageHelper自动查出来的)
-    "pages": 22,         // ✅ 总页数 (PageHelper自动算出来的)
-    "list": [            // 当前页的数据列表
-      { "id": 1, "username": "admin", ... },
-      { "id": 2, "username": "zhangsan", ... },
-      ...
-    ],
-    "isFirstPage": true,
-    "isLastPage": false,
-    "hasPreviousPage": false,
-    "hasNextPage": true
-  }
-}
+面试必考题，请务必理解（不要死记硬背）。
+
+| 特性 | 英文 | 解释 (人话版) |
+| --- | --- | --- |
+| **原子性** | **A**tomicity | **同生共死**。这一组 SQL 是一个整体，不可分割。要么都成功，要么都失败。 |
+| **一致性** | **C**onsistency | **守恒定律**。转账前后，张三和李四的钱加起来的总数必须不变。 |
+| **隔离性** | **I**solation | **各玩各的**。我在转账时，别人查我的账户，要么看到转账前的数据，要么看到转账后的，不能看到中间扣了一半的状态。 |
+| **持久性** | **D**urability | **落袋为安**。一旦事务提交，数据就永久写在硬盘里了，断电也不会丢。 |
+
+### 2. 事务的运作流程
+
+```mermaid
+graph TD
+    Start(("开始事务")) --> SQL1["执行 SQL 1: 扣钱"]
+    SQL1 --> Check{"是否报错?"}
+    
+    Check -- 没报错 --> SQL2["执行 SQL 2: 加钱"]
+    SQL2 --> Check2{"是否报错?"}
+    
+    Check2 -- 没报错 --> Commit["✅ 提交 (Commit)<br/>数据写入硬盘"]
+    
+    Check -- 报错! --> Rollback["❌ 回滚 (Rollback)<br/>时光倒流，撤销所有操作"]
+    Check2 -- 报错! --> Rollback
+    
+    style Commit fill:#81c784,stroke:#2e7d32
+    style Rollback fill:#ef5350,stroke:#b71c1c
 
 ```
 
 ---
 
-## ⚠️ 避坑指南 (必读)
+## ⚡ 第三步：Spring Boot 的魔法——@Transactional
 
-在集成 PageHelper 时，新手最容易在以下地方“翻车”：
+在 JDBC 时代，我们需要手动写 `conn.setAutoCommit(false)` 和 `conn.commit()`。
+在 Spring Boot 中，你只需要一个注解。
 
-1. **ThreadLocal 污染**：
-`PageHelper.startPage` 原理是将分页参数存入当前线程的 `ThreadLocal`。它会在**紧接着的第一次 MyBatis 查询**后自动清除。
-* **后果**：如果你调用了 `startPage` 但后面没有执行 SQL 查询（比如被 `if` 拦截返回了），这个分页参数会残留在线程中。当该线程复用于下一个请求时，可能会导致莫名其妙的分页错误。
-* **解决**：确保 `startPage` 紧贴查询语句，或者放在 `try-finally` 块中清理（虽然官方说自动清理，但紧贴查询是最安全的习惯）。
+### 1. 加上注解
 
+在 Service 类或方法上添加 **`@Transactional`**。
 
-2. **1对N 查询的分页问题**：
-如果你在 XML 中使用了 `<collection>` 进行级联查询（比如“查班级同时也查出所有学生”），PageHelper 的自动分页可能会导致数据条数不对（它是对结果集分页，而不是对主表分页）。
-* **建议**：复杂的多表关联分页，建议手动写 SQL 或在 Service 层分别查询组装。
+```java
+@Service
+public class AccountService {
 
+    @Autowired
+    private AccountMapper accountMapper;
 
+    @Transactional // 👈 加上它，Spring 自动开启事务保护
+    public void transfer(int fromId, int toId, double money) {
+        
+        accountMapper.updateBalance(fromId, -money);
+        
+        // 模拟异常
+        int i = 1 / 0; 
+        
+        accountMapper.updateBalance(toId, +money);
+    }
+}
 
-!!! success "通关标志"
-如果你能通过修改 URL 中的 `page` 和 `size` 参数，看到返回的数据随之变化，且 `total` 总数正确，说明你已经掌握了企业级分页开发的精髓！
+```
 
-[下一步：Vue3 前端对接与渲染 >>](https://www.google.com/search?q=06-vue-integration.md){ .md-button }
+### 2. 效果验证
+
+当 `1/0` 抛出异常时，Spring 会捕获到这个异常，并触发 **回滚 (Rollback)**。
+你会发现，数据库里张三的余额**纹丝不动**，就像什么都没发生过一样。
+
+---
+
+## 🚧 第四步：避坑指南——事务失效的“元凶”
+
+很多新手加了注解，发现事务还是没回滚。**90% 的原因是你把异常“吃掉”了！**
+
+### ❌ 错误写法 (Swallowing Exceptions)
+
+```java
+@Transactional
+public void transfer() {
+    try {
+        accountMapper.updateBalance(fromId, -money);
+        int i = 1 / 0; // 报错
+        accountMapper.updateBalance(toId, +money);
+    } catch (Exception e) {
+        // 😱 致命错误！你自己捕获了异常，但没抛出。
+        // Spring 认为："哦，程序员自己处理了，没报错嘛，那我提交事务咯！"
+        e.printStackTrace(); 
+    }
+}
+
+```
+
+### ✅ 正确写法 1：不捕获 (推荐)
+
+让异常直接抛给 Controller，最后由全局异常处理器（GlobalExceptionHandler）去处理。
+
+```java
+@Transactional
+public void transfer() {
+    accountMapper.updateBalance(fromId, -money);
+    int i = 1 / 0; 
+    accountMapper.updateBalance(toId, +money);
+}
+
+```
+
+### ✅ 正确写法 2：捕获并手动抛出
+
+如果你非要自己 catch 做点记录，必须在 catch 块里再抛出一个 `RuntimeException`。
+
+```java
+@Transactional
+public void transfer() {
+    try {
+        // ... 业务代码
+    } catch (Exception e) {
+        log.error("转账失败", e);
+        // 🚨 必须抛出！告诉 Spring 出事了，需要回滚
+        throw new RuntimeException(e); 
+    }
+}
+
+```
+
+!!! warning "Spring 的默认规则"
+    默认情况下，`@Transactional` 只有遇到 **RuntimeException** (运行时异常) 或 **Error** 时才会回滚。
+    如果抛出的是 `IOException` 等 **Checked Exception**，Spring 默认是**不回滚**的（除非你配置 `rollbackFor = Exception.class`）。
+
+---
+
+## 🤖 第五步：AI 辅助理解
+
+事务隔离级别（Isolation Level）也是面试的重灾区，概念非常抽象。让 AI 帮你举例子。
+
+!!! question "让 AI 解释隔离级别"
+    **Prompt**:
+    > "请用通俗易懂的例子（比如买票或转账）解释数据库事务的四大隔离级别：读未提交、读已提交、可重复读、串行化。说明它们分别解决了什么问题（脏读、不可重复读、幻读）？"
+
+---
+
+## 📝 总结
+
+1. **为什么需要事务**：为了保证一组 SQL 操作的一致性（同生共死）。
+2. **ACID**：原子性、一致性、隔离性、持久性。
+3. **`@Transactional`**：Spring 的声明式事务注解，通常加在 Service 层的方法上。
+4. **失效陷阱**：**千万不要在 try-catch 中吃掉异常**，否则事务无法回滚。
+
+**下一步**：
+所有的“招式”都学会了！
+
+* 整合 MyBatis ✔️
+* 动态 SQL ✔️
+* 分页插件 ✔️
+* 事务管理 ✔️
+
+现在，我们有能力去完成本章的**大作业**了：**真正连接 openGauss 数据库，开发一个具备搜索、分页功能的完整用户管理模块**。
+
+[👉 实验 4：数据落地——从内存 Map 到 openGauss](lab4.md){ .md-button .md-button--primary .md-button--block }

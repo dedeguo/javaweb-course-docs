@@ -1,120 +1,275 @@
-### 🗺️ 第四章：教学逻辑全景图
+---
+title: 实验 4：数据落地——从内存 Map 到 openGauss
+---
 
-这一章的知识点之间存在严格的**依赖关系**。我画了一张逻辑图，帮助学生（和您）理清思路：
+# 实验 4：数据落地——从内存 Map 到 openGauss
 
-```mermaid
-graph TD
-    Start(第4章: 数据持久化) --> 01_Concept[01. 思想: ORM 与 MyBatis]
-    01_Concept --> 02_Env[02. 环境: 整合 openGauss]
-    02_Env --> 03_Basic[03. 基础: CRUD 与 结果映射]
-    
-    subgraph "核心技能 (必会)"
-    03_Basic -- 遇到复杂查询 --> 04_Dynamic[04. 进阶: 动态 SQL]
-    03_Basic -- 遇到海量数据 --> 05_Page[05. 插件: PageHelper 分页]
-    end
-    
-    04_Dynamic --> 06_Tx[06. 兜底: 事务管理]
-    05_Page --> 06_Tx
-    
-    06_Tx --> Lab4[实验4: 综合实战]
+!!! abstract "实验信息"
+    * **实验学时**：4 学时
+    * **实验类型**：综合性
+    * **截稿时间**：第XX 周周X XX:XX
+    * **核心目标**：移除实验 3 中的“假 Dao”层，整合 **MyBatis** + **openGauss**，并使用 **PageHelper** 实现带分页的模糊查询。
 
-    style 03_Basic fill:#fff9c4,stroke:#fbc02d,stroke-width:2px
-    style Lab4 fill:#c8e6c9,stroke:#2e7d32
+---
+
+## 🧪 实验目的
+
+1.  **真枪实弹**：彻底告别 `static Map`，实现数据的持久化存储（重启服务器数据不丢）。
+2.  **ORM 实战**：掌握 **MyBatis** 的 XML 开发流程（Entity -> Mapper Interface -> XML）。
+3.  **动态 SQL**：学会使用 `<if>` 和 `<where>` 标签实现多条件灵活搜索。
+4.  **插件应用**：掌握 **PageHelper** 分页插件，解决海量数据展示问题。
+
+---
+
+## 📋 实验前准备
+
+* [x] 已完成 [实验 3](lab3.md)（已有 BookController 和 BookService）。
+* [x] 本地已安装 **openGauss** 数据库（或 PostgreSQL）。
+* [x] IDEA 已安装 **MyBatisX** 插件（强烈推荐，方便跳转）。
+
+---
+
+## 👣 实验步骤
+
+### 任务一：准备数据库环境
+
+我们不再用 Java 代码 `new Book(...)` 了，而是先在数据库建表。
+
+1.  **连接数据库**：使用 DataGrip 或 IDEA Database 工具连接你的 openGauss。
+2.  **执行 SQL 脚本**：创建表并预置一些测试数据。
+
+```sql
+-- 1. 建表
+CREATE TABLE t_book (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    author VARCHAR(50),
+    price DECIMAL(10, 2),
+    publish_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. 插入测试数据 (多整点，方便测分页)
+INSERT INTO t_book (title, author, price) VALUES 
+('Java编程思想', 'Bruce Eckel', 108.00),
+('深入理解Java虚拟机', '周志明', 99.00),
+('Spring Boot实战', 'Craig Walls', 68.50),
+('高性能MySQL', 'Baron', 128.00),
+('三体', '刘慈欣', 38.00),
+('活着', '余华', 25.00),
+('百年孤独', '马尔克斯', 45.00);
+
+```
+
+### 任务二：引入“三剑客”依赖
+
+修改 `pom.xml`，引入 MyBatis、数据库驱动和分页插件。
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <version>3.0.3</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.opengauss</groupId>
+        <artifactId>opengauss-jdbc</artifactId>
+        <version>3.1.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper-spring-boot-starter</artifactId>
+        <version>1.4.6</version>
+    </dependency>
+</dependencies>
+
+```
+
+### 任务三：配置 application.properties
+
+告诉 Spring Boot 数据库在哪里，以及 XML 文件存在哪里。
+
+```properties
+# === 数据库连接 ===
+spring.datasource.driver-class-name=org.opengauss.Driver
+spring.datasource.url=jdbc:opengauss://localhost:5432/postgres?currentSchema=public
+spring.datasource.username=你的账号
+spring.datasource.password=你的密码
+
+# === MyBatis 配置 ===
+# 别名包：XML 里可以直接写 "Book" 而不用写全路径
+mybatis.type-aliases-package=com.example.lab3.model
+# 打印 SQL：开发必备，方便调试
+mybatis.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
+# XML 路径：非常重要！
+mybatis.mapper-locations=classpath:mapper/*.xml
+
+```
+
+### 任务四：大清洗——重构 Dao 层
+
+这是最关键的一步。我们需要**删除**之前的“假 Dao”，建立真正的 MyBatis Mapper。
+
+1. **删除文件**：❌ 删除 `dao/BookDao.java` 类（那个用 Map 模拟的类）。
+2. **新建接口**：✅ 在 `mapper` 包下新建接口 `BookMapper.java`。
+
+```java
+@Mapper // 👈 别忘了这个注解
+public interface BookMapper {
+    
+    // 1. 根据 ID 查询
+    Book selectById(Integer id);
+
+    // 2. 复杂查询：支持根据书名模糊搜索
+    // 如果 keyword 为 null，查所有；如果不为 null，查包含 keyword 的书
+    List<Book> selectByCondition(String keyword);
+    
+    // 3. 新增
+    int insert(Book book);
+    
+    // 4. 删除
+    int deleteById(Integer id);
+    
+    // 5. 修改
+    int update(Book book);
+}
+
+```
+
+### 任务五：编写 XML 映射文件 (动态 SQL)
+
+在 `src/main/resources` 下新建文件夹 `mapper`，并在其中新建 `BookMapper.xml`。
+
+**⚡️ 挑战：使用 `<if>` 标签实现动态搜索**
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"[http://mybatis.org/dtd/mybatis-3-mapper.dtd](http://mybatis.org/dtd/mybatis-3-mapper.dtd)">
+
+<mapper namespace="com.example.lab3.mapper.BookMapper">
+
+    <select id="selectById" resultType="Book">
+        SELECT * FROM t_book WHERE id = #{id}
+    </select>
+
+    <select id="selectByCondition" resultType="Book">
+        SELECT * FROM t_book
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND title LIKE concat('%', #{keyword}, '%')
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_book (title, author, price)
+        VALUES (#{title}, #{author}, #{price})
+    </insert>
+
+    </mapper>
+
+```
+
+### 任务六：升级 Service 层 (分页黑科技)
+
+修改 `BookService.java`，注入新的 Mapper，并加入分页逻辑。
+
+```java
+@Service
+public class BookService {
+
+    @Autowired
+    private BookMapper bookMapper; // 注入接口，MyBatis 自动代理
+
+    // 改造：增加分页参数 pageNum, pageSize
+    public PageInfo<Book> getList(Integer pageNum, Integer pageSize, String keyword) {
+        
+        // 1. 开启分页 (魔法就在这一行)
+        // PageHelper 会自动在下一条 SQL 后面拼接 LIMIT 语句
+        PageHelper.startPage(pageNum, pageSize);
+        
+        // 2. 执行查询 (看起来是查所有，实际被拦截了)
+        List<Book> list = bookMapper.selectByCondition(keyword);
+        
+        // 3. 封装分页结果 (包含 total, pages, list 等信息)
+        return new PageInfo<>(list);
+    }
+    
+    // ... 其他方法的调用也从 oldDao 改为 bookMapper
+}
+
+```
+
+### 任务七：改造 Controller 接口
+
+修改 `BookController.java` 的查询接口。
+
+```java
+@GetMapping
+public Result<PageInfo<Book>> getList(
+    @RequestParam(defaultValue = "1") Integer page,
+    @RequestParam(defaultValue = "5") Integer size,
+    @RequestParam(required = false) String keyword // 允许不传
+) {
+    PageInfo<Book> pageInfo = bookService.getList(page, size, keyword);
+    return Result.success(pageInfo);
+}
 
 ```
 
 ---
 
-### 📂 详细目录与内容规划
+## 🤖 AI 辅助调试
 
-#### **第4章 导读**
+如果遇到 XML 报错或 SQL 查不出数据，可以问 AI。
 
-* **文件**: `chapter04/index.md`
-* **核心隐喻**: JDBC 是“手动挡”，Hibernate 是“无人驾驶”，MyBatis 是“自动挡”。
-* **目的**: 建立信心，说明为什么我们要学这个框架（为了能精准控制 SQL）。
-
-#### **01. ORM 思想与 MyBatis 初探**
-
-* **文件**: `chapter04/01-orm-intro.md`
-* **内容**:
-* 痛点回顾：JDBC 的样板代码（Boilerplate Code）。
-* 概念：ORM（对象-关系映射）图解。
-* 对比：为什么互联网大厂和信创选 MyBatis 而不是 Hibernate？（强调 SQL 可控性）。
-
-
-
-#### **02. 整合信创数据库 (Spring Boot + openGauss)**
-
-* **文件**: `chapter04/02-integrate-gauss.md`
-* **内容**:
-* **信创背景**: 介绍 openGauss/OceanBase 等国产数据库。
-* **实战**: 引入 `mybatis-starter` 和 `opengauss-jdbc`。
-* **配置**: `application.properties` 连接池配置。
-* **验证**: 写个单元测试确保能连上。
-
-
-
-#### **03. 核心映射：Mapper 接口与 XML**
-
-* **文件**: `chapter04/03-mapper-xml.md`
-* **地位**: **🔥 本章最重要的一节**。
-* **内容**:
-* **双剑合璧**: Java 接口 (`UserMapper.java`) 与 XML (`UserMapper.xml`) 如何通过 `namespace` 绑定。
-* **基本 CRUD**: `select`, `insert`, `update`, `delete` 标签。
-* **结果映射 (ResultMap)**: 重点解决数据库 `user_id` 与 Java `userId` 不一致的问题（这是新手最大的坑）。
-* **注解**: `@Mapper` 与 `@MapperScan`。
-
-
-
-#### **04. 动态 SQL：MyBatis 的杀手锏**
-
-* **文件**: `chapter04/04-dynamic-sql.md`
-* **逻辑**: 基础 CRUD 只能做固定查询，但业务通常需要“多条件搜索”。
-* **内容**:
-* `<if>`: 判空（有名字查名字，没名字查全部）。
-* `<where>`: 智能去除多余的 `AND`。
-* `<foreach>`: 批量删除/批量插入（提升性能的关键）。
-
-
-
-#### **05. 插件生态：PageHelper 分页查询**
-
-* **文件**: `chapter04/05-pagehelper.md`
-* **逻辑**: 数据多了不能一次全查出来，需要分页。
-* **内容**:
-* 原理：物理分页 (`LIMIT`) vs 逻辑分页。
-* 实战：引入 PageHelper，一行代码实现分页 `PageHelper.startPage(1, 10)`。
-* 封装：如何将分页结果封装给前端 (`PageInfo` -> `Result`).
-
-
-
-#### **06. 事务管理：@Transactional 与 ACID**
-
-* **文件**: `chapter04/06-transaction.md`
-* **逻辑**: 写操作多了，如何保证数据一致性？
-* **内容**:
-* 场景模拟：转账失败，钱丢了。
-* 解决方案：`@Transactional` 注解。
-* 原理简介：AOP 代理与数据库事务的提交/回滚。
-
-
-
-#### **实验 4：数据落地——从内存 Map 到 openGauss**
-
-* **文件**: `chapter04/lab4.md`
-* **任务**:
-* 将第三章 `UserService` 中的 Mock 代码全部删除。
-* 真正连接 openGauss 数据库。
-* 实现一个包含“模糊搜索”+“分页展示”的用户列表接口。
-
-
+!!! question "让 AI 帮你找 XML 错误"
+    **Prompt**:
+    > "我正在运行 Spring Boot + MyBatis 项目，控制台报错：`Invalid bound statement (not found): com.example.mapper.BookMapper.selectByCondition`。
+    > 请列出可能的原因（比如 namespace、xml路径配置等），并教我如何排查。"
 
 ---
 
-### 💡 为什么这么排序？（给陈老师的教学建议）
+## 💾 作业提交
 
-1. **02 和 03 分开**：配置环境（02）和写业务代码（03）通常是两个维度的认知。如果混在一起，学生报错时不知道是网不通，还是 SQL 写错了。分开能降低排错难度。
-2. **ResultMap 放在 03**：很多教材把 `ResultMap` 放在进阶里，但我建议放在基础里。因为现在的数据库规范通常是下划线（`create_time`），Java 是驼峰（`createTime`）。**如果不讲 ResultMap 或 mapUnderscoreToCamelCase，学生第一写代码查出来全是 null，打击积极性。**
-3. **动态 SQL 单独一节**：这是 MyBatis 区别于 JPA 最明显的优势，也是期末考试/面试的重点，值得单独拿出来讲。
+### 1. 验证截图
 
-您觉得这个梳理是否清晰？如果没有问题，我们接下来就可以按照这个顺序，从 **03. 核心映射** 开始继续撰写了。
+请在 `README.md` 中附上以下 **3 张截图**：
+
+1. **数据库数据**：DataGrip/Navicat 中 `t_book` 表的数据截图。
+2. **无参分页**：浏览器访问 `http://localhost:8080/books?page=1&size=3`，截图 JSON 结果（应显示前 3 条，且 `total` 为 7）。
+3. **模糊搜索**：浏览器访问 `http://localhost:8080/books?keyword=Java`，截图 JSON 结果（应只显示带 "Java" 的书）。
+
+### 2. 代码推送
+
+```bash
+git add .
+git commit -m "feat: lab4 完成MyBatis集成与分页，学号+姓名"
+git push
+
+```
+
+---
+
+## ❓ 常见问题 (FAQ)
+
+**Q1: 报错 `Invalid bound statement (not found)`？**
+
+> **A:** 这是 MyBatis 最经典的错误！请检查三点：
+> 1. `application.properties` 里的 `mybatis.mapper-locations` 路径写对了吗？
+> 2. XML 里的 `namespace` 是否完全等于 Mapper 接口的全类名？
+> 3. XML 里的 `id` 是否完全等于 Mapper 接口的方法名？
+> 
+> 
+
+**Q2: 数据库连不上？**
+
+> **A:** 检查 `application.properties` 里的 url、username、password。确保 openGauss 服务已启动。如果是在虚拟机里，确保防火墙放行了 5432 端口。
+
+**Q3: 分页不起作用，查出了全部？**
+
+> **A:** `PageHelper.startPage(...)` **必须** 紧贴着查询方法调用。如果中间隔了其他代码，或者查询方法没走 MyBatis，分页就会失效。

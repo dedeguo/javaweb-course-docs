@@ -185,6 +185,8 @@ initialSize=5
 maxActive=10
 maxWait=3000
 
+# 🌟 开启监控统计功能 (filters=stat)
+filters=stat
 ```
 
 ---
@@ -240,8 +242,83 @@ public class JDBCUtils {
 ```
 
 ---
+## 👀 第六部分：开启上帝视角 (Druid 监控)
 
-## 🧪 第五步：随堂实验
+Druid 最酷的功能就是它的**监控后台**。它可以告诉你当前有多少连接、哪条 SQL 执行最慢、是否有 SQL 注入攻击。
+
+### 1. 配置 Web.xml
+
+由于我们目前还在学习 Web 基础，需要在 `web.xml` 中注册 Druid 提供的 Servlet 来开启监控页面。
+
+```xml title="src/main/webapp/WEB-INF/web.xml"
+<servlet>
+    <servlet-name>DruidStatView</servlet-name>
+    <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+    <init-param>
+        <param-name>resetEnable</param-name>
+        <param-value>true</param-value>
+    </init-param>
+    <init-param>
+        <param-name>loginUsername</param-name>
+        <param-value>admin</param-value>
+    </init-param>
+    <init-param>
+        <param-name>loginPassword</param-name>
+        <param-value>123456</param-value>
+    </init-param>
+</servlet>
+<servlet-mapping>
+    <servlet-name>DruidStatView</servlet-name>
+    <url-pattern>/druid/*</url-pattern>
+</servlet-mapping>
+
+```
+
+### 2. 访问监控页面
+
+启动 Tomcat，访问：`http://localhost:8080/你的项目名/druid/index.html`
+
+你将看到如下功能：
+
+* **数据源**：查看当前连接池的忙碌情况。
+* **SQL 监控**：查看被执行过的 SQL 语句，按执行时间排序，揪出**“慢 SQL”**。
+
+---
+
+## 🤖 7. AI 特别篇：AI 做你的 DBA (数据库管理员)
+
+!!! tip "🧠 AI 赋能开发"
+    作为初学者，看到 Druid 监控里复杂的统计数据（如 `FetchCount`, `EffectedRowCount`）或者一条很慢的 SQL，你可能不知道如何优化。
+    **这时候，请呼叫 AI 助手！**
+
+
+### 场景：优化慢 SQL
+
+假设你在 Druid 监控页面的“SQL 监控”中，发现了一条红色的 SQL 语句，执行时间超过了 2000ms。
+
+> **❌ 慢 SQL 示例**：
+> `SELECT * FROM t_user WHERE phone LIKE '%8888'`
+
+你可以复制这条 SQL，发送给 AI 进行诊断：
+!!! example "🔮 复制此 Prompt (提示词) 给 AI"
+    "我是一名 Java 开发人员。在 Druid 监控中发现了一条 **慢 SQL**，执行时间很长。
+    
+    **SQL 语句**：`SELECT * FROM t_user WHERE phone LIKE '%8888'`  
+    **数据库**：openGauss / PostgreSQL  
+    
+    **请帮我分析：**  
+    1. 这条 SQL 为什么慢？（解释原理）  
+    2. 如何优化它？（给出具体的索引建议或 SQL 改写方案）"
+
+
+!!! check "💡 预期 AI 回复核心点"
+    * **原因分析**：`%8888` 属于**左模糊查询**。标准 B+ 树索引是从左往右匹配的，左边未知导致索引失效，数据库被迫进行 **全表扫描 (Full Table Scan)**。
+    * **优化建议**：  
+        1.  **业务妥协**：改为右模糊 `phone LIKE '138%'`（可以使用索引）。  
+        2.  **技术升级**：如果必须查后缀，建议引入 ES (Elasticsearch) 或使用 PG 的倒排索引 (GIN Index)。
+
+---
+## 🧪 第八步：随堂实验
 
 !!! question "练习：基于 Druid 实现用户登录"
     **任务**：编写 `LoginDao` 类，使用 `JDBCUtils` 验证用户名和密码。
