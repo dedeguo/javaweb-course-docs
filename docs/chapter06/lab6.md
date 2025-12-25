@@ -1,151 +1,104 @@
-# 实验6：智能航班系统综合
+---
+title: 实验 6：结课大作业 —— SmartBook 开发
+---
 
-### 📂 章节目录结构规划
+# 实验 6：结课大作业 —— SmartBook 二手书交易智能体
 
-#### **📖 第6章 导读**
+!!! abstract "实验信息"
+    * **实验类型**：综合设计性
+    * **建议时长**：4 学时
+    * **核心目标**：基于 Spring Boot + MyBatis + DeepSeek，开发一个能通过**自然语言**进行二手书买卖的后端系统。
 
-* **文件**: `chapter06/index.md`
-* **项目名称**: **SmartWiki —— 智能校园知识库**
-* **核心理念**:
-* 传统搜索：只能搜到包含关键词的文档，需要人自己去读。
-* **AI 搜索 (RAG)**：系统先把相关文档找出来“喂”给 AI，AI 读完后直接回答用户的问题。
+!!! warning "重要提示：不追求大而全"
+    本次实验重点考核 **“AI 调度业务逻辑”** 的能力。
 
-
-* **技术栈**: Spring Boot 3 + MyBatis + openGauss + PageHelper + DeepSeek API + SSE (Server-Sent Events，流式响应)。
-
-#### **🏗️ 01. 需求分析与数据库设计**
-
-* **文件**: `chapter06/01-design.md`
-* **内容**:
-* **业务场景**: 校园规章制度查询、课程问答助手。
-* **表结构设计**:
-* `t_knowledge`: 存储知识片段（title, content, category, create_time）。
-* `t_log`: 记录用户的提问和 AI 的回答（用于审计）。
-
-
-* **DDL 实战**: 在 openGauss 中建表。
-
-
-
-#### **🧱 02. 后端核心：知识库 CRUD 开发**
-
-* **文件**: `chapter06/02-core-crud.md`
-* **内容**:
-* **快速开发**: 既然学过 MyBatis 和 PageHelper，这里要求学生在 30 分钟内完成 `KnowledgeController` 的增删改查。
-* **规范**: 严格遵守 `Result<T>` 统一响应和 GlobalException 全局异常。
-* **重点**: 实现一个**高性能的全文模糊搜索**接口（为下一步给 AI 提供素材做准备）。
-
-
-
-#### **🧠 03. 核心逻辑：手搓轻量级 RAG (检索增强生成)**
-
-* **文件**: `chapter06/03-rag-impl.md`
-* **难点**: 真正的向量数据库（Milvus）对初学者太重，我们用 **SQL Like** 模拟检索。
-* **流程**:
-1. **Retrieve (检索)**: 用户问“奖学金怎么评？”，Java 去数据库查 `title like '%奖学金%'`。
-2. **Augment (增强)**: Java 把查到的 3 篇文章拼接到 Prompt 里：“这是相关资料...请根据资料回答”。
-3. **Generate (生成)**: 调用 DeepSeek API 生成最终答案。
-
-
-
-#### **🌊 04. 进阶体验：SSE 流式响应**
-
-* **文件**: `chapter06/04-sse-stream.md`
-* **痛点**: AI 回答需要 5-10 秒，前端如果一直转圈，体验很差。
-* **技术**: **Server-Sent Events (SSE)**。
-* **实现**:
-* 将 Controller 的返回值从 `Result<String>` 改为 `SseEmitter`。
-* 看着文字一个字一个字地蹦出来（打字机效果）。
-
-
-
-#### **🚀 05. 部署与交付：Docker 容器化 (选修)**
-
-* **文件**: `chapter06/05-deployment.md`
-* **背景**: 陈老师您是 Home Lab 爱好者，这一节是为您和爱折腾的学生准备的。
-* **内容**:
-* 编写 `Dockerfile`。
-* 编写 `docker-compose.yml` (编排 Java App + openGauss)。
-* 一键启动整个系统。
-
-
-
-#### **🧪 实验 6：结课大作业 —— SmartWiki 系统开发**
-
-* **文件**: `chapter06/lab6.md`
-* **要求**:
-* 必须使用 openGauss 数据库。
-* 必须包含 AI 问答功能。
-* **加分项**: 实现 SSE 流式输出，或前端界面美观。
-
-
+    * ❌ **不需要**写登录注册功能（直接在数据库预置用户）。
+    * ❌ **不需要**写精美的 CSS（使用老师提供的模板）。
+    * ✅ **必须**保证“购买”功能的事务安全性。
+    * ✅ **必须**跑通 AI 对话流程。
 
 ---
 
-### 🎨 核心逻辑图解 (用于 03-rag-impl.md)
+## 🏗️ 任务一：环境与数据库准备 (20分)
 
-```mermaid
-sequenceDiagram
-    participant User as 👤 学生
-    participant App as ☕ SmartWiki 后端
-    participant DB as 🗄️ openGauss
-    participant AI as 🧠 DeepSeek
+### 1. 建立工程
+* 创建 Spring Boot 项目，引入 Web, MyBatis, PostgreSQL/openGauss, Lombok 依赖。
+* 将老师提供的前端模板 `index.html` 放入 `src/main/resources/static/` 目录。
+* 将老师提供的工具类 `AiUtils.java` 放入 `utils` 包。
 
-    User->>App: 提问："一等奖学金有什么要求？"
-    
-    rect rgb(230, 240, 255)
-        Note right of App: 步骤 1: 检索 (Retrieve)
-        App->>DB: SELECT * FROM t_knowledge WHERE content LIKE '%奖学金%'
-        DB-->>App: 返回 3 条相关文档 (Context)
-    end
-    
-    rect rgb(255, 248, 240)
-        Note right of App: 步骤 2: 增强 (Augment)
-        App->>App: 组装 Prompt: <br/>"已知信息：[文档1, 文档2...]<br/>用户问题：一等奖学金要求？"
-    end
-    
-    rect rgb(240, 255, 240)
-        Note right of App: 步骤 3: 生成 (Generate)
-        App->>AI: 发送最终 Prompt
-        AI-->>App: "根据规定，一等奖学金要求成绩排名前 10%..."
-    end
-    
-    App-->>User: 返回最终答案
+### 2. 数据库建模
+在 openGauss 中执行 SQL 脚本，创建以下三张表，并**预置测试数据**：
+* `t_user`: 预置用户 "zhangsan" (余额 0), "lisi" (余额 500)。
+* `t_book`: 预置 "Java编程思想" (50元), "三体" (30元)。
+* `t_transaction`: 空表。
 
-```
+> **验收标准**：在 DataGrip 中截图三张表的结构和初始数据。
 
 ---
 
-### 📝 实验 6 任务书摘要 (用于 lab6.md)
+## 🔧 任务二：核心业务层开发 (30分)
 
-**任务背景**：
-学校教务处的电话每天都被打爆，学生们总是在问重复的问题（比如“补考怎么报名”、“四六级什么时候查分”）。请你开发一个智能问答系统来解放教务老师。
+编写 `TradeService` 类，实现以下两个核心方法。
 
-**Prompt 模板设计 (Java 代码)**：
+### 1. 发布图书 (publish)
+* 接收参数：卖家姓名、书名、价格。
+* 逻辑：向 `t_book` 表插入一条数据，状态默认为 `ON_SALE`。
 
-```java
-String template = """
-    你是一个智能校园助手。请根据下面的【已知信息】回答用户的【问题】。
-    如果已知信息中没有答案，请诚实地回答“我不知道”，不要瞎编。
-    
-    【已知信息】：
-    %s
-    
-    【问题】：
-    %s
-    """;
-    
-// 使用 Java 15 文本块格式化
-String finalPrompt = String.format(template, contextString, userQuestion);
+### 2. 购买图书 (buy) —— **核心考核点**
+* 接收参数：买家姓名、图书 ID。
+* **逻辑要求**：
+    1. 检查图书是否存在且未售出。
+    2. 检查买家余额是否充足。
+    3. **扣减**买家余额。
+    4. **更新**图书状态为 `SOLD`。
+    5. **插入**交易记录。
+* **技术要求**：
+    * 必须在方法上添加 `@Transactional` 注解。
+    * 编写一个 JUnit 单元测试：模拟余额不足的情况，验证**事务是否回滚**（即：报错后，书的状态应该依然是 `ON_SALE`，不能被改成 SOLD）。
 
-```
+> **验收标准**：提交 `buy` 方法的源码截图，以及 JUnit 测试通过（绿色进度条）的截图。
 
 ---
 
-### 💡 为什么这样设计？
+## 🤖 任务三：AI 智能体集成 (40分)
 
-1. **闭环**：它把第 4 章的数据库查询和第 5 章的 AI 调用结合起来了。
-2. **落地**：RAG（检索增强生成）是目前企业最主流的 AI 应用模式，学生写在简历里非常有含金量。
-3. **可扩展**：基础好的学生可以把 SQL 搜索换成向量搜索，或者加上 Redis 缓存，上限很高。
+编写 `ChatController`，实现 Chat to Action 流程。
 
-您觉得这个最终项目的难度和方向合适吗？如果可以，我就按这个结构开始撰写。
+### 1. 定义工具 (Tools)
+在代码中定义 JSON 字符串，描述 `searchBook` 和 `buyBook` 两个工具的参数结构。
+
+### 2. 实现调度逻辑
+在 `/chat/send` 接口中：
+1.  接收前端传来的 `userMessage` 和 `currentUser`（从 Header 或参数获取）。
+2.  调用 `AiUtils.callDeepSeek` 获取 AI 响应。
+3.  **判断逻辑**：
+    * 如果 AI 返回 `tool_calls` -> 解析函数名 -> 调用 `TradeService` 对应方法 -> 将结果再次发给 AI。
+    * 如果 AI 返回普通文本 -> 直接返回给前端。
+
+> **验收标准**：
+> 1. 打开浏览器 `http://localhost:8080`。
+> 2. 选择用户“李四”。
+> 3. 输入：“**我要买那本 Java 编程思想**”。
+> 4. 截图前端收到的回复：“交易成功，订单已生成”。
+
+---
+
+## 📝 任务四：成果展示 (10分)
+
+在项目根目录的 `README.md` 中，按以下格式填写实验报告：
+
+1.  **项目简介**：一句话描述这个系统能干什么。
+2.  **核心代码**：粘贴 `TradeService.buyBook` 的代码（展示事务注解）。
+3.  **运行截图**：
+    * 截图 1：JUnit 测试通过。
+    * 截图 2：前端对话界面（成功买书）。
+    * 截图 3：买书后，数据库 `t_transaction` 表的数据记录。
+
+---
+
+## 🚀 挑战项 (选做，不计入总分)
+
+如果你学有余力，可以尝试以下改进：  
+1.  **模糊搜索增强**：在 `TradeService` 中使用 MyBatis 的 `<if>` 标签实现按书名、价格区间组合搜索。   
+2.  **Docker 部署**：编写 Dockerfile，将应用打包成镜像运行。  
+3.  **信创部署**:将项目打包并部署在 **Anolis OS (Docker)** 环境中运行，并截图 `java -version` 显示 **Dragonwell** 字样的画面。

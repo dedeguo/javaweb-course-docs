@@ -72,13 +72,13 @@ nav:
       - 实验5：AI 旅行助手: chapter05/experiment.md
 
   - 第六篇｜综合项目实战:
-      - 第6章 导读: chapter06/index.md
-      - 系统架构设计: chapter06/architecture.md
-      - 用户模块: chapter06/user.md
-      - 航班管理模块: chapter06/flight.md
-      - AI 智能助手模块: chapter06/ai.md
-      - 部署与演示: chapter06/deploy.md
+      - 第6章 导读: chapter06/00-index.md
+      - 01. 需求分析与建模(Visual Modeling): chapter06/01-design.md
+      - 02. 核心业务开发(AI 辅助编码): chapter06/02-implementation.md
+      - 03. 智能体集成(Tool Calling 实战): chapter06/03-agent-integration.md
+      - 04. 信创部署实战(龙蜥+龙井): chapter06/04-deployment.md
       - 实验6: chapter06/lab6.md
+      
   - 附录 进阶资源:
       - 进阶资源: appendix/index.md
       - 精选 JavaWeb 开源项目库: appendix/javaweb-projects-share.md
