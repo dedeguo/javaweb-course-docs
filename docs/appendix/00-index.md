@@ -13,13 +13,13 @@
 * **A01. 基于 VMware 的国产化环境搭建**: `appendix/a01-vmware-kylin.md`
 * 内容：手把手教安装 KylinOS（麒麟）/ UOS，配置网络与 SSH。
   - （银河麒麟所有版本+中标麒麟+向日葵+百度云盘+微信+谷歌）资源下载 https://ak.cueany.cn/502.html
-* **A02. Docker 容器化部署：让 Spring Boot 随处运行**: `appendix/a04-docker-deploy.md`
+* **A02. Docker 容器化部署：让 Spring Boot 随处运行**: `appendix/a02-docker-deploy.md`
 * 核心：Docker 基础概念（镜像 vs 容器），编写 Dockerfile，构建与运行。
 
-* **A03. OpenGauss 数据库安装与配置指南**: `appendix/a02-opengauss-setup.md`
+* **A03. OpenGauss 数据库安装与配置指南**: `appendix/a03-opengauss-setup.md`
 * 内容：Docker 安装 vs 源码安装，Navicat/DataGrip 连接配置。
 
-* **A04. 常用开发工具清单 (IDEA插件/Maven镜像)**: `appendix/a03-devtools.md`
+* **A04. 常用开发工具清单 (IDEA插件/Maven镜像)**: `appendix/a04-devtools.md`
 * 内容：阿里云 Maven 镜像配置、Lombok、MyBatisX 等必装插件。VMware、 Docker
 
 

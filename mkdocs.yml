@@ -79,15 +79,30 @@ nav:
       - 03. 智能体集成(Tool Calling 实战): chapter06/03-agent-integration.md
       - 04. 信创部署实战(龙蜥+龙井): chapter06/04-deployment.md
       - 实验6: chapter06/lab6.md
-      
-  - 附录 进阶资源:
-      - 进阶资源: appendix/index.md
-      - 精选 JavaWeb 开源项目库: appendix/javaweb-projects-share.md
-      - OpenGauss 数据库安装指南: appendix/opengauss_install.md
-      - 基于VMware虚拟机的国产化环境搭建:  appendix/localization.md
-      - 2024-2025年全球及中国Java Web开发全景深度研究报告: appendix/javaweb-report.md
-      # - Java Web 常见问题: appendix/faq.md
 
+  - 📚 附录 进阶资源与内功修炼:
+      - 🛠️ A. 信创开发环境与工具链:
+          - A01. 基于 VMware 的国产化环境搭建: appendix/a01-vmware-kylin.md
+          - A02. Docker 容器化部署实战: appendix/a02-docker-deploy.md
+          - A03. OpenGauss 数据库安装指南: appendix/a03-opengauss-setup.md
+          - A04. 常用开发工具清单 (Maven/插件): appendix/a04-devtools.md
+          - A05. 结对编程：AI 辅助工具配置: appendix/a05-ai-coding.md
+      - 🔋 B. Java 高级特性补给站:
+          - B01. 魔法起源：Java 反射机制: appendix/b01-reflection.md
+          - B02. 框架灵魂：注解与元编程: appendix/b02-annotation.md
+          - B03. 偷天换日：动态代理原理: appendix/b03-proxy.md
+          - B04. 网络基石：Socket 与 HTTP: appendix/b04-network-basics.md
+      - 🥋 C. 源码级内功修炼 (选修):
+          - C01. Servlet 规范核心解读: appendix/c01-servlet-spec.md
+          - C02. 手写 Tomcat：容器原理: appendix/c02-tomcat4-source.md
+          - C03. Spring IOC/AOP 源码导读: appendix/c03-spring-core.md
+          - C04. MyBatis 源码执行流程: appendix/c04-mybatis-source.md
+      - 🤖 D. Spring AI 框架尝鲜:
+          - D01. 快速接入 OpenAI/国产大模型: appendix/d01-spring-ai-quickstart.md
+          - D02. 简单的 RAG 实现 (课程助教): appendix/d02-simple-rag.md
+      - 🔭 E. 职业视野与资源库:
+          - E01. Java Web 行业全景报告: appendix/e01-industry-report.md
+          - E02. 精选开源项目库: appendix/e02-opensource-projects.md    
 plugins:
   - search:
       lang: zh
