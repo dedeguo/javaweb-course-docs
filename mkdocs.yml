@@ -65,11 +65,12 @@ nav:
       
   - 第五篇｜AI 集成与接口调用:
       - 第5章 导读: chapter05/index.md
-      - Java HTTP 客户端: chapter05/http-client.md
-      - 大模型 API 调用流程: chapter05/llm-api.md
-      - Prompt 工程基础: chapter05/prompt.md
-      - AI 响应解析: chapter05/response.md
-      - 实验5：AI 旅行助手: chapter05/experiment.md
+      - 01. Java 也就是个“浏览器”：HTTP Client 调用 AI: chapter05/01-ai-api.md
+      - 02. 提示词工程 (Prompt Engineering) 与 Java 模板: chapter05/02-prompt-java.md
+      - 03. 让 AI 说“机器话”：JSON Schema 与解析: chapter05/03-structured-output.md
+      - 04. 赋予 AI 双手：Tool Calling (Function Calling):  chapter05/04-tool-calling.md
+      - 05. 未来的标准：MCP (Model Context Protocol) 简介: chapter05/05-mcp-intro.md
+      - 实验5：实战——智能图书导购 Agent: chapter05/lab5-v2.md
 
   - 第六篇｜综合项目实战:
       - 第6章 导读: chapter06/00-index.md

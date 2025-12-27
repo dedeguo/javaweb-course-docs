@@ -63,33 +63,29 @@ graph TD
 ```
 
 ---
-
 ### 💡 模块关系深度解读（配合教学讲解）
 
-您可以这样给学生讲解这张图：
+您可以这样给学生讲解这张图，将抽象的技术概念比喻为**“人的进化”**：
 
-1. **通信基础 (01 & 02)**：
-* **Java HTTP Client** 是“嘴巴”，负责张嘴说话（发送请求）。
-* **Prompt Engineering** 是“语言”，决定了你说得好不好听，AI 能不能听懂。
-* *没有这两步，Java 无法连接 AI。*
+#### 1. 通信基础 (01 & 02)：学会说话
+* 👄 **Java HTTP Client** 是“嘴巴”，负责张嘴说话（发送请求）。
+* 🗣️ **Prompt Engineering** 是“语言”，决定了你说得好不好听，AI 能不能听懂。
+> *没有这两步，Java 只是个哑巴，无法连接 AI。*
 
-
-2. **结构化交互 (03)**：
+#### 2. 结构化交互 (03)：学会守规矩
 * AI 天生喜欢聊散天（返回 Text），但程序需要严谨的数据（JSON）。
-* **JSON Schema** 就是“翻译官”，强迫 AI 把诗情画意变成严谨的代码格式。
-* *没有这一步，Java 拿到的数据没法处理。*
+* 🧐 **JSON Schema** 就是“翻译官”，强迫 AI 把诗情画意变成严谨的代码格式。
+> *没有这一步，Java 拿到的是“散文”，无法进行逻辑处理。*
 
-
-3. **赋予能力 (04)**：
+#### 3. 赋予能力 (04)：学会动手
 * 这是本章的高潮。**Tool Calling** 是 AI 的“双手”。
-* AI 发现自己不知道书价，于是通过 JSON 告诉 Java：“去帮我查一下数据库”。
-* Java 查完数据库，把结果喂回给 AI。
-* *这一步实现了从 Chatbot（聊天机器人）到 Agent（智能体）的质变。*
+* 场景：AI 发现自己不知道书价，于是通过 JSON 告诉 Java：“去帮我查一下数据库”。Java 查完后把结果喂回给 AI。
+> *这一步实现了从 Chatbot（只会聊天的机器人）到 **Agent（能干活的智能体）** 的质变。*
 
+#### 4. 未来标准 (05)：通用接口
+* 🔌 **MCP** 是未来的“USB 接口”。
+* 现在我们手写 Tool Calling 就像焊死在主板上的线（专用），以后用 MCP 就能即插即用（通用）。
 
-4. **未来标准 (05)**：
-* **MCP** 是未来的“USB 接口”。
-* 现在我们手写 Tool Calling 就像焊死在主板上的线，以后用 MCP 就能即插即用。
 
 
 ### 📂 目录结构规划
@@ -110,6 +106,7 @@ graph TD
 * **文件**: `chapter05/01-ai-api.md`
 * **核心**: 去掉 SDK 滤镜，还原 HTTP 本质。
 * **内容**:
+
     * **原理**: AI 接口其实就是个标准的 POST 请求（URL, Headers, Body）。
     * **工具**: 使用 Spring Boot 3.2+ 新特性 **`RestClient`** (比 RestTemplate 更优雅) 或 **OkHttp**。
     * **实战**: 对接 **DeepSeek-V3** (兼容 OpenAI 格式)，跑通第一个 "Hello AI"。
@@ -121,6 +118,7 @@ graph TD
 * **文件**: `chapter05/02-prompt-java.md`
 * **核心**: 如何用 Java 代码动态组装 Prompt。
 * **内容**:
+
     * **结构**: System Prompt (人设) vs User Prompt (指令)。
     * **Java 新特性**: 使用 **JDK 15+ Text Blocks (文本块)** 优雅地拼接 JSON 和 Prompt。
     * **技巧**: Few-Shot (少样本提示) —— 给 AI 几个例子，它学得更快。
@@ -132,6 +130,7 @@ graph TD
 * **文件**: `chapter05/03-structured-output.md`
 * **痛点**: AI 默认喜欢聊散天，但程序需要准确的 JSON。
 * **内容**:
+
     * **Markdown 解析**: 简单的正则提取（提取代码块）。
     * **JSON Mode**: 强制 AI 返回 JSON 格式。
     * **JSON Schema**: 严格定义字段类型（String? Int? Array?），这是 Tool Calling 的前置知识。
@@ -143,9 +142,9 @@ graph TD
 * **文件**: `chapter05/04-tool-calling.md`
 * **地位**: **本章最难点，也是 Agent 的核心**。
 * **原理图解**:
-    1. 用户问：“查一下 Java 编程思想多少钱？”  
-    2. AI 思考：“我不知道，但我有个工具叫 `queryBookPrice`。”  
-    3. AI 返回：`{"tool": "queryBookPrice", "args": {"name": "Java编程思想"}}`  
+    1. 用户问：“查一下 Java 编程思想多少钱？”    
+    2. AI 思考：“我不知道，但我有个工具叫   `queryBookPrice`。”   
+    3. AI 返回：`{"tool": "queryBookPrice", "args": {"name": "Java编程思想"}}`   
     4. Java 后端：拦截到这个指令 -> **执行数据库查询** -> 拿到结果 99元。  
     5. Java 后端：把“99元”发给 AI。  
     6. AI 回复：“这本书的价格是 99 元。”  
@@ -156,6 +155,7 @@ graph TD
 * **文件**: `chapter05/05-mcp-intro.md`
 * **背景**: 各种 Tool Calling 写法都不一样，太乱了。
 * **概念**:
+
     * **Context (上下文)**: 让 AI 看到本地文件/数据库。
     * **Tools (工具)**: 标准化的执行能力。
     * **Resources (资源)**: 标准化的数据读取。
@@ -165,6 +165,7 @@ graph TD
 
 * **文件**: `chapter05/lab5.md`
 * **任务**:
+
     * 基于实验 4 的数据库。
     * 实现一个 `ChatController`。
 * **功能**: 用户输入自然语言“帮我找一本 Bruce Eckel 写的书，最贵的那本”，系统自动解析意图，调用 `BookService` 查询数据库，并返回结果。
@@ -231,6 +232,7 @@ sequenceDiagram
 
 1. **API Key 安全**: 提醒学生不要把 API Key 传到 Gitee/Github。教他们使用环境变量或 `application-dev.properties` 并配置 `.gitignore`。
 2. **模型选择**: 推荐 **DeepSeek**（深度求索）。
+
 * 原因 1：**国产之光**（符合信创背景）。
 * 原因 2：API 极其便宜（几乎免费），适合学生折腾。
 * 原因 3：完全兼容 OpenAI 格式，代码以后换 GPT-4 也能用。
