@@ -16,6 +16,7 @@ title: 未来的标准：MCP (Model Context Protocol) 简介
 
 ### 现状：巴别塔的混乱
 目前，每家 AI 厂商的连接方式都不一样：
+
 * **OpenAI** 有自己的 Assistants API。
 * **Claude** 有自己的 Tool Use 格式。
 * **LangChain** 有自己的封装。
@@ -23,9 +24,9 @@ title: 未来的标准：MCP (Model Context Protocol) 简介
 如果你写了一个 Java 方法 `queryStudentInfo()`，你想让 Cursor 编辑器能用它，想让 Claude Desktop 能用它，又想让自己的 Web 官网能用它，你需要写三套适配代码。这就是**数据孤岛**。
 
 ### 解决方案：MCP 协议
-**MCP (Model Context Protocol)** 是一个开放标准。它规定了：
-1.  **AI 应该怎么问**（标准化的请求格式）。
-2.  **程序应该怎么答**（标准化的资源、提示词和工具格式）。
+**MCP (Model Context Protocol)** 是一个开放标准。它规定了：  
+1.  **AI 应该怎么问**（标准化的请求格式）。  
+2.  **程序应该怎么答**（标准化的资源、提示词和工具格式）。  
 
 **一句话总结**：只要你的 Java 程序支持 MCP 标准，它就可以被**任何**支持 MCP 的 AI 客户端（如 Claude Desktop, Cursor, IDEs）直接连接，无需改代码！
 

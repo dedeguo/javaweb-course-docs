@@ -18,7 +18,7 @@ theme:
     # - toc.integrate
     - navigation.indexes        # 允许点击目录本身进入页面
     - navigation.sections       # 将一级目录作为"区段"标题（不折叠），视觉更清晰
-    - navigation.expand         # (可选) 默认展开所有目录，方便学生通过 Ctrl+F 搜索
+    # - navigation.expand         # (可选) 默认展开所有目录，方便学生通过 Ctrl+F 搜索
     - navigation.top            # 返回顶部按钮
     - navigation.tracking       # 滚动时侧边栏自动高亮当前章节
     - toc.follow                # 右侧目录跟随滚动
@@ -30,9 +30,9 @@ nav:
   - 第一篇｜开发环境与效能工具: 
       - 第1章 导读: chapter01/index.md
       - 01.开发环境安装: chapter01/01-env-setup.md
-      - 02.工程化基石：Git 版本控制与协作: chapter01/02-maven-git.md
+      - 02.工程化基石：Git与Maven: chapter01/02-maven-git.md
       - 03.AI 结对编程 : chapter01/03-ai-tools.md
-      - 实验1：Web环境与AI助手配置: chapter01/lab1.md
+      - 实验1：Web环境与AI助手: chapter01/lab1.md
   - 第二篇｜Web 底层原理:  
       - 第2章 导读: chapter02/index.md
       - 01.HTTP 协议与调试工具: chapter02/01-http-protocol.md
@@ -41,7 +41,7 @@ nav:
       - 04. JSON 数据交互: chapter02/04-json-interaction.md  
       - 05. 会话与状态 (Session): chapter02/05-state-management.md 
       - 06. 过滤器与监听器: chapter02/06-filter-listener.md
-      - 07. JDBC 与连接池 (JDBC & Druid): chapter02/07-jdbc-core.md
+      - 07. JDBC 与连接池 Druid: chapter02/07-jdbc-core.md
       - 实验 2：Web 核心综合实战: chapter02/lab2.md
   - 第三篇｜Spring Boot 核心开发:
       - 第3章 导读: chapter03/index.md
@@ -57,7 +57,7 @@ nav:
       - 第4章 导读: chapter04/index.md
       - 01. ORM 思想与 MyBatis 初探:  chapter04/01-orm-intro.md
       - 02. 整合信创数据库 (Spring Boot + openGauss): chapter04/02-integrate-gauss.md
-      - 03. Mapper 接口与 XML 映射:   chapter04/03-mapper-xml.md
+      - 03. Mapper接口与XML映射:   chapter04/03-mapper-xml.md
       - 04. MyBatis 的杀手锏：动态 SQL:  chapter04/04-dynamic-sql.md
       - 05. 插件生态：PageHelper 分页查询:  chapter04/05-pagehelper.md
       - 06. 事务管理：@Transactional 与 ACID:  chapter04/06-transaction.md
@@ -66,37 +66,37 @@ nav:
   - 第五篇｜AI 集成与接口调用:
       - 第5章 导读: chapter05/index.md
       - 01. Java 也就是个“浏览器”：HTTP Client 调用 AI: chapter05/01-ai-api.md
-      - 02. 提示词工程 (Prompt Engineering) 与 Java 模板: chapter05/02-prompt-java.md
+      - 02. 提示词工程与Java模板: chapter05/02-prompt-java.md
       - 03. 让 AI 说“机器话”：JSON Schema 与解析: chapter05/03-structured-output.md
-      - 04. 赋予 AI 双手：Tool Calling (Function Calling):  chapter05/04-tool-calling.md
-      - 05. 未来的标准：MCP (Model Context Protocol) 简介: chapter05/05-mcp-intro.md
-      - 实验5：实战——智能图书导购 Agent: chapter05/lab5-v2.md
+      - 04. 赋予 AI 双手：Tool Calling:  chapter05/04-tool-calling.md
+      - 05. 未来的标准：MCP简介: chapter05/05-mcp-intro.md
+      - 实验5：智能图书导购Agent实战: chapter05/lab5-v2.md
 
   - 第六篇｜综合项目实战:
       - 第6章 导读: chapter06/00-index.md
       - 01. 需求分析与建模(Visual Modeling): chapter06/01-design.md
       - 02. 核心业务开发(AI 辅助编码): chapter06/02-implementation.md
       - 03. 智能体集成(Tool Calling 实战): chapter06/03-agent-integration.md
-      - 04. 信创部署实战(龙蜥+龙井): chapter06/04-deployment.md
-      - 实验6: chapter06/lab6.md
+      - 04. 信创部署实战: chapter06/04-deployment.md
+      - 实验6 二手书交易智能体: chapter06/lab6.md
 
   - 📚 附录 进阶资源与内功修炼:
       - 🛠️ A. 信创开发环境与工具链:
           - A01. 基于 VMware 的国产化环境搭建: appendix/a01-vmware-kylin.md
           - A02. Docker 容器化部署实战: appendix/a02-docker-deploy.md
           - A03. OpenGauss 数据库安装指南: appendix/a03-opengauss-setup.md
-          - A04. 常用开发工具清单 (Maven/插件): appendix/a04-devtools.md
-          - A05. 结对编程：AI 辅助工具配置: appendix/a05-ai-coding.md
-      - 🔋 B. Java 高级特性补给站:
-          - B01. 魔法起源：Java 反射机制: appendix/b01-reflection.md
-          - B02. 框架灵魂：注解与元编程: appendix/b02-annotation.md
-          - B03. 偷天换日：动态代理原理: appendix/b03-proxy.md
-          - B04. 网络基石：Socket 与 HTTP: appendix/b04-network-basics.md
-      - 🥋 C. 源码级内功修炼 (选修):
-          - C01. Servlet 规范核心解读: appendix/c01-servlet-spec.md
-          - C02. 手写 Tomcat：容器原理: appendix/c02-tomcat4-source.md
-          - C03. Spring IOC/AOP 源码导读: appendix/c03-spring-core.md
-          - C04. MyBatis 源码执行流程: appendix/c04-mybatis-source.md
+    #       - A04. 常用开发工具清单 (Maven/插件): appendix/a04-devtools.md
+    #       - A05. 结对编程：AI 辅助工具配置: appendix/a05-ai-coding.md
+    #   - 🔋 B. Java 高级特性补给站:
+    #       - B01. 魔法起源：Java 反射机制: appendix/b01-reflection.md
+    #       - B02. 框架灵魂：注解与元编程: appendix/b02-annotation.md
+    #       - B03. 偷天换日：动态代理原理: appendix/b03-proxy.md
+    #       - B04. 网络基石：Socket 与 HTTP: appendix/b04-network-basics.md
+    #   - 🥋 C. 源码级内功修炼 (选修):
+    #       - C01. Servlet 规范核心解读: appendix/c01-servlet-spec.md
+    #       - C02. 手写 Tomcat：容器原理: appendix/c02-tomcat4-source.md
+    #       - C03. Spring IOC/AOP 源码导读: appendix/c03-spring-core.md
+    #       - C04. MyBatis 源码执行流程: appendix/c04-mybatis-source.md
       - 🤖 D. Spring AI 框架尝鲜:
           - D01. 快速接入 OpenAI/国产大模型: appendix/d01-spring-ai-quickstart.md
           - D02. 简单的 RAG 实现 (课程助教): appendix/d02-simple-rag.md
