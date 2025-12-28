@@ -1,0 +1,3015 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="武汉工商学院《Java Web开发技术》课程电子教材">
+      
+      
+      
+        <link rel="canonical" href="https://dedeguo.github.io/javaweb-course-docs/chapter05/lab5-v2/">
+      
+      
+        <link rel="prev" href="../05-mcp-intro/">
+      
+      
+        <link rel="next" href="../../chapter06/00-index/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>实验 5：实战——手搓智能图书导购 Agent (AI 辅助版) - Java Web 开发技术</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/mermaid/dist/mermaid.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#5-agent-ai" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Java Web 开发技术" class="md-header__button md-logo" aria-label="Java Web 开发技术" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Java Web 开发技术
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验 5：实战——手搓智能图书导购 Agent (AI 辅助版)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Java Web 开发技术" class="md-nav__button md-logo" aria-label="Java Web 开发技术" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Java Web 开发技术
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    课程介绍
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    课程介绍
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter01/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一篇｜开发环境与效能工具
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第一篇｜开发环境与效能工具
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter01/01-env-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01.开发环境安装
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter01/02-maven-git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02.工程化基石：Git与Maven
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter01/03-ai-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.AI 结对编程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter01/lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验1：Web环境与AI助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter02/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二篇｜Web 底层原理
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第二篇｜Web 底层原理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/01-http-protocol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01.HTTP 协议与调试工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/02-servlet-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Servlet 基础
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/03-request-response/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. 请求与响应 (Req & Resp)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/04-json-interaction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. JSON 数据交互
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/05-state-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. 会话与状态 (Session)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/06-filter-listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. 过滤器与监听器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/07-jdbc-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. JDBC 与连接池 Druid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验 2：Web 核心综合实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter03/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第三篇｜Spring Boot 核心开发
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第三篇｜Spring Boot 核心开发
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/01-springboot-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. 框架革命：Spring Boot 快速入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/02-ioc-di/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. 核心原理：IOC 容器与依赖注入 (DI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/03-restful-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. 接口规范：RESTful 风格与统一响应
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/04-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. 架构设计：分层解耦 (Controller-Service-Dao)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/05-exception-aop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. 全局兜底：异常处理与 AOP 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/06-test-logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. 生产级基石：日志管理与单元测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/lab3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验3：构建标准化的 RESTful 后端系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter04/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第四篇｜数据持久化 MyBatis 与信创数据库
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第四篇｜数据持久化 MyBatis 与信创数据库
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/01-orm-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. ORM 思想与 MyBatis 初探
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/02-integrate-gauss/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. 整合信创数据库 (Spring Boot + openGauss)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/03-mapper-xml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Mapper接口与XML映射
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/04-dynamic-sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. MyBatis 的杀手锏：动态 SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/05-pagehelper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. 插件生态：PageHelper 分页查询
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/06-transaction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. 事务管理：@Transactional 与 ACID
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验4：数据落地——从内存 Map 到 openGauss
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第五篇｜AI 集成与接口调用
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第五篇｜AI 集成与接口调用
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-ai-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Java 也就是个“浏览器”：HTTP Client 调用 AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-prompt-java/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. 提示词工程与Java模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-structured-output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. 让 AI 说“机器话”：JSON Schema 与解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-tool-calling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. 赋予 AI 双手：Tool Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-mcp-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. 未来的标准：MCP简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验5：智能图书导购Agent实战
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验5：智能图书导购Agent实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#agent-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🗺️ 架构设计图 (Agent Loop)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤖 场景 0：准备你的“副驾驶”
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ 步骤 1：让 AI 生成模拟数据
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ai-json-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 步骤 2：让 AI 编写 JSON Schema (难点攻克)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 步骤 3：核心 Agent 引擎 (人机协作)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-ai-debug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐛 步骤 4：让 AI 帮忙 Debug
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏆 挑战作业：增加“下单”功能 (全自动模式)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第六篇｜综合项目实战
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第六篇｜综合项目实战
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/00-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第6章 导读
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/01-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. 需求分析与建模(Visual Modeling)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/02-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. 核心业务开发(AI 辅助编码)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/03-agent-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. 智能体集成(Tool Calling 实战)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/04-deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. 信创部署实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/lab6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验6 二手书交易智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 附录 进阶资源与内功修炼
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📚 附录 进阶资源与内功修炼
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠️ A. 信创开发环境与工具链
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🛠️ A. 信创开发环境与工具链
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/a01-vmware-kylin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A01. 基于 VMware 的国产化环境搭建
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/a02-docker-deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A02. Docker 容器化部署实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/a03-opengauss-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A03. OpenGauss 数据库安装指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤖 D. Spring AI 框架尝鲜
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🤖 D. Spring AI 框架尝鲜
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/d01-spring-ai-quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01. 快速接入 OpenAI/国产大模型
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/d02-simple-rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02. 简单的 RAG 实现 (课程助教)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔭 E. 职业视野与资源库
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🔭 E. 职业视野与资源库
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/e01-industry-report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E01. Java Web 行业全景报告
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/e02-opensource-projects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E02. 精选开源项目库
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#agent-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🗺️ 架构设计图 (Agent Loop)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🤖 场景 0：准备你的“副驾驶”
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛠️ 步骤 1：让 AI 生成模拟数据
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ai-json-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧠 步骤 2：让 AI 编写 JSON Schema (难点攻克)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💻 步骤 3：核心 Agent 引擎 (人机协作)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-ai-debug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🐛 步骤 4：让 AI 帮忙 Debug
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🏆 挑战作业：增加“下单”功能 (全自动模式)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="5-agent-ai">实验 5：实战——手搓智能图书导购 Agent (AI 辅助版)<a class="headerlink" href="#5-agent-ai" title="Permanent link">&para;</a></h1>
+<div class="admonition abstract">
+<p class="admonition-title">🧪 实验卡片</p>
+<ul>
+<li><strong>难度</strong>: ⭐⭐⭐⭐⭐ (硬核原理 + 现代工具)</li>
+<li><strong>耗时</strong>: 60 分钟</li>
+<li><strong>目标</strong>: 理解 Agent 思考循环；<strong>掌握使用 AI 编程插件辅助开发</strong>。</li>
+<li><strong>工具</strong>: IntelliJ IDEA + <strong>通义灵码 (或 CodeGeeX)</strong>。</li>
+</ul>
+</div>
+<hr />
+<h2 id="agent-loop">🗺️ 架构设计图 (Agent Loop)<a class="headerlink" href="#agent-loop" title="Permanent link">&para;</a></h2>
+<p>我们要手动实现下面这个“死循环”逻辑：
+<pre class="mermaid"><code>
+graph TD
+    StartNode[用户提问] --&gt; BuildReq["构造请求 (Messages + Tools)"]
+    BuildReq --&gt; CallAPI[调用大模型 API]
+    CallAPI --&gt; Check{AI 想要调工具吗?}
+    Check -- "No (直接回复)" --&gt; ShowResult[展示结果给用户]
+    Check -- "Yes (tool_calls)" --&gt; ParseArgs[解析函数名与参数]
+    ParseArgs --&gt; ExecTools["反射/switch 调用本地 Java 方法"]
+    ExecTools --&gt; AppendHistory[将工具结果追加到 Messages 历史]
+    AppendHistory --&gt; BuildReq
+</code></pre></p>
+<hr />
+<h2 id="0">🤖 场景 0：准备你的“副驾驶”<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<p>本实验代码量较大，请确保你的 IDEA 已经安装了 AI 插件（参考附录 A05）。
+我们将采用 <strong>“Copilot 模式”</strong>：你负责设计逻辑，AI 插件负责写脏活累活。</p>
+<hr />
+<h2 id="1-ai">🛠️ 步骤 1：让 AI 生成模拟数据<a class="headerlink" href="#1-ai" title="Permanent link">&para;</a></h2>
+<p>手动敲 10 本书的初始化代码太累了。我们让 AI 帮我们生成。</p>
+<ol>
+<li>创建 <code>LocalBookService.java</code> 和 <code>Book</code> 记录类（空壳）。</li>
+<li><strong>呼叫 AI</strong>: 在编辑器中打开 AI 对话框（通常是侧边栏）。</li>
+<li>
+<p><strong>发送指令</strong>:</p>
+<blockquote>
+<p>"我正在写一个 Java 图书商城。请帮我生成一个包含 10 本热门计算机和科幻书籍的 <code>List&lt;Book&gt;</code> 初始化代码。<code>Book</code> 包含 name(String), price(Double), category(String)。书名要真实，价格在 30-100 之间。"</p>
+</blockquote>
+</li>
+<li>
+<p><strong>操作</strong>: 点击 AI 生成代码块右上角的 <strong>"Insert"</strong>，直接插入到你的代码中。</p>
+</li>
+</ol>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">LocalBookService.java (AI 生成后)</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nd">@Service</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LocalBookService</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">record</span> <span class="nc">Book</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">Double</span><span class="w"> </span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">category</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w">    </span><span class="c1">// 👇 下面这堆代码是 AI 秒生成的，不需要手敲</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span><span class="w"> </span><span class="n">DB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">Book</span><span class="p">(</span><span class="s">&quot;深入理解Java虚拟机&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">89.0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;编程&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">Book</span><span class="p">(</span><span class="s">&quot;Java编程思想&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">108.0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;编程&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">Book</span><span class="p">(</span><span class="s">&quot;三体全集&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">56.0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;科幻&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">Book</span><span class="p">(</span><span class="s">&quot;流浪地球&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">35.0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;科幻&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">Book</span><span class="p">(</span><span class="s">&quot;高性能MySQL&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">78.5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;编程&quot;</span><span class="p">),</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="w">        </span><span class="c1">// ... 更多数据</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="w">    </span><span class="p">);</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">    </span><span class="c1">// ... searchBooks 方法保持不变</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="2-ai-json-schema">🧠 步骤 2：让 AI 编写 JSON Schema (难点攻克)<a class="headerlink" href="#2-ai-json-schema" title="Permanent link">&para;</a></h2>
+<p>还记得第 04 节那个复杂的 <code>TOOLS_SCHEMA</code> 吗？嵌套的 Map 结构非常容易写错括号。
+这正是 AI 最擅长的地方——<strong>代码翻译</strong>。</p>
+<ol>
+<li>
+<p><strong>复制方法签名</strong>：
+    把 <code>LocalBookService</code> 里的 <code>searchBooks</code> 方法签名复制一下。</p>
+</li>
+<li>
+<p><strong>呼叫 AI</strong>：
+    发送如下 Prompt (提示词)：
+    <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span>
+<span class="normal"><a href="#__codelineno-1-5">5</a></span>
+<span class="normal"><a href="#__codelineno-1-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a>我有一个 Java 方法：public List&lt;Book&gt; searchBooks(String category, Double maxPrice)。
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a>请帮我把它转换为 OpenAI Function Calling 格式的 JSON Schema。
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a>要求：
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a>1. 直接给我 Java 的 List&lt;Map&lt;String, Object&gt;&gt; 代码写法。
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a>2. 不要 JSON 字符串，我要放到代码常量里。
+</code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p><strong>验收与插入</strong>：
+    AI 会生成一段完美的 Map 嵌套代码，直接复制到 <code>AgentController</code> 中。</p>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">🤖 AI 辅助演示</p>
+<p><strong>AI 生成的代码可能长这样 (省去了你查文档和调试的时间)：</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">TOOLS_SCHEMA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">    </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">        </span><span class="s">&quot;type&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;function&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">        </span><span class="s">&quot;function&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">            </span><span class="s">&quot;name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;search_books&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">            </span><span class="s">&quot;description&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;根据分类或价格查询图书&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">            </span><span class="s">&quot;parameters&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">                </span><span class="s">&quot;type&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;object&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="w">                </span><span class="s">&quot;properties&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="w">                    </span><span class="s">&quot;category&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;type&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;string&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;description&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;图书分类&quot;</span><span class="p">),</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="w">                    </span><span class="s">&quot;maxPrice&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;type&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;number&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;description&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;最高价格&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="w">                </span><span class="p">),</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="w">                </span><span class="s">&quot;required&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;category&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="w">            </span><span class="p">)</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="w">        </span><span class="p">)</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="w">    </span><span class="p">)</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+</div>
+<hr />
+<h2 id="3-agent">💻 步骤 3：核心 Agent 引擎 (人机协作)<a class="headerlink" href="#3-agent" title="Permanent link">&para;</a></h2>
+<p>核心的 <code>for</code> 循环逻辑建议<strong>手写</strong>，以加深对 Agent "思考-执行-再思考" 闭环的理解。</p>
+<div class="admonition tip">
+<p class="admonition-title">💡 IDE 技巧：让 AI 教你写代码</p>
+<p>在手写过程中，如果遇到不懂的 API（例如 <code>RestClient</code> 的异常处理），不要卡住，请充分利用 IDE 的 AI 插件：</p>
+<ul>
+<li><strong>遇到问题</strong>：写到 <code>restClient.post()...</code> 时，不知道网络超时会抛出什么异常？</li>
+<li><strong>操作方法</strong>：选中代码 -&gt; 右键 -&gt; <strong>"Ask AI"</strong> (或使用侧边栏)。</li>
+<li><strong>提问示例</strong>："这段代码如果网络超时会抛出什么异常？如何优雅处理？"</li>
+</ul>
+</div>
+<p>这是实验最核心的部分。请新建 <code>HandwrittenAgentController.java</code> 并输入以下代码：</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">HandwrittenAgentController.java</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span>
+<span class="normal"><a href="#__codelineno-3-20">20</a></span>
+<span class="normal"><a href="#__codelineno-3-21">21</a></span>
+<span class="normal"><a href="#__codelineno-3-22">22</a></span>
+<span class="normal"><a href="#__codelineno-3-23">23</a></span>
+<span class="normal"><a href="#__codelineno-3-24">24</a></span>
+<span class="normal"><a href="#__codelineno-3-25">25</a></span>
+<span class="normal"><a href="#__codelineno-3-26">26</a></span>
+<span class="normal"><a href="#__codelineno-3-27">27</a></span>
+<span class="normal"><a href="#__codelineno-3-28">28</a></span>
+<span class="normal"><a href="#__codelineno-3-29">29</a></span>
+<span class="normal"><a href="#__codelineno-3-30">30</a></span>
+<span class="normal"><a href="#__codelineno-3-31">31</a></span>
+<span class="normal"><a href="#__codelineno-3-32">32</a></span>
+<span class="normal"><a href="#__codelineno-3-33">33</a></span>
+<span class="normal"><a href="#__codelineno-3-34">34</a></span>
+<span class="normal"><a href="#__codelineno-3-35">35</a></span>
+<span class="normal"><a href="#__codelineno-3-36">36</a></span>
+<span class="normal"><a href="#__codelineno-3-37">37</a></span>
+<span class="normal"><a href="#__codelineno-3-38">38</a></span>
+<span class="normal"><a href="#__codelineno-3-39">39</a></span>
+<span class="normal"><a href="#__codelineno-3-40">40</a></span>
+<span class="normal"><a href="#__codelineno-3-41">41</a></span>
+<span class="normal"><a href="#__codelineno-3-42">42</a></span>
+<span class="normal"><a href="#__codelineno-3-43">43</a></span>
+<span class="normal"><a href="#__codelineno-3-44">44</a></span>
+<span class="normal"><a href="#__codelineno-3-45">45</a></span>
+<span class="normal"><a href="#__codelineno-3-46">46</a></span>
+<span class="normal"><a href="#__codelineno-3-47">47</a></span>
+<span class="normal"><a href="#__codelineno-3-48">48</a></span>
+<span class="normal"><a href="#__codelineno-3-49">49</a></span>
+<span class="normal"><a href="#__codelineno-3-50">50</a></span>
+<span class="normal"><a href="#__codelineno-3-51">51</a></span>
+<span class="normal"><a href="#__codelineno-3-52">52</a></span>
+<span class="normal"><a href="#__codelineno-3-53">53</a></span>
+<span class="normal"><a href="#__codelineno-3-54">54</a></span>
+<span class="normal"><a href="#__codelineno-3-55">55</a></span>
+<span class="normal"><a href="#__codelineno-3-56">56</a></span>
+<span class="normal"><a href="#__codelineno-3-57">57</a></span>
+<span class="normal"><a href="#__codelineno-3-58">58</a></span>
+<span class="normal"><a href="#__codelineno-3-59">59</a></span>
+<span class="normal"><a href="#__codelineno-3-60">60</a></span>
+<span class="normal"><a href="#__codelineno-3-61">61</a></span>
+<span class="normal"><a href="#__codelineno-3-62">62</a></span>
+<span class="normal"><a href="#__codelineno-3-63">63</a></span>
+<span class="normal"><a href="#__codelineno-3-64">64</a></span>
+<span class="normal"><a href="#__codelineno-3-65">65</a></span>
+<span class="normal"><a href="#__codelineno-3-66">66</a></span>
+<span class="normal"><a href="#__codelineno-3-67">67</a></span>
+<span class="normal"><a href="#__codelineno-3-68">68</a></span>
+<span class="normal"><a href="#__codelineno-3-69">69</a></span>
+<span class="normal"><a href="#__codelineno-3-70">70</a></span>
+<span class="normal"><a href="#__codelineno-3-71">71</a></span>
+<span class="normal"><a href="#__codelineno-3-72">72</a></span>
+<span class="normal"><a href="#__codelineno-3-73">73</a></span>
+<span class="normal"><a href="#__codelineno-3-74">74</a></span>
+<span class="normal"><a href="#__codelineno-3-75">75</a></span>
+<span class="normal"><a href="#__codelineno-3-76">76</a></span>
+<span class="normal"><a href="#__codelineno-3-77">77</a></span>
+<span class="normal"><a href="#__codelineno-3-78">78</a></span>
+<span class="normal"><a href="#__codelineno-3-79">79</a></span>
+<span class="normal"><a href="#__codelineno-3-80">80</a></span>
+<span class="normal"><a href="#__codelineno-3-81">81</a></span>
+<span class="normal"><a href="#__codelineno-3-82">82</a></span>
+<span class="normal"><a href="#__codelineno-3-83">83</a></span>
+<span class="normal"><a href="#__codelineno-3-84">84</a></span>
+<span class="normal"><a href="#__codelineno-3-85">85</a></span>
+<span class="normal"><a href="#__codelineno-3-86">86</a></span>
+<span class="normal"><a href="#__codelineno-3-87">87</a></span>
+<span class="normal"><a href="#__codelineno-3-88">88</a></span>
+<span class="normal"><a href="#__codelineno-3-89">89</a></span>
+<span class="normal"><a href="#__codelineno-3-90">90</a></span>
+<span class="normal"><a href="#__codelineno-3-91">91</a></span>
+<span class="normal"><a href="#__codelineno-3-92">92</a></span>
+<span class="normal"><a href="#__codelineno-3-93">93</a></span>
+<span class="normal"><a href="#__codelineno-3-94">94</a></span>
+<span class="normal"><a href="#__codelineno-3-95">95</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nd">@RestController</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">&quot;/agent&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">HandwrittenAgentController</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">LocalBookService</span><span class="w"> </span><span class="n">bookService</span><span class="p">;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">RestClient</span><span class="w"> </span><span class="n">restClient</span><span class="p">;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ObjectMapper</span><span class="w"> </span><span class="n">objectMapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectMapper</span><span class="p">();</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="w">    </span><span class="c1">// 配置：真实开发中请移至 application.yml</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">API_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;sk-你的Token&quot;</span><span class="p">;</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11"></a><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">API_URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;[https://api-inference.modelscope.cn/v1/chat/completions](https://api-inference.modelscope.cn/v1/chat/completions)&quot;</span><span class="p">;</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12"></a>
+<a id="__codelineno-3-13" name="__codelineno-3-13"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">HandwrittenAgentController</span><span class="p">(</span><span class="n">LocalBookService</span><span class="w"> </span><span class="n">bookService</span><span class="p">,</span><span class="w"> </span><span class="n">RestClient</span><span class="p">.</span><span class="na">Builder</span><span class="w"> </span><span class="n">builder</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">bookService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bookService</span><span class="p">;</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">restClient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">builder</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="w">                </span><span class="p">.</span><span class="na">baseUrl</span><span class="p">(</span><span class="n">API_URL</span><span class="p">)</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17"></a><span class="w">                </span><span class="p">.</span><span class="na">defaultHeader</span><span class="p">(</span><span class="s">&quot;Authorization&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bearer &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">API_KEY</span><span class="p">)</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18"></a><span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20"></a>
+<a id="__codelineno-3-21" name="__codelineno-3-21"></a><span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/chat&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22"></a><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">chat</span><span class="p">(</span><span class="nd">@RequestParam</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">msg</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23"></a><span class="w">        </span><span class="c1">// 1. 初始化对话历史 (History)</span>
+<a id="__codelineno-3-24" name="__codelineno-3-24"></a><span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">messages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<a id="__codelineno-3-25" name="__codelineno-3-25"></a><span class="w">        </span><span class="n">messages</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;role&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;system&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;content&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;你是一个图书导购。&quot;</span><span class="p">)));</span>
+<a id="__codelineno-3-26" name="__codelineno-3-26"></a><span class="w">        </span><span class="n">messages</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;role&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;user&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;content&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">)));</span>
+<a id="__codelineno-3-27" name="__codelineno-3-27"></a>
+<a id="__codelineno-3-28" name="__codelineno-3-28"></a><span class="w">        </span><span class="c1">// 🔄 2. 进入 Agent 循环 (最多交互 3 次，防止死循环)</span>
+<a id="__codelineno-3-29" name="__codelineno-3-29"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-30" name="__codelineno-3-30"></a><span class="w">            </span><span class="c1">// 2.1 构建请求体</span>
+<a id="__codelineno-3-31" name="__codelineno-3-31"></a><span class="w">            </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">requestBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<a id="__codelineno-3-32" name="__codelineno-3-32"></a><span class="w">                </span><span class="s">&quot;model&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Qwen/Qwen2.5-7B-Instruct&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-33" name="__codelineno-3-33"></a><span class="w">                </span><span class="s">&quot;messages&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">messages</span><span class="p">,</span>
+<a id="__codelineno-3-34" name="__codelineno-3-34"></a><span class="w">                </span><span class="s">&quot;tools&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">TOOLS_SCHEMA</span><span class="w"> </span><span class="c1">// 👈 把工具箱交给 AI</span>
+<a id="__codelineno-3-35" name="__codelineno-3-35"></a><span class="w">            </span><span class="p">);</span>
+<a id="__codelineno-3-36" name="__codelineno-3-36"></a>
+<a id="__codelineno-3-37" name="__codelineno-3-37"></a><span class="w">            </span><span class="c1">// 2.2 发送 HTTP 请求</span>
+<a id="__codelineno-3-38" name="__codelineno-3-38"></a><span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">responseJson</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">restClient</span><span class="p">.</span><span class="na">post</span><span class="p">()</span>
+<a id="__codelineno-3-39" name="__codelineno-3-39"></a><span class="w">                    </span><span class="p">.</span><span class="na">contentType</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">APPLICATION_JSON</span><span class="p">)</span>
+<a id="__codelineno-3-40" name="__codelineno-3-40"></a><span class="w">                    </span><span class="p">.</span><span class="na">body</span><span class="p">(</span><span class="n">requestBody</span><span class="p">)</span>
+<a id="__codelineno-3-41" name="__codelineno-3-41"></a><span class="w">                    </span><span class="p">.</span><span class="na">retrieve</span><span class="p">()</span>
+<a id="__codelineno-3-42" name="__codelineno-3-42"></a><span class="w">                    </span><span class="p">.</span><span class="na">body</span><span class="p">(</span><span class="n">String</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<a id="__codelineno-3-43" name="__codelineno-3-43"></a>
+<a id="__codelineno-3-44" name="__codelineno-3-44"></a><span class="w">            </span><span class="c1">// 2.3 解析响应</span>
+<a id="__codelineno-3-45" name="__codelineno-3-45"></a><span class="w">            </span><span class="n">JsonNode</span><span class="w"> </span><span class="n">rootNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">objectMapper</span><span class="p">.</span><span class="na">readTree</span><span class="p">(</span><span class="n">responseJson</span><span class="p">);</span>
+<a id="__codelineno-3-46" name="__codelineno-3-46"></a><span class="w">            </span><span class="n">JsonNode</span><span class="w"> </span><span class="n">choice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rootNode</span><span class="p">.</span><span class="na">path</span><span class="p">(</span><span class="s">&quot;choices&quot;</span><span class="p">).</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-3-47" name="__codelineno-3-47"></a><span class="w">            </span><span class="n">JsonNode</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">choice</span><span class="p">.</span><span class="na">path</span><span class="p">(</span><span class="s">&quot;message&quot;</span><span class="p">);</span>
+<a id="__codelineno-3-48" name="__codelineno-3-48"></a>
+<a id="__codelineno-3-49" name="__codelineno-3-49"></a><span class="w">            </span><span class="c1">// 🚨 2.4 关键判断：AI 是想说话(content)，还是想调工具(tool_calls)？</span>
+<a id="__codelineno-3-50" name="__codelineno-3-50"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="na">has</span><span class="p">(</span><span class="s">&quot;tool_calls&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-51" name="__codelineno-3-51"></a><span class="w">                </span><span class="c1">// === 情况 A: AI 想调工具 ===</span>
+<a id="__codelineno-3-52" name="__codelineno-3-52"></a><span class="w">                </span><span class="n">JsonNode</span><span class="w"> </span><span class="n">toolCall</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="na">path</span><span class="p">(</span><span class="s">&quot;tool_calls&quot;</span><span class="p">).</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-3-53" name="__codelineno-3-53"></a><span class="w">                </span><span class="n">String</span><span class="w"> </span><span class="n">functionName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">toolCall</span><span class="p">.</span><span class="na">path</span><span class="p">(</span><span class="s">&quot;function&quot;</span><span class="p">).</span><span class="na">path</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">).</span><span class="na">asText</span><span class="p">();</span>
+<a id="__codelineno-3-54" name="__codelineno-3-54"></a><span class="w">                </span><span class="n">String</span><span class="w"> </span><span class="n">argsJson</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">toolCall</span><span class="p">.</span><span class="na">path</span><span class="p">(</span><span class="s">&quot;function&quot;</span><span class="p">).</span><span class="na">path</span><span class="p">(</span><span class="s">&quot;arguments&quot;</span><span class="p">).</span><span class="na">asText</span><span class="p">();</span>
+<a id="__codelineno-3-55" name="__codelineno-3-55"></a>
+<a id="__codelineno-3-56" name="__codelineno-3-56"></a><span class="w">                </span><span class="c1">// ⚠️ 必须把 AI 的这轮思考（含 tool_calls）加入历史，否则它会“断片”</span>
+<a id="__codelineno-3-57" name="__codelineno-3-57"></a><span class="w">                </span><span class="c1">// 这里为了简单，我们手动构造一个 Map 加进去</span>
+<a id="__codelineno-3-58" name="__codelineno-3-58"></a><span class="w">                </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">aiMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<a id="__codelineno-3-59" name="__codelineno-3-59"></a><span class="w">                </span><span class="n">aiMessage</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;role&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;assistant&quot;</span><span class="p">);</span>
+<a id="__codelineno-3-60" name="__codelineno-3-60"></a><span class="w">                </span><span class="n">aiMessage</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">);</span>
+<a id="__codelineno-3-61" name="__codelineno-3-61"></a><span class="w">                </span><span class="n">aiMessage</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">&quot;tool_calls&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">objectMapper</span><span class="p">.</span><span class="na">convertValue</span><span class="p">(</span><span class="n">toolCall</span><span class="p">,</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">class</span><span class="p">)));</span>
+<a id="__codelineno-3-62" name="__codelineno-3-62"></a><span class="w">                </span><span class="n">messages</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">aiMessage</span><span class="p">);</span>
+<a id="__codelineno-3-63" name="__codelineno-3-63"></a>
+<a id="__codelineno-3-64" name="__codelineno-3-64"></a><span class="w">                </span><span class="c1">// 🛠️ 执行本地 Java 方法</span>
+<a id="__codelineno-3-65" name="__codelineno-3-65"></a><span class="w">                </span><span class="n">String</span><span class="w"> </span><span class="n">toolResult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;未找到书籍&quot;</span><span class="p">;</span>
+<a id="__codelineno-3-66" name="__codelineno-3-66"></a><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;search_books&quot;</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">functionName</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-67" name="__codelineno-3-67"></a><span class="w">                    </span><span class="n">JsonNode</span><span class="w"> </span><span class="n">args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">objectMapper</span><span class="p">.</span><span class="na">readTree</span><span class="p">(</span><span class="n">argsJson</span><span class="p">);</span>
+<a id="__codelineno-3-68" name="__codelineno-3-68"></a><span class="w">                    </span><span class="n">String</span><span class="w"> </span><span class="n">category</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">args</span><span class="p">.</span><span class="na">path</span><span class="p">(</span><span class="s">&quot;category&quot;</span><span class="p">).</span><span class="na">asText</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<a id="__codelineno-3-69" name="__codelineno-3-69"></a><span class="w">                    </span><span class="n">Double</span><span class="w"> </span><span class="n">maxPrice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">args</span><span class="p">.</span><span class="na">has</span><span class="p">(</span><span class="s">&quot;maxPrice&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">args</span><span class="p">.</span><span class="na">path</span><span class="p">(</span><span class="s">&quot;maxPrice&quot;</span><span class="p">).</span><span class="na">asDouble</span><span class="p">()</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<a id="__codelineno-3-70" name="__codelineno-3-70"></a>
+<a id="__codelineno-3-71" name="__codelineno-3-71"></a><span class="w">                    </span><span class="c1">// 调用 Service</span>
+<a id="__codelineno-3-72" name="__codelineno-3-72"></a><span class="w">                    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">LocalBookService</span><span class="p">.</span><span class="na">Book</span><span class="o">&gt;</span><span class="w"> </span><span class="n">books</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bookService</span><span class="p">.</span><span class="na">searchBooks</span><span class="p">(</span><span class="n">category</span><span class="p">,</span><span class="w"> </span><span class="n">maxPrice</span><span class="p">);</span>
+<a id="__codelineno-3-73" name="__codelineno-3-73"></a><span class="w">                    </span><span class="n">toolResult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">objectMapper</span><span class="p">.</span><span class="na">writeValueAsString</span><span class="p">(</span><span class="n">books</span><span class="p">);</span>
+<a id="__codelineno-3-74" name="__codelineno-3-74"></a><span class="w">                </span><span class="p">}</span>
+<a id="__codelineno-3-75" name="__codelineno-3-75"></a>
+<a id="__codelineno-3-76" name="__codelineno-3-76"></a><span class="w">                </span><span class="c1">// 📤 将工具结果回填给 AI (role = tool)</span>
+<a id="__codelineno-3-77" name="__codelineno-3-77"></a><span class="w">                </span><span class="n">messages</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<a id="__codelineno-3-78" name="__codelineno-3-78"></a><span class="w">                    </span><span class="s">&quot;role&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;tool&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-79" name="__codelineno-3-79"></a><span class="w">                    </span><span class="s">&quot;content&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">toolResult</span><span class="p">,</span>
+<a id="__codelineno-3-80" name="__codelineno-3-80"></a><span class="w">                    </span><span class="s">&quot;tool_call_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">toolCall</span><span class="p">.</span><span class="na">path</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">).</span><span class="na">asText</span><span class="p">()</span>
+<a id="__codelineno-3-81" name="__codelineno-3-81"></a><span class="w">                </span><span class="p">));</span>
+<a id="__codelineno-3-82" name="__codelineno-3-82"></a>
+<a id="__codelineno-3-83" name="__codelineno-3-83"></a><span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;🤖 工具执行完毕，结果已回填，进入下一轮思考...&quot;</span><span class="p">);</span>
+<a id="__codelineno-3-84" name="__codelineno-3-84"></a><span class="w">                </span><span class="c1">// 循环继续，带着结果再次请求 AI</span>
+<a id="__codelineno-3-85" name="__codelineno-3-85"></a>
+<a id="__codelineno-3-86" name="__codelineno-3-86"></a><span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-87" name="__codelineno-3-87"></a><span class="w">                </span><span class="c1">// === 情况 B: AI 也就是普通回复 (有了结果或只是闲聊) ===</span>
+<a id="__codelineno-3-88" name="__codelineno-3-88"></a><span class="w">                </span><span class="n">String</span><span class="w"> </span><span class="n">finalContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="na">path</span><span class="p">(</span><span class="s">&quot;content&quot;</span><span class="p">).</span><span class="na">asText</span><span class="p">();</span>
+<a id="__codelineno-3-89" name="__codelineno-3-89"></a><span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;✅ AI 最终回复: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">finalContent</span><span class="p">);</span>
+<a id="__codelineno-3-90" name="__codelineno-3-90"></a><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">finalContent</span><span class="p">;</span><span class="w"> </span><span class="c1">// 结束循环，返回结果</span>
+<a id="__codelineno-3-91" name="__codelineno-3-91"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-3-92" name="__codelineno-3-92"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-3-93" name="__codelineno-3-93"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;交互次数过多，强行终止。&quot;</span><span class="p">;</span>
+<a id="__codelineno-3-94" name="__codelineno-3-94"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-3-95" name="__codelineno-3-95"></a><span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="4-ai-debug">🐛 步骤 4：让 AI 帮忙 Debug<a class="headerlink" href="#4-ai-debug" title="Permanent link">&para;</a></h2>
+<p>实验中，你可能会遇到 <strong>JSON 解析报错</strong>（比如 AI 返回了 markdown 格式的 json）。</p>
+<p><strong>模拟场景</strong>: 控制台报错 <code>JsonParseException: Unexpected character '</code>'<code>...</code>。</p>
+<ol>
+<li><strong>操作</strong>: 复制控制台的报错堆栈。</li>
+<li>
+<p><strong>呼叫 AI</strong>: 粘贴报错信息，并附上你的 <code>chat</code> 方法代码。</p>
+<blockquote>
+<p>"我的 Agent 报错了，似乎是 Jackson 解析的问题。这是报错信息和代码。帮我分析原因。"</p>
+</blockquote>
+</li>
+<li>
+<p><strong>AI 诊断</strong>:</p>
+<blockquote>
+<p>"原因是大模型返回的内容可能包含 Markdown 代码块标记（<code>``json），导致 Jackson 无法直接解析。建议在</code>objectMapper.readTree<code>之前，先用正则表达式清洗</code>responseJson` 字符串..."</p>
+</blockquote>
+</li>
+</ol>
+<hr />
+<h2 id="_1">🏆 挑战作业：增加“下单”功能 (全自动模式)<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>现在，请完全依赖 AI 插件，完成“下单工具”的开发。</p>
+<ol>
+<li><strong>Prompt</strong>: "在 <code>LocalBookService</code> 中帮我写一个 <code>orderBook(String bookName)</code> 方法，打印一条日志即可。" -&gt; <strong>插入代码</strong>。</li>
+<li><strong>Prompt</strong>: "请把刚才写的 <code>orderBook</code> 方法也加入到 <code>TOOLS_SCHEMA</code> 的定义中。" -&gt; <strong>替换常量</strong>。</li>
+<li><strong>Prompt</strong>: "在 <code>AgentController</code> 的 <code>if (tool_calls)</code> 分支里，增加对 <code>order_book</code> 函数的处理逻辑。" -&gt; <strong>合并代码</strong>。</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">实验总结</p>
+<p>本实验你不仅学会了 <strong>Agent 的底层原理</strong>，更掌握了 <strong>AI 辅助编程</strong> 的三大法宝：<br />
+1.  <strong>生成样板代码</strong> (Mock Data)。<br />
+2.  <strong>生成复杂配置</strong> (JSON Schema)。<br />
+3.  <strong>智能 Debug</strong> (日志分析)。  </p>
+<p>以后在工作中，这些“脏活累活”都可以交给 AI，你只需要专注于<strong>核心逻辑的设计</strong>。</p>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="dedeguo/javaweb-course-docs"
+        data-repo-id="R_kgDOQj_o1A"
+        data-category="Comments"
+        data-category-id="DIC_kwDOQj_o1M4CzvTT"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 武汉工商学院 计算机与自动化学院 陈德
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.highlight", "search.suggest", "content.code.copy", "navigation.indexes", "navigation.sections", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
