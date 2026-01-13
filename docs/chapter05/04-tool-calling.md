@@ -133,6 +133,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@SpringBootTest
 public class ToolAgentTest {
 
     private static final String API_KEY = "sk-你的Token";
@@ -175,7 +176,7 @@ public class ToolAgentTest {
         // ==========================================
         System.out.println("🤖 Round 1: AI 思考中...");
         Map<String, Object> requestBody1 = Map.of(
-            "model", "qwen/Qwen2.5-7B-Instruct", // 建议用 Qwen 或 DeepSeek-V3，对工具支持更好
+            "model", "deepseek-ai/DeepSeek-R1-0528", // 建议用 Qwen 或 DeepSeek-V3，对工具支持更好
             "messages", messages,
             "tools", tools
         );
@@ -235,7 +236,7 @@ public class ToolAgentTest {
                 """;
                 
              Map<String, Object> finalRequest = Map.of(
-                "model", "qwen/Qwen2.5-7B-Instruct",
+                "model", "deepseek-ai/DeepSeek-R1-0528",
                 "messages", List.of(Map.of("role", "user", "content", promptWithContext))
             );
             

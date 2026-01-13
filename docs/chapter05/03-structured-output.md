@@ -103,7 +103,7 @@ public class JsonParseTest {
     private ObjectMapper objectMapper; // Spring Boot 的御用 JSON 工具
 
     private static final String API_KEY = "sk-你的Token";
-    private static final String API_URL = "[https://api-inference.modelscope.cn/v1/chat/completions](https://api-inference.modelscope.cn/v1/chat/completions)";
+    private static final String API_URL = "https://api-inference.modelscope.cn/v1/chat/completions";
 
     @Test
     void testExtractJson() throws Exception {

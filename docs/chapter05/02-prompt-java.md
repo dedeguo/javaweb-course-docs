@@ -112,6 +112,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestClient;
 
+@SpringBootTest
 public class PromptTest {
 
     private static final String API_KEY = "sk-你的Token";
