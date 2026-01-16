@@ -23,7 +23,7 @@ title: 实验 4：数据落地——从内存 Map 到 openGauss
 
 ## 📋 实验前准备
 
-* [x] 已完成 [实验 3](lab3.md)（已有 BookController 和 BookService）。
+* [x] 已完成 [实验 3](../chapter03/lab3.md)（已有 BookController 和 BookService）。
 * [x] 本地已安装 **openGauss** 数据库（或 PostgreSQL）。
 * [x] IDEA 已安装 **MyBatisX** 插件（强烈推荐，方便跳转）。
 

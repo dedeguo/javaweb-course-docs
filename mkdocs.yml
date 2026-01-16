@@ -69,7 +69,8 @@ nav:
       - 02. 提示词工程与Java模板: chapter05/02-prompt-java.md
       - 03. 让 AI 说“机器话”：JSON Schema 与解析: chapter05/03-structured-output.md
       - 04. 赋予 AI 双手：Tool Calling:  chapter05/04-tool-calling.md
-      - 05. 未来的标准：MCP简介: chapter05/05-mcp-intro.md
+      - 05. 简化开发：拥抱 Spring AI 框架: chapter05/05-spring-ai.md
+      - 06. 未来的标准：MCP简介: chapter05/06-mcp-intro.md
       - 实验5：智能图书导购Agent实战: chapter05/lab5-v2.md
 
   - 第六篇｜综合项目实战:
