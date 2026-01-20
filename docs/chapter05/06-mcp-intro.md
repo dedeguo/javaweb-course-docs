@@ -125,26 +125,26 @@ graph LR
 注意看，我们**不需要**告诉 AI “高德地图的 API 文档是什么”，也不需要定义 Schema。连接成功后，直接问：
 
 !!! example "🚗 对话场景：周末去哪玩？"
-**👨‍🏫 老师 (User)**：
-> “我现在在武汉工商学院，想去最近的‘茶颜悦色’喝奶茶，开车要多久？”
+    **👨‍🏫 老师 (User)**：
+    > “我现在在武汉工商学院，想去最近的‘茶颜悦色’喝奶茶，开车要多久？”
 
-```
-**🤖 AI (Client)**：
-> *(AI 自动思考：我需要先搜地点，再算路程)*
->
-> 🛠️ **Calling Tool**: `amap_search_places(keywords="茶颜悦色", city="武汉", location="武汉工商学院坐标...")`
->
-> **System (MCP Server)**: Found: "茶颜悦色(白沙洲店)", Distance: 3.5km...
->
-> 🤖 **AI**: 找到了最近的一家在白沙洲。我来算算时间。
->
-> 🛠️ **Calling Tool**: `amap_direction_driving(origin="...", destination="...")`
->
-> **System (MCP Server)**: Duration: 15 mins, Traffic: Smooth.
->
-> 🤖 **AI**: 帮你查到了，去最近的**白沙洲店**开车大约需要 **15 分钟**，目前路况通畅。
 
-```
+    **🤖 AI (Client)**：
+    > *(AI 自动思考：我需要先搜地点，再算路程)*
+    >
+    > 🛠️ **Calling Tool**: `amap_search_places(keywords="茶颜悦色", city="武汉", location="武汉工商学院坐标...")`
+    >
+    > **System (MCP Server)**: Found: "茶颜悦色(白沙洲店)", Distance: 3.5km...
+    >
+    > 🤖 **AI**: 找到了最近的一家在白沙洲。我来算算时间。
+    >
+    > 🛠️ **Calling Tool**: `amap_direction_driving(origin="...", destination="...")`
+    >
+    > **System (MCP Server)**: Duration: 15 mins, Traffic: Smooth.
+    >
+    > 🤖 **AI**: 帮你查到了，去最近的**白沙洲店**开车大约需要 **15 分钟**，目前路况通畅。
+
+
 
 ### 4. 这个案例说明了什么？
 
@@ -161,6 +161,15 @@ graph LR
 | **复用性** | 低 (换个模型就要改 Schema) | **极高** (一次编写，到处运行) |
 | **发现机制** | 手动告诉 AI 有哪些工具 | AI 自动询问 Server 有哪些能力 |
 | **地位** | 就像把线焊死在主板上 | **就像 USB 接口** |
+
+
+
+总结：Spring AI MCP Client 的价值
+标准化: 你不再需要为每个外部工具写特定的 Java 代码 (Function<T, R>)。只要该工具符合 MCP 标准，Spring AI 就能直接“插拔”使用。
+
+解耦: 实际的工具逻辑（Python, TS, Go）与 Spring AI 应用逻辑分离。
+
+生态复用: 你可以直接连接社区现有的 MCP Server（如 Google Drive, Slack, Postgres），而无需重新造轮子。
 
 ### 🔮 展望
 
