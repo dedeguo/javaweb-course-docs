@@ -13,7 +13,7 @@
 
 > **集成包清单：**
 >
-> * **JDK**: Alibaba Dragonwell 17 (信创标准 JDK)
+> * **JDK**: Oracle JDK 17 
 > * **Build Tool**: Apache Maven 3.9.11
 > * **版本控制VCS**: Git 2.52.0 (64-bit)
 > * **Web Server**: Apache Tomcat 9.0.113 (用于Web底层原理实验)
@@ -27,19 +27,19 @@
 
 ## ☕ 第一步：JDK 安装与验证
 
-本课程采用 **Alibaba Dragonwell**，这是 OpenJDK 的下游版本，也是国内信创环境的主流选择。
+本课程采用 **Oracle JDK**，这是最常用的版本，兼容性最好。
 
-1.  **解压**：将 `dragonwell-17` 解压到 `D:\Dev\Java\dragonwell-17`。
+1.  **解压**：将 `jdk-17.0.12_windows-x64_bin.zip` 解压到 `D:\Dev\Java\jdk-17`。
 2.  **配置环境变量**：
-    * **新建系统变量** `JAVA_HOME` -> 值：`D:\Dev\Java\dragonwell-17`
+    * **新建系统变量** `JAVA_HOME` -> 值：`D:\Dev\Java\jdk-17`
     * **编辑 Path 变量** -> 新建 -> `%JAVA_HOME%\bin`
-3.  **验证**：打开 CMD 输入 `java -version`，出现 "Alibaba Dragonwell" 字样即成功。
+3.  **验证**：打开 CMD 输入 `java -version`，出现 "Java HotSpot(TM)" 字样即成功。
 ```bash
 java -version
 # 输出示例：
-# openjdk version "17.0.17" 2025-10-21
-# OpenJDK Runtime Environment (Alibaba Dragonwell Standard Edition)-17.0.17.0.18+9-GA (build 17.0.17+9)
-# OpenJDK 64-Bit Server VM (Alibaba Dragonwell Standard Edition)-17.0.17.0.18+9-GA (build 17.0.17+9, mixed mode, sharing)
+#java version "17.0.12" 2024-07-16 LTS
+#Java(TM) SE Runtime Environment (build 17.0.12+8-LTS-286)
+#Java HotSpot(TM) 64-Bit Server VM (build 17.0.12+8-LTS-286, mixed mode, sharing)
 ```
 ---
 
@@ -66,8 +66,8 @@ Maven 是 Java 项目的“管家”。我们使用预配置版本以加速依�
 mvn -v
 # 输出示例：
 # Apache Maven 3.9.11 (3e54c93a704957b63ee3494413a2b544fd3d825b)
-# Maven home: D:\Dev\Maven
-# Java version: 17.0.17, vendor: Alibaba, runtime: D:\Dev\Maven\dragonwell-17.0.17.0.18+9-GA
+# Maven home:  D:\Dev\Maven
+# Java version: 17.0.12, vendor: Oracle Corporation, runtime: D:\Dev\Java\jdk-17
 # Default locale: zh_CN, platform encoding: GBK
 # OS name: "windows 11", version: "10.0", arch: "amd64", family: "windows"
 ```
