@@ -13,12 +13,12 @@
 
 > **集成包清单：**
 >
-> * **JDK**: Oracle JDK 17 
+> * **JDK**: Oracle JDK 17 (长期支持版)
 > * **Build Tool**: Apache Maven 3.9.11
 > * **版本控制VCS**: Git 2.52.0 (64-bit)
-> * **Web Server**: Apache Tomcat 9.0.113 (用于Web底层原理实验)
+> * **Web Server**: Apache Tomcat 11.0.15(用于Web底层原理实验)
 > * **IDE**: IntelliJ IDEA 2025.2.5 (免安装旗舰版)
-
+> * **Database Tool**: Navicat / DBeaver (可选，IDEA已内置)
 !!! tip "建议目录结构"
     为了避免路径空格带来的莫名其妙的报错，建议在 D 盘新建 `Dev` 文件夹，将所有工具解压到此：
     `D:\Dev\Java`、`D:\Dev\Maven`、`D:\Dev\Idea` 等。
@@ -79,7 +79,7 @@ mvn -v
 
 ### 1. Tomcat (Web 服务器)
 虽然 Spring Boot 内置了 Tomcat，但在学习 **Servlet 底层原理** 章节时，我们需要独立的 Tomcat。
-* **解压**：将 `apache-tomcat-9.0.113.zip` 解压到 `D:\Dev\Tomcat` 即可，暂无需配置环境变量。
+* **解压**：将 `apache-tomcat-11.0.15.zip` 解压到 `D:\Dev\Tomcat` 即可，暂无需配置环境变量。
 
 ### 2. Git (版本控制)
 * **安装**：运行 `Git-2.52.0-64-bit.exe`，一路点击 "Next" 直到安装完成。
@@ -160,43 +160,29 @@ IntelliJ IDEA 的强大离不开插件生态。为了统一开发规范，请务
     * **版本兼容**：如果你自己下载插件，请务必注意插件版本要与 IDEA 版本（2025.2）匹配，否则无法安装。使用集成包里的文件可避免此问题。
 ---
 
-## 🔌 第五步：配置信创数据库环境 (openGauss)
+## 🔌 第五步：连接 MySQL 数据库
 
-本课程核心数据库为 **openGauss**。根据实训室电脑硬件配置及网络环境的不同，我们将采用以下三种方式之一。**请根据老师当堂的指示选择对应模式。**
+本课程使用的是最经典的 **MySQL** 数据库。
+**教室所有电脑已预装 MySQL 服务**，开机即启动，无需你自己安装。
 
-=== "📡 模式A：远程服务器 (推荐)"
-    > **适用场景**：网络通畅，无需本地安装，通过校园内网直接连接。
-    
-    * **Host (主机)**：见班级群公告（例如 `10.50.xx.xx`）
-    * **User/Password**：通常为 `你的学号` / `初始密码`
+**🔗 IDEA 连接步骤：**
 
-=== "🖥️ 模式B：本地虚拟机 (VMware)"
-    > **适用场景**：教室电脑性能较好（内存≥16G），使用包含 openGauss 的信创 OS 镜像。
-    
-    1.  请使用 VMware 打开老师分发的 `Sinnovation-Env.ova` 镜像。
-    2.  启动虚拟机，在终端输入 `ip addr` 查看 IP。
-    3.  **Host (主机)**：虚拟机的 IP 地址（例如 `192.168.xxx.xxx`）
+1. 打开 IDEA 右侧侧边栏的 **Database** 面板。
+2. 点击 `+` 号 -> `Data Source` -> `MySQL`。
+3. **填写连接参数**（请牢记以下信息）：
+* **Host (主机)**：`localhost` (本机)
+* **User (用户)**：`root`
+* **Password (密码)**：通常为 `123456` 或空 (具体请听老师当堂说明)
+* **Database (数据库)**：可以先填空，连接后再创建
 
-=== "🐳 模式C：本地 Docker 容器"
-    > **适用场景**：极客模式，电脑已安装 Docker Desktop，追求秒级启动。
-    
-    1.  在终端执行老师提供的 `docker run` 启动命令。
-    2.  **Host (主机)**：`localhost` 或 `127.0.0.1`
 
-<br/>
+4. **下载驱动**：
+* 如果第一次使用，IDEA 底部会提示 "Missing driver files"，点击蓝色的 **Download** 链接，IDEA 会自动下载 MySQL JDBC 驱动。
 
-**🔗 IDEA 连接步骤 (通用操作)：**
 
-无论采用上述哪种模式，在 IDEA 中的配置步骤是一致的：
+5. 点击 **Test Connection**。
+* 如果显示绿色的 <span style="color:green">**Succeeded**</span>，恭喜你，数据库连接成功！
 
-1.  打开 IDEA 右侧侧边栏的 **Database** 面板。
-2.  点击 `+` 号 -> `Data Source` -> `PostgreSQL` (openGauss 完美兼容 PG 协议)。
-3.  **填写连接参数**：
-    * **Host / User / Password**：填入上方你所选模式对应的参数。
-    * **Database**: 默认为 `postgres` 或老师指定的库名。
-4.  点击 **Test Connection**。
-    * 如果显示绿色的 <span style="color:green">**Succeeded**</span>，恭喜你，你的代码已经成功连上了国产信创数据库！
----
 
 
 ## 🧪 验证一切是否就绪
@@ -211,7 +197,7 @@ IntelliJ IDEA 的强大离不开插件生态。为了统一开发规范，请务
     public class HelloController {
         @GetMapping("/hello")
         public String say() {
-            return "Hello Dragonwell! AI is ready!";
+            return "Hello JavaWeb! AI is ready!";
         }
     }
     ```
@@ -219,6 +205,6 @@ IntelliJ IDEA 的强大离不开插件生态。为了统一开发规范，请务
 5.  **访问**：浏览器打开 `http://localhost:8080/hello`。
 
 !!! success "通关标志"
-    如果你能在浏览器看到 **"Hello Dragonwell! AI is ready!"**，并且你的 IDEA 右侧边栏能唤出 AI 助手对话框，那么恭喜你——**你的环境配置已达满分！**
+    如果你能在浏览器看到 **"Hello JavaWeb! AI is ready!"**，并且你的 IDEA 右侧边栏能唤出 AI 助手对话框，那么恭喜你——**你的环境配置已达满分！**
 
 [下一步：学习 Maven 与 Git 工程化 >>](02-maven-git.md){ .md-button }

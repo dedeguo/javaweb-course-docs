@@ -21,17 +21,18 @@ JSON 的世界非常简单，只有两种基本结构：
 === "🧱 对象 (Object)"
     **“键值对”的集合**。由花括号 `{}` 包裹。
 
-    * **场景**：描述一个具体的实体（如一个学生、一本书）。
-    * **规则**：Key 必须是双引号包裹的字符串。
+     **场景**：描述一本具体的书。  
+     **规则**：Key 必须是双引号包裹的字符串。  
 
     ```json
     {
-      "id": 1001,
-      "name": "陈同学",
-      "isLeader": true,
-      "skills": {             // 嵌套对象
-        "lang": "Java",
-        "level": "Master"
+    "id": 1001,
+    "title": "Java编程思想",
+    "price": 108.00,
+    "isAvailable": true,
+    "author": {             // 嵌套对象
+      "name": "Bruce Eckel",
+      "country": "USA"
       }
     }
     ```
@@ -39,92 +40,149 @@ JSON 的世界非常简单，只有两种基本结构：
 === "🚃 数组 (Array)"
     **“有序”的值列表**。由方括号 `[]` 包裹。
 
-    * **场景**：描述一组数据（如班级名单、购物车列表）。
-    * **规则**：元素之间用逗号分隔。
+    **场景**：描述图书的标签列表。  
+    **规则**：元素之间用逗号分隔。 
 
     ```json
-    [
-      "Spring Boot",
-      "Vue.js",
-      "MySQL"
-    ]
+     [
+       "计算机",
+       "编程语言",
+       "经典教材"
+     ]
     ```
+
+---
 
 ## 🛠️ 后端军火库：Java 如何处理 JSON？
 
 在 Java 中，我们不仅要会写代码，还要会**选工具**。我们将 Java 对象 (POJO) 转为 JSON 的过程称为 **序列化**，反之称为 **反序列化**。
 
-### 主流工具选型
+### 1. 引入 Jackson (Maven)
 
-| 工具 | 厂商/来源 | 特点 | 课程推荐指数 |
-| --- | --- | --- | --- |
-| **Jackson** | FasterXML | **Spring Boot 默认御用**。功能最强，稳定性最高，国际标准。 | ⭐⭐⭐⭐⭐ (默认) |
-| **Fastjson2** | **阿里巴巴** | **国产信创之光**。极致性能，专门针对国内高并发场景优化，API 对中文开发者友好。 | ⭐⭐⭐⭐ (进阶) |
-| **Gson** | Google | 简单易用，但在处理复杂泛型时稍显吃力。 | ⭐⭐⭐ |
+**Jackson** 是 Java 界的 JSON 霸主，也是 Spring Boot 默认内置的核心库。现在我们需要手动引入它。
 
-!!! tip "💡 老师的建议"
-    初学者请直接使用 **Jackson**，因为 Spring Boot 已经内置了它，**零配置**即可使用。等到需要追求极致性能时（如处理亿级流量），再考虑切换到国产的 **Fastjson2**。
+```xml
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.15.2</version>
+</dependency>
+
+```
+
+### 2. 序列化 (Java -> JSON)
+
+假设后台查到了一本 `Book`，需要发给前端展示。
+
+```java
+// 1. 准备数据 (模拟从数据库查出)
+Book book = new Book("Java核心技术", 99.00);
+book.setAuthor("Horstmann");
+
+// 2. 创建核心转换器 (ObjectMapper 是 Jackson 的核心)
+ObjectMapper mapper = new ObjectMapper();
+
+// 3. 转换！
+String json = mapper.writeValueAsString(book);
+
+System.out.println(json); 
+// 输出结果: {"title":"Java核心技术","price":99.0,"author":"Horstmann"}
+
+```
+
+### 3. 反序列化 (JSON -> Java)
+
+假设前端发来了一个 JSON（例如用户要把书加入购物车），你要把它变回 Java 对象。
+
+```java
+String json = "{\"title\":\"算法导论\",\"price\":128.0}";
+
+ObjectMapper mapper = new ObjectMapper();
+
+// 告诉它要把 json 转成哪个类的对象 (Book.class)
+Book book = mapper.readValue(json, Book.class);
+
+System.out.println("书名：" + book.getTitle()); // 输出: 算法导论
+
+```
 
 ---
 
-## ⚡ 自动化魔法：Spring Boot 的“隐形转换”
+## ⚡ 实战：Servlet 中的 JSON 交互
 
-在 Spring Boot 中，你**不需要**手动调用 `json.toString()`。框架通过 `HttpMessageConverter` 机制，帮我们实现了“全自动”交互。
+让我们抛弃 Spring Boot 的魔法，看看在 **原生 Servlet** 中如何实现前后端数据交互。
 
-### 场景演示：发送与接收
+### 场景：返回“热销图书列表”
 
-=== "📤 发送数据 (后端 -> 前端)"
-    **核心注解：** `@RestController`
+我们需要做三件事：
 
-    只要在一个类上加上这个注解，Spring Boot 就会明白：“这个类里所有方法的返回值，都要转成 JSON 给前端，而不是跳转页面。”
+1. **设置 Content-Type**：告诉浏览器“我给你的是 JSON，不是 HTML”。
+2. **获取输出流**。
+3. **写入 JSON 字符串**。
 
-    ```java
-    @RestController
-    public class StudentController {
-
-        @GetMapping("/student/info")
-        public Student getStudent() {
-            // 你只管返回 Java 对象
-            Student stu = new Student(1, "张三", "软件工程");
-            
-            // Spring Boot 自动帮你转成 JSON：
-            // {"id":1, "name":"张三", "major":"软件工程"}
-            return stu; 
-        }
-    }
-    ```
-
-=== "📥 接收数据 (前端 -> 后端)"
-    **核心注解：** `@RequestBody`
-
-    当用户提交表单数据时，加上这个注解，Spring Boot 会自动把 JSON 字符串“倒进”你的 Java 对象里。
-
-    ```java
-    @PostMapping("/student/add")
-    // @RequestBody 自动将 JSON 映射为 Student 对象
-    public Result addStudent(@RequestBody Student student) {
+```java
+@WebServlet("/api/books/hot")
+public class HotBooksServlet extends HttpServlet {
+    
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // 1. ✅ 关键：设置响应头，告诉浏览器这是 JSON
+        resp.setContentType("application/json;charset=utf-8");
         
-        System.out.println("收到名字：" + student.getName());
-        return Result.success("保存成功");
+        // 2. 准备数据 (模拟 SmartBook 数据库中的热销榜)
+        List<Book> list = new ArrayList<>();
+        list.add(new Book(101, "深入理解Java虚拟机", 89.0));
+        list.add(new Book(102, "高性能MySQL", 79.0));
+        
+        // 3. 转成 JSON 字符串
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(list);
+        
+        // 4. 写回浏览器
+        resp.getWriter().write(jsonString);
     }
-    ```
+}
+
+```
 
 ---
 
-## 🗣️ 前端视角：浏览器怎么说？
+## 🗣️ 前端视角：如何消费 API？
 
-虽然我们主修后端，但也必须看懂前端的代码。现代前端（Vue/React）主要通过 **Fetch API** 或 **Axios** 与我们交互。
+虽然我们主修后端，但也必须看懂前端的代码。现代前端（Vue/React）主要通过 **Fetch API** 与我们交互。
 
-```javascript
-// 1. 序列化：把 JS 对象变成 JSON 字符串
-const jsonString = JSON.stringify({ name: "李四" });
+创建一个 `book_list.jsp` 文件：
 
-// 2. 发送请求
-fetch('/student/add', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' }, // 必须告诉后端：我发的是 JSON
-    body: jsonString
-});
+```jsp
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>📚 SmartBook 热销榜</h2>
+    <button onclick="loadBooks()">刷新列表</button>
+    <ul id="bookList"></ul>
+
+    <script>
+        function loadBooks() {
+            // 1. 发起请求
+            fetch('/demo/api/books/hot')
+                .then(response => response.json()) // 把响应文本转成 JS 对象
+                .then(data => {
+                    // 2. 拿到数据 (data 是一个数组)，更新页面
+                    const ul = document.getElementById("bookList");
+                    ul.innerHTML = ""; // 清空旧数据
+                    
+                    data.forEach(book => {
+                        // 动态添加 li 标签
+                        const li = document.createElement("li");
+                        li.innerText = "《" + book.title + "》 - ￥" + book.price;
+                        ul.appendChild(li);
+                    });
+                });
+        }
+    </script>
+</body>
+</html>
 
 ```
 
@@ -132,61 +190,38 @@ fetch('/student/add', {
 
 ## 🚧 避坑指南：常见的“翻车”现场
 
-即便有自动转换，新手也常会遇到一些尴尬的情况。请使用以下 **注解 (Annotation)** 来精准控制 JSON 的样式。
+手动处理 JSON 时，新手常遇到的坑：
 
 ### 场景 1：日期变成了“外星文”
 
-> **现象**：数据库里的 `2025-12-20`，传给前端变成了 `1766203200000` (时间戳) 或者 `[2025,12,20]`。
+> **现象**：图书的 `publishDate` (出版日期) 是 `Date` 类型，默认转成 JSON 会变成一个长整数（时间戳），如 `16999999999`。
 
-**✅ 解决方案：** 使用 `@JsonFormat` 规范格式。
+**✅ 解决方案**：让 Jackson 听话。
 
 ```java
-public class Event {
-    // 强制转换为：年-月-日 时:分:秒 (并修正时区)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
+// 方法一：在字段上加注解 (推荐)
+public class Book {
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date publishDate;
 }
+
+// 方法二：配置全局 ObjectMapper
+mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 
 ```
 
-### 场景 2：把密码泄露给了前端
+### 场景 2：循环引用报错
 
-> **现象**：查询用户信息的接口，把 `password` 字段也原封不动地返回给了浏览器，这是重大安全事故！
+> **现象**：`Category` (分类) 里有 `List<Book>`，`Book` 里又有 `Category`。转 JSON 时会死循环报错。
 
-**✅ 解决方案：** 使用 `@JsonIgnore` 隐藏秘密。
+**✅ 解决方案**：在其中一端加上 `@JsonIgnore`，让它转换时忽略这个字段。
 
 ```java
-public class User {
-    private String username;
+public class Category {
+    private String name;
     
-    @JsonIgnore // 无论何时，这个字段都不会被转成 JSON 发送出去
-    private String password;
-}
-
-```
-
----
-
-
-## 📐 行业规范：统一响应结构
-
-在真实的企业开发中，后端不会直接返回一个裸的 `Student` 对象或 `List` 集合。为了方便前端处理异常和逻辑判断，我们需要给数据穿上一层 **“标准制服”**。
-
-!!! info "建议从现在养成习惯"
-无论业务成功还是失败，接口返回的 JSON 结构都应保持一致。这样前端或 AI Agent 只需要判断 `code` 的值，就能知道下一步是弹窗报错还是展示数据。
-
-**标准的 JSON 响应示例：**
-
-```json
-{
-  "code": 200,          // 状态码：200 表示成功，500 表示系统错误，401 表示未登录
-  "message": "操作成功", // 提示信息：用于直接展示给用户看
-  "data": {             // 数据载体：真正的数据在这里，可以是对象，也可以是数组
-    "userId": 1001,
-    "username": "admin",
-    "role": "TEACHER"
-  },
-  "timestamp": 1703123456789
+    @JsonIgnore // 转 JSON 时，不要把该分类下的书都带出来，防止死循环
+    private List<Book> books;
 }
 
 ```
@@ -196,56 +231,42 @@ public class User {
 
 作为未来的“超级开发者”，你不必从零开始构思 JSON 结构。让我们用 AI 来加速这个过程。
 
-!!! question "练习：设计航班查询接口"
+!!! question "练习：设计“图书详情”接口"
     请打开 **DeepSeek** 或 **Kimi**，发送以下提示词。
     
-    **你的任务**：作为“代码审查员”，检查 AI 生成的 JSON 是否合法（重点检查：引号是否闭合、逗号是否正确、字段命名是否规范）。
-
+    **你的任务**：作为“代码审查员”，检查 AI 生成的 JSON 是否合法（重点检查：引号是否闭合、逗号是否正确）。
+    
     **复制以下提示词：**
     ```text
-    请按照 RESTful 规范，设计一个“航班查询接口”的 JSON 响应数据示例。
-
-    要求包含以下字段：
-    1. 航班号 (flightNo)
-    2. 起飞/到达城市 (origin/destination)
-    3. 起飞时间 (departureTime)
-    4. 票价 (price)
-    5. 是否直飞 (isDirect)
-
-    请同时给出每个字段的类型定义建议（如 String, BigDecimal, Boolean），并解释为什么这样命名。
-    ```
+    请按照 RESTful 规范，设计一个“图书详情查询接口”的 JSON 响应数据示例。
+    背景：二手书交易平台 SmartBook。
     
+    要求包含以下字段：
+    1. 图书ID (id)
+    2. 书名 (title)
+    3. 卖家信息 (seller: 包含昵称和信誉分)
+    4. 售价 (price)
+    5. 图片列表 (images)
+    6. 上架时间 (createTime)
+    
+    请同时给出 Java Bean 的定义建议。
+    ```
+
 ---
 
 ## ⚡ 生产力飞跃：从 JSON 到 Java Bean
 
 当你从前端或第三方接口拿到一段复杂的 JSON 数据时，**千万不要手动去写 Java 类**！那既浪费时间又容易写错类型。
 
-请呼叫你的 **“对话型军师” (DeepSeek)** 完成逆向工程。
+还记得刚才 AI 帮你生成的**“图书详情 JSON”**吗？现在，请呼叫你的 **“对话型军师” (DeepSeek)** 完成逆向工程。
 
 !!! tip "📋 提问模板 (复制给 AI)"
-    **场景**：你拿到了一段 JSON，需要生成对应的 Java POJO 类。
+    **场景**：将上一题生成的 JSON 快速转换为 Java 代码。
 
     ```markdown
-    我有一段 JSON 数据：
-    [这里粘贴你的 JSON 数据...]
+    我有一段 SmartBook 的图书详情数据 JSON：
+    [这里粘贴你刚才生成的 JSON 数据...]
 
     请帮我生成对应的 Java Bean 类（POJO）。
-
-    开发规范要求：
-    1. 使用 Lombok 的 @Data 注解简化代码。
-    2. 字段名使用驼峰命名法（CamelCase）。
-    3. 对于日期时间字段，请自动加上 Jackson 的 @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") 注解。
-    4. 如果有嵌套对象，请尽量使用内部类或者独立的类结构清晰展示。
+    要求使用 Jackson 注解处理日期格式，并使用 Lombok 的 @Data 注解。
     ```
-
----
-
-!!! warning "📝 课后作业"
-    打开你的 IDEA，完成以下 **AI 辅助编程** 挑战：
-
-    1.  **生成实体**：呼叫 **通义灵码**，生成一个 `Course` 类（建议包含 `courseName`, `credit`, `teacher` 等字段）。
-    2.  **编写接口**：编写一个 `CourseController`，实现一个能返回 `List<Course>` 的 GET 接口。
-    3.  **验证结果**：启动项目，在浏览器中访问该接口，检查返回的 JSON 数据格式是否正确。
-
----

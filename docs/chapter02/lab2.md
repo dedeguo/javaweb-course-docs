@@ -7,7 +7,7 @@ title: 实验2：Java Web 核心组件与数据持久化综合实战
     * **实验学时**：4 学时
     * **实验类型**：综合性
     * **截稿时间**：第XX 周周X XX:XX
-    * **核心目标**：脱离内存模拟，实现一个基于 **Servlet + Filter + JDBC (Druid) + MySQL/openGauss** 的真实用户登录系统。
+    * **核心目标**：脱离内存模拟，实现一个基于 **Servlet + Filter + JDBC (Druid) + MySQL** 的真实用户登录系统。
 
 ---
 
@@ -24,8 +24,8 @@ title: 实验2：Java Web 核心组件与数据持久化综合实战
 ## 📋 实验前准备
 
 * [x] 已完成 [实验 1](../chapter01/lab1.md) 并熟悉 Git 流程。
-* [x] 本地数据库 (openGauss/PostgreSQL) 已启动，并能通过 IDEA Database 面板连接。
-* [x] 确保 `pom.xml` 中已引入 `druid` 和 `postgresql` 依赖。
+* [x] 本地数据库 (MySQL) 已启动，并能通过 IDEA Database 面板连接。
+* [x] 确保 `pom.xml` 中已引入 `druid` 和 `mysql` 依赖。
 
 ---
 
@@ -50,7 +50,7 @@ title: 实验2：Java Web 核心组件与数据持久化综合实战
 2.  输入以下 Prompt（直接复制）：
 
     !!! quote "🤖 Prompt (提示词)"
-        请帮我生成一段 PostgreSQL/openGauss 的建表 SQL。  
+        请帮我生成一段 MySQL 的建表 SQL。  
         表名：`t_user`  
         字段要求：  
         1. id: 主键，自增  
@@ -153,7 +153,7 @@ git push
 
 **Q: 数据库连接报错 "Connection refused"？**
 
-> **A:** 检查 `druid.properties` 里的 url 端口是否正确（openGauss 默认可能是 5432 或 26000），以及数据库服务是否已启动。
+> **A:** 检查 `druid.properties` 里的 url 端口是否正确（MySQL 默认可能是 3306），以及数据库服务是否已启动。
 
 **Q: 页面中文乱码？**
 

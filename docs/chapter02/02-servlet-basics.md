@@ -27,48 +27,95 @@
 ### 1. 编写 Java 类
 在项目中创建一个类 `HelloServlet`，继承 `HttpServlet`，并打上注解。
 
-```java title="src/main/java/com/example/servlet/HelloServlet.java"
-package com.example.servlet;
+```java title="src/main/java/edu/wtbu/cs/coursedemoservlet/HelloServlet.java"
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
-// ✅ 关键点：@WebServlet 注解告诉 Tomcat，只要有人访问 /hello，就找我！
-@WebServlet("/hello") 
+import java.io.*;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
+
+// ✅ 1. 告诉 Tomcat：只要有人访问 /hello，就找我！
+@WebServlet("/hello")
 public class HelloServlet extends HttpServlet {
 
-    // 浏览器发来 GET 请求时，Tomcat 会自动调用这个方法
+    // ✅ 2. 构造方法：对象出生时调用
+    public HelloServlet() {
+        System.out.println("👉 1. [构造方法] HelloServlet 实例被创建了！");
+    }
+
+    // ✅ 3. 初始化方法：刚出生后立刻调用，用于加载资源
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
+    public void init() throws ServletException {
+        System.out.println("👉 2. [init] 初始化完成，准备接客！");
+    }
+
+    // ✅ 4. 服务方法：每次有请求来，都会先经过这里！
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("👉 3. [service] 有新的请求进来了，正在判断是 GET 还是 POST...");
+        // 🚨 注意：super.service() 会自动帮我们分发到 doGet 或 doPost
+        // 如果删掉这一行，doGet/doPost 就不会被执行了！
+        super.service(req, resp);
+    }
+
+    // ✅ 5. 业务逻辑：处理 GET 请求
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        
-        // 1. 设置响应格式 (告诉浏览器：我给你的是 HTML，编码是 UTF-8)
+        System.out.println("👉 4. [doGet] 执行具体业务逻辑...");
+
+        // 设置响应格式
         resp.setContentType("text/html;charset=UTF-8");
-        
-        // 2. 获取输出流 (相当于拿到了通向浏览器的管道)
         PrintWriter out = resp.getWriter();
-        
-        // 3. 写入数据
+
+        // 写入页面内容
         out.println("<h1>Hello, Servlet!</h1>");
-        out.println("<p>这是我的第一个 Java Web 程序。</p>");
-        out.println("<p>服务器时间：" + new java.util.Date() + "</p>");
+        out.println("<p>请观察 IDEA 的控制台日志，看懂生命周期。</p>");
+    }
+
+    // ✅ 6. 销毁方法：服务器关闭时调用
+    @Override
+    public void destroy() {
+        System.out.println("👉 5. [destroy] 服务器要关了，我先下班了(释放资源)...");
     }
 }
-
 ```
 
 ### 2. 运行与验证
 
-启动 Tomcat，打开浏览器访问：`http://localhost:8080/hello`
 
+!!! tip "⚠️ 关键配置：检查你的 Application Context"
+    很多同学访问报错 **404**，是因为 URL 写错了！URL 的组成规则是：
+    `http://localhost:8080` + **/部署路径** + `/Servlet路径`
+    
+    * 本教材案例统一将部署路径（Application context）配置为 **`/demo`**。
+    * **配置方法**：点击 IDEA 右上角 Tomcat -> `Edit Configurations` -> `Deployment` 选项卡 -> 修改下方的 `Application context` 为 `/demo`。
+    * 如果你没改这里（默认为 `/`），请去掉 URL 里的 `/demo` 再试。
+
+
+1. 启动 Tomcat。
+2. 打开浏览器访问：`http://localhost:8080/demo/hello`。
 !!! success "所见即所得"
     如果你在页面上看到了 **Hello, Servlet!** 和当前时间，恭喜你，你已经打通了从“浏览器 -> Tomcat -> Java代码”的完整链路！
+3. **刷新**浏览器页面 2 次。
+4. 点击 IDEA 里的红色方块⏹ 停止服务器。
 
+!!! success "控制台日志解析 (预期结果)"
+    ```text
+    👉 1. [构造方法] HelloServlet 实例被创建了！   <-- 仅第1次访问时出现
+    👉 2. [init] 初始化完成，准备接客！             <-- 仅第1次访问时出现
+    
+    👉 3. [service] 有新的请求进来了...             <-- 每次刷新都出现
+    👉 4. [doGet] 执行具体业务逻辑...               <-- 每次刷新都出现
+    
+    👉 3. [service] 有新的请求进来了...
+    👉 4. [doGet] 执行具体业务逻辑...
+
+    👉 5. [destroy] 服务器要关了...                 <-- 停止服务器时出现
+    
+    ```
 ---
 
 ## 🧬 第三步：生命周期 (核心考点)
@@ -122,7 +169,7 @@ graph TD
 
 !!! warning "高频面试题：Servlet 是线程安全的吗？"
     **不是！Servlet 是单例的 (Singleton)。**  
-    这意味着全网用户访问 `/hello` 时，都在共用**同一个** `HelloServlet` 对象。  
+    这意味着全网用户访问 `/demo/hello` 时，都在共用**同一个** `HelloServlet` 对象。  
     **❌ 禁忌**：千万不要在 Servlet 类中定义**成员变量**来存储用户数据（比如 `private String username;`）。否则，张三存进去的名字，可能会被李四读出来！
 
 ---
@@ -152,7 +199,7 @@ graph TD
     <web-app>
         <servlet>
             <servlet-name>MyServlet</servlet-name>
-            <servlet-class>com.example.servlet.HelloServlet</servlet-class>
+            <servlet-class>edu.wtbu.cs.coursedemoservlet.HelloServlet</servlet-class>
         </servlet>
     
         <servlet-mapping>
@@ -167,7 +214,7 @@ graph TD
 ## 🧪 第五步：随堂实验
 
 !!! question "练习：验证生命周期"
-    请修改你的 `HelloServlet`，重写 `init()` 和 `destroy()` 方法，并在所有方法（包括构造方法）中加入 `System.out.println("xxx 方法执行了");`。
+    仿照前文案例，修改你的 `HelloServlet`，重写 `init()` 和 `destroy()` 方法，并在所有方法（包括构造方法）中加入 `System.out.println("xxx 方法执行了");`。
 
     ---
 
@@ -196,4 +243,4 @@ Servlet 是 Java Web 的基石。无论后续学习多么高级的框架（Sprin
 
 这些实战技巧，我们将在下一节逐一攻克。
 
-[下一节：Request 请求对象详解](https://www.google.com/search?q=03-request-response.md){ .md-button .md-button--primary }
+[下一节：Request 请求对象详解](03-request-response.md){ .md-button .md-button--primary }

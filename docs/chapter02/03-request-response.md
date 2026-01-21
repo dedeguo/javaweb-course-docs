@@ -97,7 +97,7 @@ public class ResponseDemoServlet extends HttpServlet {
         
         // 2. 设置响应头 (Header)
         // 示例：告诉浏览器 2 秒后自动跳转到百度
-        resp.setHeader("Refresh", "2;URL=[https://www.baidu.com](https://www.baidu.com)");
+        resp.setHeader("Refresh", "2;URL=https://www.baidu.com");
         
         // 3. 设置响应内容类型 & 编码 (核心)
         // ⚠️ 必须在 getWriter() 之前设置，否则乱码
@@ -181,9 +181,9 @@ sequenceDiagram
     1.  创建一个 `LoginServlet`。
     2.  接收参数 `username` 和 `password`。
     3.  如果 `username` 是 "admin" 且 `password` 是 "123"：
-        * **转发**到 `/home` (模拟首页)，并显示 "欢迎你，管理员"。
+        * **转发**到 `/home.jsp` (模拟首页)，并显示 "欢迎你，管理员"。
     4.  否则：
-        * **重定向**到 `/login_fail.html` (模拟错误页)，或直接打印 "登录失败"。
+        * **重定向**到 `/login_fail.jsp` (模拟错误页)，或直接打印 "登录失败"。
 
     ```java title="LoginServlet.java 参考代码"
     @WebServlet("/login")
@@ -203,11 +203,11 @@ sequenceDiagram
                 // 可以在 request 里存个数据带过去
                 req.setAttribute("msg", "欢迎尊贵的管理员！");
                 // 转发是服务器内部路径，不需要写项目名
-                req.getRequestDispatcher("/home").forward(req, resp);
+                req.getRequestDispatcher("/home.jsp").forward(req, resp);
             } else {
                 // --- 登录失败：重定向 ---
                 // 重定向建议写完整的路径
-                resp.sendRedirect("/app/login_fail.html"); 
+                resp.sendRedirect("/login_fail.jsp"); 
             }
         }
     }

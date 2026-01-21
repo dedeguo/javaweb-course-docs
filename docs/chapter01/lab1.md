@@ -10,7 +10,7 @@
 
 ## 🧪 实验目的
 
-1.  **环境验证**：确保 JDK 17 (Dragonwell)、Maven、IDEA 全局配置无误。
+1.  **环境验证**：确保 JDK 17 、Maven、IDEA 全局配置无误。
 2.  **AI 赋能**：激活 **通义灵码** 或 **DeepSeek**，体验“不写代码，只审代码”的 AI 结对编程模式。
 3.  **Git 实战**：掌握 **Fork -> Clone -> Commit -> Push** 的开源协作标准流程。
 4.  **接口开发**：跑通 Spring Boot 的 "Hello World"。
