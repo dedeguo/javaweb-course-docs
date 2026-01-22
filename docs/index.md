@@ -26,13 +26,14 @@ title: 课程简介
     本课程将在**夯实 Java 基础**的前提下，进行技术栈的**降维打击式升级**。我们将引入 **MCP (Model Context Protocol)** 标准与 **Tool Calling (工具调用)** 技术，探索如何让 Java 后端升级为大模型（如 DeepSeek）的“执行端”，实现从“传统信息系统”到“AI 智能业务系统”的跨越。
 
 === "🤖 AI 原生开发 (AI Native)"
-    我们不只教你**用 AI**，更教你**开发 AI 应用**。
+    我们拒绝只做 AI 的“用户”，本课程将带你晋升为 **AI 应用的“开发者”**。
     
     * **AI辅助学习**：
         将 DeepSeek、Qwen3作为“私人助教”拆解复杂概念；利用通义灵码自动生成样板代码与单元测试，实现 10x 提效。
     * **智能体开发**：
-        基于 **MCP 协议**，实现大模型与 Java 代码的深度融合。通过 **Tool Calling** 技术，让 AI 主动调用你编写的业务方法（如查书、买书），探索下一代软件交互模式。
-
+        打破“大模型只能聊天”的刻板印象。基于 **MCP (Model Context Protocol)** 协议，利用 **Tool Calling** 技术将 Java 后端升级为大模型的“手和脚”。  
+        > **实战场景**：在智能图书系统中，用户只需说一句“《Java编程思想》现在卖多少钱？”，AI 即可自动理解意图并调用后端的 `queryPrice()` 业务方法，实现 **Chat-to-Action** 的下一代交互。
+      
 === "🚀 Spring Boot 核心驱动"
     在理解 Web 容器底层原理的基础上，直接切入 **Spring Boot + MyBatis** 这一企业级开发的黄金组合。
 
@@ -54,7 +55,6 @@ title: 课程简介
 | **AI 模型** | **DeepSeek / Qwen3** | 接入前沿大语言模型，处理自然语言理解  |
 | **AI 协议** | **MCP & Tool Calling** | 让大模型连接本地数据的标准协议（拓展内容） |
 | **工程化工具** | Maven, Git, Lombok | 项目构建、版本控制与代码简化 |
----
 
 ## 🗺️ 学习路线图
 
@@ -87,7 +87,7 @@ title: 课程简介
 
 ## 📚 教学资源
 
-* **电子教材**：本网站电子文档 [https://javaweb.chende.top/](https://javaweb.chende.top/)。
+* **电子教材网址**: [https://javaweb.chende.top/](https://javaweb.chende.top/)。
 * **💻 实验环境** 
 > * **本地开发端（教室电脑）**：
 >     * 已预装 JDK、IntelliJ IDEA、Maven 等基础开发工具，用于编写代码和调试。  
