@@ -46,6 +46,21 @@ HTTP 协议是**无状态 (Stateless)** 的。
 ### 2. 实战代码：“记住上次访问时间”
 
 ```java title="CookieDemoServlet.java"
+
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @WebServlet("/cookie-demo")
 public class CookieDemoServlet extends HttpServlet {
     @Override
@@ -56,30 +71,37 @@ public class CookieDemoServlet extends HttpServlet {
         // 1. 获取 Cookie (注意：返回的是数组，可能为 null)
         Cookie[] cookies = req.getCookies();
         boolean found = false;
-        
+
         if (cookies != null) {
             for (Cookie c : cookies) {
                 if ("lastTime".equals(c.getName())) {
-                    out.write("欢迎回来！您上次访问时间是：" + c.getValue());
+                    String lastTime = URLDecoder.decode(c.getValue(), StandardCharsets.UTF_8);
+                    out.write("欢迎回来！您上次访问时间是：" +lastTime);
                     found = true;
                     break;
                 }
             }
         }
-        
+
         if (!found) {
             out.write("您是第一次访问本站！");
         }
-       
+
         // 2. 发送新 Cookie (记录当前时间)
         // ⚠️注意：Cookie 值不支持空格和中文，如果存中文必须使用 URLEncoder.encode("张三", "UTF-8")
-        String time = String.valueOf(System.currentTimeMillis());
+        //  定义时间格式
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+         //  获取当前时间并格式化
+        String time = LocalDateTime.now().format(formatter);
+        time = URLEncoder.encode(time, StandardCharsets.UTF_8);
+
         Cookie cookie = new Cookie("lastTime", time);
-        
+
         // 3. 设置存活时间 (单位：秒)
         // 正数：存活多久；0：立即删除；负数：浏览器关闭即失效
         cookie.setMaxAge(60 * 60 * 24); // 存活 1 天
-        
+
         // 4. 加入响应
         resp.addCookie(cookie);
     }

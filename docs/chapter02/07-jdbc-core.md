@@ -5,7 +5,7 @@ title: 数据持久化原理 (JDBC & Druid)
 
 !!! tip "本节目标：从内存到持久化"
     **痛点**：变量存在内存中，重启后数据丢失。  
-    **解决**：学习 JDBC 与数据库（openGauss）交互，掌握两大企业级规范：
+    **解决**：学习 JDBC 与数据库（MySQL）交互，掌握两大企业级规范：
 
     1.  **安全 (Security)** —— 杜绝 SQL 注入漏洞。
     2.  **性能 (Performance)** —— 使用 Druid 连接池管理资源。
@@ -14,7 +14,7 @@ title: 数据持久化原理 (JDBC & Druid)
 
 ## 🌉 第一部分：JDBC 本质论
 
-我们有各种数据库（MySQL, Oracle, openGauss），底层指令各不相同。Java 制定了一套**标准接口 JDBC (Java Database Connectivity)**，就像“通用遥控器”。
+我们有各种数据库（MySQL, Oracle, PostgreSQL），底层指令各不相同。Java 制定了一套**标准接口 JDBC (Java Database Connectivity)**，就像“通用遥控器”。
 
 * **Java 程序员**：只按标准按钮（`Connection`, `PreparedStatement`）。
 * **数据库厂商**：负责在内部实现电路（**Driver 驱动 Jar 包**）。
@@ -26,15 +26,16 @@ graph LR
     
     subgraph Drivers [驱动层]
         Driver --> MySQL["MySQL 驱动"]
-        Driver --> PG["openGauss/PG 驱动"]
+        Driver --> PG["PostgreSQL 驱动"]
         Driver --> Oracle["Oracle 驱动"]
     end
     
     MySQL --> DB1[("MySQL DB")]
-    PG --> DB2[("openGauss DB")]
+    PG --> DB2[("PostgreSQL DB")]
     
     style API fill:#e1f5fe,stroke:#01579b
     style Drivers fill:#fff9c4,stroke:#fbc02d
+
 
 ```
 
@@ -45,9 +46,9 @@ graph LR
 ```xml title="pom.xml"
 <dependencies>
     <dependency>
-        <groupId>org.postgresql</groupId>
-        <artifactId>postgresql</artifactId>
-        <version>42.6.0</version>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <version>8.3.0</version>
     </dependency>
     
     <dependency>
@@ -56,6 +57,7 @@ graph LR
         <version>1.2.20</version>
     </dependency>
 </dependencies>
+
 
 ```
 
@@ -75,26 +77,29 @@ graph LR
 ### 2. 原生代码示例 (Hello World)
 
 ```java title="JdbcHello.java"
+import org.junit.jupiter.api.Test;
 import java.sql.*;
 
-public class JdbcHello {
-    public static void main(String[] args) {
-        // 数据库配置
-        String url = "jdbc:postgresql://localhost:5432/postgres";
-        String user = "gaussdb";
-        String pwd = "SecretPassword@123";
-        
+public class JdbcDemoTest {
+
+    @Test
+    void jdbcDemoTest() {
+        // 数据库配置 (MySQL 8.0 标准 URL，需指定时区和SSL)
+        String url = "jdbc:mysql://localhost:3306/smart_book?serverTimezone=Asia/Shanghai&useSSL=false";
+        String user = "root";
+        String pwd = "root1234"; // 换成你的密码
+
         String sql = "SELECT id, username FROM t_user WHERE id > ?";
 
         // ✅ 使用 try-with-resources 自动关闭资源
         try (
-            // 1. 获取连接 (这一步很耗时，约100ms)
-            Connection conn = DriverManager.getConnection(url, user, pwd);
-            // 2. 获取预编译语句执行器
-            PreparedStatement pstmt = conn.prepareStatement(sql)
+                // 1. 获取连接 (这一步很耗时，约100ms)
+                Connection conn = DriverManager.getConnection(url, user, pwd);
+                // 2. 获取预编译语句执行器
+                PreparedStatement pstmt = conn.prepareStatement(sql)
         ) {
             // 3. 设置参数 (填空)
-            pstmt.setInt(1, 0); 
+            pstmt.setInt(1, 0);
 
             // 4. 执行查询
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -125,6 +130,7 @@ public class JdbcHello {
 // ❌ 危险！黑客输入 "' OR '1'='1" 即可绕过登录
 String sql = "SELECT * FROM user WHERE name = '" + inputName + "'";
 
+
 ```
 
 ### 2. 正确姿势：预编译 (PreparedStatement)
@@ -136,6 +142,7 @@ String sql = "SELECT * FROM user WHERE name = '" + inputName + "'";
 String sql = "SELECT * FROM user WHERE name = ?";
 PreparedStatement pstmt = conn.prepareStatement(sql);
 pstmt.setString(1, "张三");
+
 
 ```
 
@@ -167,6 +174,7 @@ graph TD
     end
     style Pool fill:#e1f5fe,stroke:#01579b
 
+
 ```
 
 ### 2. 配置 Druid (德鲁伊)
@@ -174,11 +182,11 @@ graph TD
 **Druid** 是阿里巴巴开源的数据库连接池，自带强大的监控功能。我们在 `src/main/resources` 下新建配置文件：
 
 ```properties title="druid.properties"
-# 数据库连接参数
-driverClassName=org.postgresql.Driver
-url=jdbc:postgresql://localhost:5432/postgres
-username=gaussdb
-password=SecretPassword@123
+# 数据库连接参数 (MySQL 8)
+driverClassName=com.mysql.cj.jdbc.Driver
+url=jdbc:mysql://localhost:3306/smart_book?serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+username=root
+password=root
 
 # 连接池调优
 initialSize=5
@@ -187,6 +195,37 @@ maxWait=3000
 
 # 🌟 开启监控统计功能 (filters=stat)
 filters=stat
+
+```
+
+### 3. 快速上手：硬编码方式体验 Druid Demo
+
+在封装工具类之前，我们先写一个 `DruidDemo` 来验证连接池是否配置成功。
+
+```java title="DruidDemo.java"
+import com.alibaba.druid.pool.DruidDataSourceFactory;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.util.Properties;
+
+public class DruidDemo {
+    public static void main(String[] args) throws Exception {
+        // 1. 加载配置文件
+        Properties prop = new Properties();
+        prop.load(DruidDemo.class.getClassLoader().getResourceAsStream("druid.properties"));
+
+        // 2. 获取连接池对象 (DataSource)
+        DataSource dataSource = DruidDataSourceFactory.createDataSource(prop);
+
+        // 3. 从池中获取连接
+        Connection conn = dataSource.getConnection();
+        System.out.println("✅ 成功从池中获取连接: " + conn);
+        
+        // 4. 这里的 close 不是关闭 TCP，而是归还给池子
+        conn.close(); 
+    }
+}
+
 ```
 
 ---
@@ -239,9 +278,11 @@ public class JDBCUtils {
     }
 }
 
+
 ```
 
 ---
+
 ## 👀 第六部分：开启上帝视角 (Druid 监控)
 
 Druid 最酷的功能就是它的**监控后台**。它可以告诉你当前有多少连接、哪条 SQL 执行最慢、是否有 SQL 注入攻击。
@@ -249,6 +290,17 @@ Druid 最酷的功能就是它的**监控后台**。它可以告诉你当前有�
 ### 1. 配置 Web.xml
 
 由于我们目前还在学习 Web 基础，需要在 `web.xml` 中注册 Druid 提供的 Servlet 来开启监控页面。
+
+!!! failure "🚨 兼容性高能预警：Tomcat 10+ 无法启动"
+    如果你的项目在启动时报错 `NoClassDefFoundError: javax/servlet/http/HttpServlet`，请仔细阅读以下原因：
+
+
+    * **核心原因**：Tomcat 10 或 11 已经将 Java EE 核心包名从 `javax.servlet` 改为了 `jakarta.servlet`。
+    * **冲突点**：Druid (v1.2.x) 的监控 Servlet (`StatViewServlet`) 在编译时依赖的是老的 `javax.servlet`。Druid 想要“前朝之剑”，但 Tomcat 只认“本朝之法”。
+    * **✅ 解决方案**：**请注释掉下方关于 `DruidStatView` 的代码**。
+
+    *注：连接池的核心功能（获取连接）不依赖 Servlet，因此注释掉监控配置后，代码依然可以正常运行。*
+
 
 ```xml title="src/main/webapp/WEB-INF/web.xml"
 <servlet>
@@ -272,6 +324,7 @@ Druid 最酷的功能就是它的**监控后台**。它可以告诉你当前有�
     <url-pattern>/druid/*</url-pattern>
 </servlet-mapping>
 
+
 ```
 
 ### 2. 访问监控页面
@@ -291,7 +344,6 @@ Druid 最酷的功能就是它的**监控后台**。它可以告诉你当前有�
     作为初学者，看到 Druid 监控里复杂的统计数据（如 `FetchCount`, `EffectedRowCount`）或者一条很慢的 SQL，你可能不知道如何优化。
     **这时候，请呼叫 AI 助手！**
 
-
 ### 场景：优化慢 SQL
 
 假设你在 Druid 监控页面的“SQL 监控”中，发现了一条红色的 SQL 语句，执行时间超过了 2000ms。
@@ -302,66 +354,69 @@ Druid 最酷的功能就是它的**监控后台**。它可以告诉你当前有�
 你可以复制这条 SQL，发送给 AI 进行诊断：
 !!! example "🔮 复制此 Prompt (提示词) 给 AI"
     "我是一名 Java 开发人员。在 Druid 监控中发现了一条 **慢 SQL**，执行时间很长。
-    
+
     **SQL 语句**：`SELECT * FROM t_user WHERE phone LIKE '%8888'`  
-    **数据库**：openGauss / PostgreSQL  
-    
-    **请帮我分析：**  
-    1. 这条 SQL 为什么慢？（解释原理）  
+    **数据库**：MySQL 8.0
+
+    **请帮我分析：** 1. 这条 SQL 为什么慢？（解释原理）  
     2. 如何优化它？（给出具体的索引建议或 SQL 改写方案）"
 
 
 !!! check "💡 预期 AI 回复核心点"
     * **原因分析**：`%8888` 属于**左模糊查询**。标准 B+ 树索引是从左往右匹配的，左边未知导致索引失效，数据库被迫进行 **全表扫描 (Full Table Scan)**。
-    * **优化建议**：  
-        1.  **业务妥协**：改为右模糊 `phone LIKE '138%'`（可以使用索引）。  
-        2.  **技术升级**：如果必须查后缀，建议引入 ES (Elasticsearch) 或使用 PG 的倒排索引 (GIN Index)。
+    * **优化建议**：
+
+    1.  **业务妥协**：改为右模糊 `phone LIKE '138%'`（可以使用索引）。
+
+    2.  **技术升级**：如果必须查后缀，建议引入 ES (Elasticsearch) 或使用 MySQL 的全文索引。
 
 ---
+
 ## 🧪 第八步：随堂实验
 
 !!! question "练习：基于 Druid 实现用户登录"
     **任务**：编写 `LoginDao` 类，使用 `JDBCUtils` 验证用户名和密码。
-
-    ```java
-    public boolean login(String username, String password) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+    
+```java
+public boolean login(String username, String password) {
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    
+    try {
+        // 1. 获取连接 (从 Druid 池中借用)
+        conn = JDBCUtils.getConnection();
         
-        try {
-            // 1. 获取连接 (从 Druid 池中借用)
-            conn = JDBCUtils.getConnection();
-            
-            // 2. 定义 SQL (必须用 ? 占位符防止注入)
-            String sql = "SELECT count(*) FROM t_user WHERE username=? AND password=?";
-            
-            // 3. 获取预编译对象
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            
-            // 4. 执行查询
-            rs = pstmt.executeQuery();
-            
-            // 5. 判断结果
-            if (rs.next()) {
-                // 如果 count(*) > 0 则登录成功
-                return rs.getInt(1) > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            // 6. 归还连接 (注意：这里不是切断 TCP，而是还回池子)
-            JDBCUtils.close(rs, pstmt, conn);
+        // 2. 定义 SQL (必须用 ? 占位符防止注入)
+        String sql = "SELECT count(*) FROM t_user WHERE username=? AND password=?";
+        
+        // 3. 获取预编译对象
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, username);
+        pstmt.setString(2, password);
+        
+        // 4. 执行查询
+        rs = pstmt.executeQuery();
+        
+        // 5. 判断结果
+        if (rs.next()) {
+            // 如果 count(*) > 0 则登录成功
+            return rs.getInt(1) > 0;
         }
-        return false;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
+        // 6. 归还连接 (注意：这里不是切断 TCP，而是还回池子)
+        JDBCUtils.close(rs, pstmt, conn);
     }
-    ```
+    return false;
+}
+```
+
+
+
 
 ---
-
-
 
 ## 📝 总结
 
@@ -374,3 +429,5 @@ Druid 最酷的功能就是它的**监控后台**。它可以告诉你当前有�
 **下一步预告**：
 虽然 `JDBCUtils` 简化了连接获取，但你也看到了，我们还是要写繁琐的 `try-catch-finally` 和 `set/get` 参数。
 在**第 4 章**，我们将引入 **MyBatis**，它将帮我们自动完成这些枯燥的工作，让 Java 开发真正起飞！ 🚀
+
+
