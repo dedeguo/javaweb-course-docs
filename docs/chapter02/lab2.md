@@ -160,10 +160,13 @@ URL 示例：`/user?action=list`, `/user?action=add`, `/user?action=delete&id=1`
 
 1. **创建 AuthFilter**：拦截路径配置为 `/*`。
 2. **编写拦截逻辑**：
-* **白名单放行**：`/login.jsp`, `/login`, `/css/`, `/js/`。
-* **检查 Session**：
-* 有 `currentUser` -> 放行。
-* 无 `currentUser` -> 跳转回 `/login.jsp`。
+
+    * **白名单放行**：`/login.jsp`, `/login`, `/css/`, `/js/`。
+    * **检查 Session**：
+    * 有 `currentUser` -> 放行。
+    * 无 `currentUser` -> 跳转回 `/login.jsp`。
+
+> 📸 **截图 5**：在未登录状态下，直接在地址栏输入 `/user?action=list` 并回车，截图自动跳转回登录页面的效果（若能显示“请先登录”的提示信息更佳），重命名为 `login_filter.png`。
 
 ---
 

@@ -50,7 +50,7 @@ Spring Boot 不是一门新技术，它是一个**“脚手架”**，旨在**�
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.x.x</version>
+        <version>3.5.9</version>
     </parent>
 
     <dependencies>

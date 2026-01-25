@@ -21,12 +21,12 @@ title: 核心原理：IOC 容器与依赖注入 (DI)
 
 ### 1. 什么是 IOC (Inversion of Control 控制反转)？
 
-* **传统模式 (正向控制)**：
-    你要租房，你必须**亲自**去满大街找房源、联系房东、签合同。
+* **传统模式 (正向控制)**：  
+    你要租房，你必须**亲自**去满大街找房源、联系房东、签合同。  
     > **代码体现**：`House house = new House();` （你亲自管理资源的创建）
 
-* **IOC 模式 (反向控制)**：
-    你把需求告诉**中介**（Spring 容器），中介手里握着成千上万套房源（Bean）。当你需要时，中介直接把钥匙**给**你。
+* **IOC 模式 (反向控制)**：  
+    你把需求告诉**中介**（Spring 容器），中介手里握着成千上万套房源（Bean）。当你需要时，中介直接把钥匙**给**你。  
     > **代码体现**：`@Autowired private House house;` （资源的创建权交给了中介）
 
 **核心变化**：控制权从 **“程序员手动 new”** 反转到了 **“Spring 容器自动管理”**。
@@ -143,7 +143,7 @@ public class AlipayServiceImpl implements PaymentService {
 }
 
 @Service("wechat") // 给 Bean 起个名字叫 wechat
-public class WechatServiceImpl implements PaymentService {
+public class WechatPayServiceImpl implements PaymentService {
     @Override
     public void pay(double money) {
         System.out.println("微信支付成功：" + money);

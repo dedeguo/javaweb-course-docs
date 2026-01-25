@@ -53,10 +53,10 @@ nav:
       - 06. 生产级基石：日志管理与单元测试: chapter03/06-test-logging.md
       - 实验3：构建标准化的 RESTful 后端系统:  chapter03/lab3.md     # 综合实战
   
-  - 第四篇｜数据持久化 MyBatis 与信创数据库:
+  - 第四篇｜MyBatis 数据持久化 :
       - 第4章 导读: chapter04/index.md
       - 01. ORM 思想与 MyBatis 初探:  chapter04/01-orm-intro.md
-      - 02. 整合信创数据库 (Spring Boot + openGauss): chapter04/02-integrate-gauss.md
+      - 02. 整合数据库 (Spring Boot + MySQL): chapter04/02-integrate-gauss.md
       - 03. Mapper接口与XML映射:   chapter04/03-mapper-xml.md
       - 04. MyBatis 的杀手锏：动态 SQL:  chapter04/04-dynamic-sql.md
       - 05. 插件生态：PageHelper 分页查询:  chapter04/05-pagehelper.md

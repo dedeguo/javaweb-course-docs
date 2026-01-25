@@ -1,84 +1,101 @@
+---
+title: 事务管理：@Transactional 与 ACID
+---
+
 # 06. 事务管理：@Transactional 与 ACID
 
 !!! quote "本节目标"
-    在之前的代码中，我们是一个个独立的 SQL 操作。但在真实业务中，往往需要多条 SQL **“同生共死”**。
+    在上一节中，我们实现了**“批量删除用户”**的功能。
     
-    最经典的场景就是**转账**：
+    想象一下，管理员勾选了 10 个用户点击删除。系统正在一个个地执行删除操作，当删到第 5 个用户时，系统突然报错（比如网络断了，或者触发了某种保护机制）。
 
-    * 第一步：张三账户减 100 元。
-    * 第二步：李四账户加 100 元。
-    
-    如果第一步成功了，但第二步报错了，会发生什么？**钱凭空消失了！**
-    本节我们将学习数据库的**事务 (Transaction)** 机制，并掌握 Spring Boot 中只需一个注解就能搞定的 **`@Transactional`** 神器。
+    **后果：** 前 4 个用户已经被删没了，后面的没删掉，系统处于一个**“半死不活”**的尴尬状态。
+
+    本节我们将学习数据库的**事务 (Transaction)** 机制，利用 Spring Boot 的 **`@Transactional`** 注解，实现**“要么全部删除成功，要么一个都别动”**的安全机制。
+
+
 
 ---
 
-## 💸 第一步：危机时刻——钱没了？
+## 💣 第一步：危机时刻——数据“半死不活”
 
-我们先来看一个没有事务保护的“翻车现场”。
+我们先来看一个没有事务保护的批量删除场景。假设由于业务逻辑复杂，我们需要在 Service 层遍历删除。
 
 ### 1. 模拟代码 (无事务)
 
 ```java
 @Service
-public class AccountService {
+public class UserService {
 
     @Autowired
-    private AccountMapper accountMapper;
+    private UserDao userDao;
 
-    public void transfer(int fromId, int toId, double money) {
-        // 1. 扣钱 (张三 - 100)
-        accountMapper.updateBalance(fromId, -money);
-        
-        // 模拟：突然断电或代码抛出异常
-        int i = 1 / 0; 
-        
-        // 2. 加钱 (李四 + 100) —— 这一行永远不会执行！
-        accountMapper.updateBalance(toId, +money);
+    /**
+     * 批量删除用户 (模拟逐个处理)
+     */
+    public void deleteBatch(List<Long> ids) {
+        for (int i = 0; i < ids.size(); i++) {
+            Long id = ids.get(i);
+            
+            // 1. 执行删除
+            userDao.deleteById(id);
+            System.out.println("已删除用户 ID: " + id);
+
+            // 2. 模拟意外：如果删的是第 3 个用户，程序崩溃！
+            if (i == 2) {
+                throw new RuntimeException("系统崩溃：删除中断！");
+            }
+        }
     }
 }
 
 ```
 
-### 2. 后果
+### 2. 后果演示
 
-* **数据库状态**：张三的钱少了 100，但李四的钱没增加。
-* **业务结果**：数据**不一致**，这是金融系统的严重事故。
+假设前端传来了 `[101, 102, 103, 104, 105]` 五个 ID。
+
+* **执行前**：5 个用户都在。
+* **执行后**：
+* ID `101`, `102` **没了** (被永久删除了)。
+* ID `103` 报错。
+* ID `104`, `105` 还在。
+
+
+* **结论**：操作只成功了一半，数据不一致！如果这是银行转账，后果不堪设想。
 
 ---
 
 ## 🛡️ 第二步：事务与 ACID 理论
 
-为了解决这个问题，数据库引入了 **事务 (Transaction)** 的概念。事务就是把一组操作打包成一个**原子包**：**要么全做，要么全不做**。
+为了解决这个问题，我们需要引入 **事务 (Transaction)**。事务能保证这一组删除操作是一个**原子包**：**同生共死**。
 
 ### 1. 核心理论：ACID
 
-面试必考题，请务必理解（不要死记硬背）。
+面试必考题，结合用户模块理解：
 
-| 特性 | 英文 | 解释 (人话版) |
+| 特性 | 英文 | 解释 (用户管理版) |
 | --- | --- | --- |
-| **原子性** | **A**tomicity | **同生共死**。这一组 SQL 是一个整体，不可分割。要么都成功，要么都失败。 |
-| **一致性** | **C**onsistency | **守恒定律**。转账前后，张三和李四的钱加起来的总数必须不变。 |
-| **隔离性** | **I**solation | **各玩各的**。我在转账时，别人查我的账户，要么看到转账前的数据，要么看到转账后的，不能看到中间扣了一半的状态。 |
-| **持久性** | **D**urability | **落袋为安**。一旦事务提交，数据就永久写在硬盘里了，断电也不会丢。 |
+| **原子性** | **A**tomicity | **同生共死**。这一批 10 个用户的删除操作是一个整体。要么 10 个全删掉，要么一个都别删（回滚）。 |
+| **一致性** | **C**onsistency | **守恒定律**。事务结束后，数据库必须处于合法的状态。 |
+| **隔离性** | **I**solation | **各玩各的**。当我在批量删除时（事务未提交），别的管理员在查询用户列表，他应该看到的是删除前的完整列表，而不是只剩一半的残缺列表。 |
+| **持久性** | **D**urability | **落袋为安**。一旦提示“删除成功”，这些数据就彻底从硬盘消失了，服务器重启也找不回。 |
 
 ### 2. 事务的运作流程
 
 ```mermaid
 graph TD
-    Start(("开始事务")) --> SQL1["执行 SQL 1: 扣钱"]
-    SQL1 --> Check{"是否报错?"}
+    Start(("开始批量删除")) --> Del1["删除用户 1"]
+    Del1 --> Del2["删除用户 2"]
+    Del2 --> Crash{"第 3 个报错!"}
     
-    Check -- 没报错 --> SQL2["执行 SQL 2: 加钱"]
-    SQL2 --> Check2{"是否报错?"}
+    Crash -- 无事务 --> ResultBad["❌ 悲剧发生<br/>用户 1,2 丢失<br/>用户 3,4,5 尚存"]
     
-    Check2 -- 没报错 --> Commit["✅ 提交 (Commit)<br/>数据写入硬盘"]
-    
-    Check -- 报错! --> Rollback["❌ 回滚 (Rollback)<br/>时光倒流，撤销所有操作"]
-    Check2 -- 报错! --> Rollback
-    
-    style Commit fill:#81c784,stroke:#2e7d32
-    style Rollback fill:#ef5350,stroke:#b71c1c
+    Crash -- 有事务 --> Rollback["🔄 回滚 (Rollback)<br/>时光倒流<br/>复活用户 1,2"]
+    Rollback --> ResultGood["✅ 原始状态<br/>所有用户都在"]
+
+    style ResultBad fill:#ef5350,stroke:#b71c1c
+    style ResultGood fill:#81c784,stroke:#2e7d32
 
 ```
 
@@ -86,29 +103,33 @@ graph TD
 
 ## ⚡ 第三步：Spring Boot 的魔法——@Transactional
 
-在 JDBC 时代，我们需要手动写 `conn.setAutoCommit(false)` 和 `conn.commit()`。
-在 Spring Boot 中，你只需要一个注解。
+在 Spring Boot 中，开启事务保护易如反掌。
 
 ### 1. 加上注解
 
-在 Service 类或方法上添加 **`@Transactional`**。
+在 `UserService` 的方法上添加 **`@Transactional`** 注解。
 
 ```java
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
-public class AccountService {
+public class UserService {
 
     @Autowired
-    private AccountMapper accountMapper;
+    private UserDao userDao;
 
     @Transactional // 👈 加上它，Spring 自动开启事务保护
-    public void transfer(int fromId, int toId, double money) {
-        
-        accountMapper.updateBalance(fromId, -money);
-        
-        // 模拟异常
-        int i = 1 / 0; 
-        
-        accountMapper.updateBalance(toId, +money);
+    public void deleteBatch(List<Long> ids) {
+        for (int i = 0; i < ids.size(); i++) {
+            Long id = ids.get(i);
+            
+            userDao.deleteById(id); // 删除
+            
+            // 模拟异常
+            if (i == 2) { 
+                int crash = 1 / 0; // 抛出异常
+            }
+        }
     }
 }
 
@@ -116,27 +137,32 @@ public class AccountService {
 
 ### 2. 效果验证
 
-当 `1/0` 抛出异常时，Spring 会捕获到这个异常，并触发 **回滚 (Rollback)**。
-你会发现，数据库里张三的余额**纹丝不动**，就像什么都没发生过一样。
+当代码运行到第 3 个用户抛出异常时：
+
+1. Spring 捕获到异常。
+2. Spring 指挥数据库执行 **ROLLBACK** 操作。
+3. 你会惊奇地发现：**之前被删掉的用户 1 和 用户 2，又重新出现在数据库里了！**
 
 ---
 
 ## 🚧 第四步：避坑指南——事务失效的“元凶”
 
-很多新手加了注解，发现事务还是没回滚。**90% 的原因是你把异常“吃掉”了！**
+很多新手加了注解，发现事务还是没回滚。**90% 的原因是你自己把异常“吃掉”了！**
 
 ### ❌ 错误写法 (Swallowing Exceptions)
 
 ```java
 @Transactional
-public void transfer() {
+public void deleteBatch(List<Long> ids) {
     try {
-        accountMapper.updateBalance(fromId, -money);
-        int i = 1 / 0; // 报错
-        accountMapper.updateBalance(toId, +money);
+        for (Long id : ids) {
+            userDao.deleteById(id);
+            if (id == 999) int i = 1/0; // 报错
+        }
     } catch (Exception e) {
         // 😱 致命错误！你自己捕获了异常，但没抛出。
         // Spring 认为："哦，程序员自己处理了，没报错嘛，那我提交事务咯！"
+        // 结果：前几个用户真被删了。
         e.printStackTrace(); 
     }
 }
@@ -149,25 +175,26 @@ public void transfer() {
 
 ```java
 @Transactional
-public void transfer() {
-    accountMapper.updateBalance(fromId, -money);
-    int i = 1 / 0; 
-    accountMapper.updateBalance(toId, +money);
+public void deleteBatch(List<Long> ids) {
+    // 放心写业务，出了事往外抛，Spring 会接盘
+    for (Long id : ids) {
+        userDao.deleteById(id);
+    }
 }
 
 ```
 
 ### ✅ 正确写法 2：捕获并手动抛出
 
-如果你非要自己 catch 做点记录，必须在 catch 块里再抛出一个 `RuntimeException`。
+如果你非要自己 catch 做记录，必须在 catch 块里再抛出一个 `RuntimeException`。
 
 ```java
 @Transactional
-public void transfer() {
+public void deleteBatch(List<Long> ids) {
     try {
         // ... 业务代码
     } catch (Exception e) {
-        log.error("转账失败", e);
+        log.error("批量删除失败", e);
         // 🚨 必须抛出！告诉 Spring 出事了，需要回滚
         throw new RuntimeException(e); 
     }
@@ -175,37 +202,31 @@ public void transfer() {
 
 ```
 
-!!! warning "Spring 的默认规则"
-    默认情况下，`@Transactional` 只有遇到 **RuntimeException** (运行时异常) 或 **Error** 时才会回滚。
-    如果抛出的是 `IOException` 等 **Checked Exception**，Spring 默认是**不回滚**的（除非你配置 `rollbackFor = Exception.class`）。
-
 ---
 
 ## 🤖 第五步：AI 辅助理解
 
-事务隔离级别（Isolation Level）也是面试的重灾区，概念非常抽象。让 AI 帮你举例子。
+事务隔离级别（Isolation Level）也是面试重点。可以让 AI 帮你模拟场景。
 
 !!! question "让 AI 解释隔离级别"
     **Prompt**:
-    > "请用通俗易懂的例子（比如买票或转账）解释数据库事务的四大隔离级别：读未提交、读已提交、可重复读、串行化。说明它们分别解决了什么问题（脏读、不可重复读、幻读）？"
+    > "请以用户管理系统为例，解释数据库事务的四大隔离级别（读未提交、读已提交、可重复读、串行化）。
+    >
+    > 场景：管理员 A 正在修改张三的密码（事务未提交），管理员 B 同时在查询张三的信息。不同的隔离级别下，B 会看到什么？（脏读、不可重复读、幻读）"
 
 ---
 
 ## 📝 总结
 
-1. **为什么需要事务**：为了保证一组 SQL 操作的一致性（同生共死）。
+1. **为什么需要事务**：为了保证批量操作或多步骤操作（如删用户+删日志）的**原子性**。
 2. **ACID**：原子性、一致性、隔离性、持久性。
-3. **`@Transactional`**：Spring 的声明式事务注解，通常加在 Service 层的方法上。
-4. **失效陷阱**：**千万不要在 try-catch 中吃掉异常**，否则事务无法回滚。
+3. **`@Transactional`**：Spring 的声明式事务注解，通常加在 Service 层。
+4. **失效陷阱**：**try-catch 必须抛出异常**，否则事务不回滚。
 
 **下一步**：
-所有的“招式”都学会了！
+至此，你已经掌握了 Java Web 开发的核心内功：
+CRUD、分页搜索、异常处理、事务安全。
 
-* 整合 MyBatis ✔️
-* 动态 SQL ✔️
-* 分页插件 ✔️
-* 事务管理 ✔️
+接下来，我们将进入 **Web 开发的最前沿**，学习如何让我们的应用**“听得懂人话”**——整合 AI 大模型。
 
-现在，我们有能力去完成本章的**大作业**了：**真正连接 openGauss 数据库，开发一个具备搜索、分页功能的完整用户管理模块**。
-
-[👉 实验 4：数据落地——从内存 Map 到 openGauss](lab4.md){ .md-button .md-button--primary .md-button--block }
+[👉 实验 3：AI 赋能——整合 DeepSeek/OpenAI 大模型](https://www.google.com/search?q=lab3.md){ .md-button .md-button--primary .md-button--block }
