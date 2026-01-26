@@ -116,14 +116,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
 
     @Transactional // 👈 加上它，Spring 自动开启事务保护
     public void deleteBatch(List<Long> ids) {
         for (int i = 0; i < ids.size(); i++) {
             Long id = ids.get(i);
             
-            userDao.deleteById(id); // 删除
+            userMapper.deleteById(id); // 删除
             
             // 模拟异常
             if (i == 2) { 
@@ -156,7 +156,7 @@ public class UserService {
 public void deleteBatch(List<Long> ids) {
     try {
         for (Long id : ids) {
-            userDao.deleteById(id);
+            userMapper.deleteById(id);
             if (id == 999) int i = 1/0; // 报错
         }
     } catch (Exception e) {
@@ -178,7 +178,7 @@ public void deleteBatch(List<Long> ids) {
 public void deleteBatch(List<Long> ids) {
     // 放心写业务，出了事往外抛，Spring 会接盘
     for (Long id : ids) {
-        userDao.deleteById(id);
+        userMapper.deleteById(id);
     }
 }
 
@@ -224,9 +224,14 @@ public void deleteBatch(List<Long> ids) {
 4. **失效陷阱**：**try-catch 必须抛出异常**，否则事务不回滚。
 
 **下一步**：
-至此，你已经掌握了 Java Web 开发的核心内功：
-CRUD、分页搜索、异常处理、事务安全。
+至此，你已经掌握了 Java Web 数据持久化层的四大护法：
 
-接下来，我们将进入 **Web 开发的最前沿**，学习如何让我们的应用**“听得懂人话”**——整合 AI 大模型。
+* **CRUD** (基本功)
+* **动态 SQL** (灵活搜索)
+* **PageHelper** (海量数据分页)
+* **事务管理** (数据安全兜底)
 
-[👉 实验 3：AI 赋能——整合 DeepSeek/OpenAI 大模型](https://www.google.com/search?q=lab3.md){ .md-button .md-button--primary .md-button--block }
+但纸上得来终觉浅，目前我们的 `BookDao` 还是个“冒牌货”（使用 `static Map` 模拟）。
+接下来，是时候进行**大扫除**了！我们将移除所有模拟代码，运用本章所学，真正打通 **Spring Boot + MyBatis + MySQL** 的任督二脉，实现数据的持久化存储。
+
+[👉 实验 4：数据落地——从内存 Map 到 MySQL](lab4.md){ .md-button .md-button--primary .md-button--block }

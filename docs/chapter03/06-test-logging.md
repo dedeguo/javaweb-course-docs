@@ -269,4 +269,4 @@ class UserControllerTest {
 
 ---
 
-[下一章：MyBatis 核心与动态 SQL](https://www.google.com/search?q=../chapter04/index.md){ .md-button .md-button--primary }
+[👉 实验 3：构建标准化的 RESTful 后端系统](lab3.md){ .md-button .md-button--primary .md-button--block }

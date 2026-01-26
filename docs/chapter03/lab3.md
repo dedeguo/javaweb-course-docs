@@ -37,7 +37,7 @@ title: 实验3：构建标准化的 RESTful 后端系统
 为了统一规范，请基于老师提供的种子仓库开始。
 
 1.  **Fork 仓库**：
-    * 访问仓库：[https://gitee.com/javaweb-dev-tech/lab3-springboot-book](https://gitee.com/javaweb-dev-tech/lab3-springboot-book)
+    * 访问仓库：[https://gitee.com/javaweb-dev-tech/lab3](https://gitee.com/javaweb-dev-tech/lab3)
     * 点击 **「Fork」**，复制到你的 Gitee 账号下。
 2.  **Clone 到本地**：
     * 在 IDEA 中使用 `Get from VCS` 克隆你的仓库。
@@ -47,7 +47,7 @@ title: 实验3：构建标准化的 RESTful 后端系统
 
 **⚡️ AI 结对编程：Lombok 实体生成**
 
-1.  **新建实体类**：在 `model` 包下新建 `Book` 类。
+1.  **新建实体类**：在 `entity` 包下新建 `Book` 类。
 2.  **AI 生成**：输入以下 Prompt 让 AI 帮你写代码：
     
     !!! quote "🤖 Prompt (复制给 AI)"

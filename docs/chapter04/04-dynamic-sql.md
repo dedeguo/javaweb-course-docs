@@ -133,12 +133,12 @@ DELETE FROM t_user WHERE id IN (101, 102, 103)
 动态 SQL 的语法（特别是 `<foreach>` 的属性）很容易记混。这时候，AI 又是你的好帮手。
 
 !!! tip "Prompt (提示词) 范例"
-**你**：DeepSeek，请帮我写一个 MyBatis 的动态 update 语句。
-**场景**：表名 `t_product`，主键 `id`。
-**要求**：
-1. 使用 `<set>` 标签。
-2. 只有当字段 `price`, `stock`, `name` 不为空时才更新它们。
-3. 请直接给出 XML 代码。
+    **你**：DeepSeek，请帮我写一个 MyBatis 的动态 update 语句。  
+    **场景**：表名 `t_product`，主键 `id`。  
+    **要求**：  
+    1. 使用 `<set>` 标签。  
+    2. 只有当字段 `price`, `stock`, `name` 不为空时才更新它们。  
+    3. 请直接给出 XML 代码。  
 
 ---
 

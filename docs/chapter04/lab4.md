@@ -1,14 +1,14 @@
 ---
-title: 实验 4：数据落地——从内存 Map 到 openGauss
+title: 实验 4：数据落地——从内存 Map 到 MySQL
 ---
 
-# 实验 4：数据落地——从内存 Map 到 openGauss
+# 实验 4：数据落地——从内存 Map 到 MySQL
 
 !!! abstract "实验信息"
     * **实验学时**：4 学时
     * **实验类型**：综合性
     * **截稿时间**：第XX 周周X XX:XX
-    * **核心目标**：移除实验 3 中的“假 Dao”层，整合 **MyBatis** + **openGauss**，并使用 **PageHelper** 实现带分页的模糊查询。
+    * **核心目标**：移除实验 3 中的“假 Dao”层，整合 **MyBatis** + **MySQL**，并使用 **PageHelper** 实现带分页的模糊查询。
 
 ---
 
@@ -24,7 +24,7 @@ title: 实验 4：数据落地——从内存 Map 到 openGauss
 ## 📋 实验前准备
 
 * [x] 已完成 [实验 3](../chapter03/lab3.md)（已有 BookController 和 BookService）。
-* [x] 本地已安装 **openGauss** 数据库（或 PostgreSQL）。
+* [x] 本地已安装 **MySQL** 数据库。
 * [x] IDEA 已安装 **MyBatisX** 插件（强烈推荐，方便跳转）。
 
 ---
@@ -35,18 +35,20 @@ title: 实验 4：数据落地——从内存 Map 到 openGauss
 
 我们不再用 Java 代码 `new Book(...)` 了，而是先在数据库建表。
 
-1.  **连接数据库**：使用 DataGrip 或 IDEA Database 工具连接你的 openGauss。
+1.  **连接数据库**：使用 Navicat 或 IDEA Database 工具连接你的 MySQL。
 2.  **执行 SQL 脚本**：创建表并预置一些测试数据。
 
 ```sql
 -- 1. 建表
+DROP TABLE IF EXISTS t_book;
 CREATE TABLE t_book (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(100) NOT NULL,
-    author VARCHAR(50),
-    price DECIMAL(10, 2),
+    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '图书ID',
+    title VARCHAR(100) NOT NULL COMMENT '书名',
+    author VARCHAR(50) NOT NULL COMMENT '作者',
+    price DECIMAL(10, 2) NOT NULL COMMENT '价格',
+    stock INT DEFAULT 100 COMMENT '库存',
     publish_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='图书表';
 
 -- 2. 插入测试数据 (多整点，方便测分页)
 INSERT INTO t_book (title, author, price) VALUES 
@@ -71,18 +73,18 @@ INSERT INTO t_book (title, author, price) VALUES
         <artifactId>mybatis-spring-boot-starter</artifactId>
         <version>3.0.3</version>
     </dependency>
-
     <dependency>
-        <groupId>org.opengauss</groupId>
-        <artifactId>opengauss-jdbc</artifactId>
-        <version>3.1.0</version>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <scope>runtime</scope>
     </dependency>
-
+    <!--   PageHelper 分页插件-->
     <dependency>
         <groupId>com.github.pagehelper</groupId>
         <artifactId>pagehelper-spring-boot-starter</artifactId>
-        <version>1.4.6</version>
+        <version>2.1.0</version>
     </dependency>
+
 </dependencies>
 
 ```
@@ -93,14 +95,14 @@ INSERT INTO t_book (title, author, price) VALUES
 
 ```properties
 # === 数据库连接 ===
-spring.datasource.driver-class-name=org.opengauss.Driver
-spring.datasource.url=jdbc:opengauss://localhost:5432/postgres?currentSchema=public
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/smart_book?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&useSSL=false
 spring.datasource.username=你的账号
 spring.datasource.password=你的密码
 
 # === MyBatis 配置 ===
 # 别名包：XML 里可以直接写 "Book" 而不用写全路径
-mybatis.type-aliases-package=com.example.lab3.model
+#mybatis.type-aliases-package=edu.wtbu.cs.javaweb.lab3.entity
 # 打印 SQL：开发必备，方便调试
 mybatis.configuration.log-impl=org.apache.ibatis.logging.stdout.StdOutImpl
 # XML 路径：非常重要！
@@ -236,9 +238,19 @@ public Result<PageInfo<Book>> getList(
 
 ## 💾 作业提交
 
-### 1. 验证截图
+### 1. 完善文档 (README)
 
-请在 `README.md` 中附上以下 **3 张截图**：
+双击打开项目根目录的 `README.md`，切换到“编辑模式”：
+
+* 填写顶部的 **班级、姓名、学号**。
+* 点击 IDEA 右上角的 `Preview` 按钮，检查刚才放入 `img` 文件夹的三张图片（`env.png`, `web.png`, `ai.png`）是否能在文档中正常显示。
+
+### 1. 完善文档 (README)及验证截图
+
+双击打开项目根目录的 `LAB4_README.md`，切换到“编辑模式”：
+
+* 填写顶部的 **班级、姓名、学号**。
+* 点击 IDEA 右上角的 `Preview` 按钮，检查刚才放入 `img` 文件夹的三张图片。在 `README.md` 中以下 **3 张截图**能在文档中正常显示：
 
 1. **数据库数据**：DataGrip/Navicat 中 `t_book` 表的数据截图。
 2. **无参分页**：浏览器访问 `http://localhost:8080/books?page=1&size=3`，截图 JSON 结果（应显示前 3 条，且 `total` 为 7）。

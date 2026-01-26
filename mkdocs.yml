@@ -56,12 +56,12 @@ nav:
   - 第四篇｜MyBatis 数据持久化 :
       - 第4章 导读: chapter04/index.md
       - 01. ORM 思想与 MyBatis 初探:  chapter04/01-orm-intro.md
-      - 02. 整合数据库 (Spring Boot + MySQL): chapter04/02-integrate-gauss.md
+      - 02. 整合数据库 (Spring Boot + MySQL): chapter04/02-integrate-mysql.md
       - 03. Mapper接口与XML映射:   chapter04/03-mapper-xml.md
       - 04. MyBatis 的杀手锏：动态 SQL:  chapter04/04-dynamic-sql.md
       - 05. 插件生态：PageHelper 分页查询:  chapter04/05-pagehelper.md
       - 06. 事务管理：@Transactional 与 ACID:  chapter04/06-transaction.md
-      - 实验4：数据落地——从内存 Map 到 openGauss:  chapter04/lab4.md
+      - 实验4：数据落地——从内存 Map 到 MySQL:  chapter04/lab4.md
       
   - 第五篇｜AI 集成与接口调用:
       - 第5章 导读: chapter05/index.md

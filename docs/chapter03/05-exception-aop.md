@@ -214,4 +214,4 @@ AOP 的切点表达式（`execution(* ...)`）非常难记，这时候 AI 就派
 至此，**理论部分课程已全部结束**。
 你现在已经具备了开发一个完整后端系统的能力。接下来，我们将通过一个**综合实战实验**，将这几章学到的所有知识串联起来。
 
-[👉 实验 3：构建标准化的 RESTful 后端系统](lab3.md){ .md-button .md-button--primary .md-button--block }
+[下一节：生产级基石：单元测试与日志管理](06-test-logging.md){ .md-button .md-button--primary }

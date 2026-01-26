@@ -158,7 +158,7 @@ System.out.println(user.getUsername());
 这也正是为什么 MyBatis 能够成为 Java Web 事实标准的根本原因。
 
 **下一步预告**：
-光说不练假把式。下一节，我们将把 MyBatis 引入到我们的 Spring Boot 项目中，并尝试连接国产信创之光 —— **openGauss** 数据库。
+光说不练假把式。下一节，我们将把 MyBatis 引入到我们的 Spring Boot 项目中，并连接**MySQL数据库**。
 
-[下一节：整合信创数据库 (Spring Boot + openGauss)](02-integrate-gauss.md){ .md-button .md-button--primary }
+[下一节：整合数据库 (Spring Boot + MySQL)](02-integrate-mysql.md){ .md-button .md-button--primary }
 }
