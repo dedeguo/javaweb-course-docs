@@ -180,17 +180,16 @@ graph LR
 ---
 
 !!! success "第五章通关"
-恭喜你完成了 **《Java 与 AI 的握手》** 这一章！
+    恭喜你完成了 **《Java 与 AI 的握手》** 这一章！
 
-```
-1.  你学会了把 Java 当浏览器用 (**Http Client**)。
-2.  你学会了用 Java 管理提示词 (**Prompt**)。
-3.  你学会了让 AI 说人话 (**JSON Parsing**)。
-4.  你甚至赋予了 AI 双手 (**Tool Calling**)。
-5.  你还了解了未来的标准 (**MCP**)。
+    1.  你学会了把 Java 当浏览器用 (**Http Client**)。
+    2.  你学会了用 Java 管理提示词 (**Prompt**)。
+    3.  你学会了让 AI 说人话 (**JSON Parsing**)。
+    4.  你甚至赋予了 AI 双手 (**Tool Calling**)。
+    5.  你还了解了未来的标准 (**MCP**)。
 
-**下一步**：Spring 官方也看到了 AI 的潜力，推出了 **Spring AI** 框架来简化这些步骤。我们将把这部分作为**附录**供大家探索，现在，让我们先庆祝一下你已经掌握了 AI 开发的底层原理！🚀
 
-```
+
+在接下来的 **实验 5** 和 **第 6 章综合项目** 中，我们将主要使用 Spring AI 配合 ModelScope 来开发我们的智能应用。
 
 [返回目录](index.md){ .md-button }

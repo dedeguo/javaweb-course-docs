@@ -210,4 +210,11 @@ Spring AI 会自动将 `BookRequest` 的结构转换为 JSON Schema 发送给 Mo
 | **工具定义** | 手写 JSON 字符串 | 注册 Java `@Bean` |
 | **流式响应** | 极其复杂 | `.stream()` 一键开启 |
 
-在接下来的 **实验 5** 和 **第 6 章综合项目** 中，我们将主要使用 Spring AI 配合 ModelScope 来开发我们的智能应用。
+## 🔌 预告：MCP 协议
+
+既然大家都在手写 Tool Calling，每家公司的写法都不一样（OpenAI 一套，Claude 一套），有没有一个**通用标准**？
+如果我写好了一个“查天气的工具”，能不能让所有的 AI 直接即插即用，不用每次都写 Schema？
+
+这就是下一节的主角 —— **MCP (Model Context Protocol)**，未来的 AI USB 接口。
+
+[下一节：未来的标准：MCP (Model Context Protocol) 简介](05-mcp-intro.md){ .md-button .md-button--primary }

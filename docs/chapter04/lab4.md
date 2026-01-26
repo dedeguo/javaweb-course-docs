@@ -238,13 +238,6 @@ public Result<PageInfo<Book>> getList(
 
 ## 💾 作业提交
 
-### 1. 完善文档 (README)
-
-双击打开项目根目录的 `README.md`，切换到“编辑模式”：
-
-* 填写顶部的 **班级、姓名、学号**。
-* 点击 IDEA 右上角的 `Preview` 按钮，检查刚才放入 `img` 文件夹的三张图片（`env.png`, `web.png`, `ai.png`）是否能在文档中正常显示。
-
 ### 1. 完善文档 (README)及验证截图
 
 双击打开项目根目录的 `LAB4_README.md`，切换到“编辑模式”：
@@ -252,9 +245,9 @@ public Result<PageInfo<Book>> getList(
 * 填写顶部的 **班级、姓名、学号**。
 * 点击 IDEA 右上角的 `Preview` 按钮，检查刚才放入 `img` 文件夹的三张图片。在 `README.md` 中以下 **3 张截图**能在文档中正常显示：
 
-1. **数据库数据**：DataGrip/Navicat 中 `t_book` 表的数据截图。
-2. **无参分页**：浏览器访问 `http://localhost:8080/books?page=1&size=3`，截图 JSON 结果（应显示前 3 条，且 `total` 为 7）。
-3. **模糊搜索**：浏览器访问 `http://localhost:8080/books?keyword=Java`，截图 JSON 结果（应只显示带 "Java" 的书）。
+    1. **数据库数据**：DataGrip/Navicat 中 `t_book` 表的数据截图。
+    2. **无参分页**：浏览器访问 `http://localhost:8080/books?page=1&size=3`，截图 JSON 结果（应显示前 3 条，且 `total` 为 7）。
+    3. **模糊搜索**：浏览器访问 `http://localhost:8080/books?keyword=Java`，截图 JSON 结果（应只显示带 "Java" 的书）。
 
 ### 2. 代码推送
 
