@@ -71,14 +71,14 @@ nav:
       - 04. 赋予 AI 双手：Tool Calling:  chapter05/04-tool-calling.md
       - 05. 简化开发：拥抱 Spring AI 框架: chapter05/05-spring-ai.md
       - 06. 未来的标准：MCP简介: chapter05/06-mcp-intro.md
-      - 实验5：智能图书导购Agent实战: chapter05/lab5-v2.md
+      - 实验5：智能图书导购Agent实战: chapter05/lab5.md
 
   - 第六篇｜综合项目实战:
-      - 第6章 导读: chapter06/00-index.md
+      - 第6章 导读: chapter06/index.md
       - 01. 需求分析与建模(Visual Modeling): chapter06/01-design.md
       - 02. 核心业务开发(AI 辅助编码): chapter06/02-implementation.md
       - 03. 智能体集成(Tool Calling 实战): chapter06/03-agent-integration.md
-      - 04. 信创部署实战: chapter06/04-deployment.md
+    #   - 04. 信创部署实战: chapter06/04-deployment.md
       - 实验6 二手书交易智能体: chapter06/lab6.md
 
   - 📚 附录 进阶资源与内功修炼:

@@ -55,17 +55,17 @@ Spring AI 目前已经发布了正式版本，我们需要引入 **BOM (Bill of 
 注意：这里我们使用最新的 **1.0.0** 版本，它已发布到 Maven 中央仓库，无需配置额外的 `<repositories>`。
 
 ```xml
- <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.ai</groupId>
-                <artifactId>spring-ai-bom</artifactId>
-                <version>1.0.0</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-bom</artifactId>
+            <version>1.0.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
 
 <dependencies>
     <dependency>
@@ -73,12 +73,11 @@ Spring AI 目前已经发布了正式版本，我们需要引入 **BOM (Bill of 
         <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
     
-   <dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-starter-model-openai</artifactId>
-   </dependency>
+    <dependency>
+        <groupId>org.springframework.ai</groupId>
+        <artifactId>spring-ai-starter-model-openai</artifactId>
+    </dependency>
 </dependencies>
-
 ```
 
 ### 第二步：魔法配置 (application.yml)
@@ -91,7 +90,7 @@ Spring AI 目前已经发布了正式版本，我们需要引入 **BOM (Bill of 
 
 ```properties
 # 1. 你的 ModelScope Access Token (去魔塔官网个人中心免费获取)
-spring.ai.openai.api-key=sk-xxxxxxxxxxxxxxxxxxxxxxxx
+spring.ai.openai.api-key= 填入你的_ModelScope_Access_Token 
 
 # 2. 魔塔的兼容接口地址
 spring.ai.openai.base-url=https://api-inference.modelscope.cn
@@ -100,7 +99,6 @@ spring.ai.openai.base-url=https://api-inference.modelscope.cn
 spring.ai.openai.chat.options.model=Qwen/Qwen2.5-7B-Instruct
 spring.ai.openai.chat.options.temperature=0.7
 ```
-
 
 ---
 
@@ -120,7 +118,7 @@ public class AiController {
     private final ChatClient chatClient;
 
     public AiController(ChatClient.Builder builder) {
-        // 构建一个默认的 Client，Spring AI 会自动读取 application.yml 配置
+        // 构建一个默认的 Client，Spring AI 会自动读取 application.properties或application.yml 配置
         this.chatClient = builder.build();
     }
 
@@ -159,44 +157,60 @@ public class AiController {
 
 **1. 定义工具 (Java Bean)**
 
-直接写一个实现了 `Function` 接口的 Bean。
+直接写一个实现了 BookTools。
 
 ```java
-@Configuration
-public class ToolsConfig {
+import org.springframework.ai.tool.annotation.Tool;
 
-    // 💡 注解 @Description 的内容会被自动发给 AI 作为工具说明
-    @Bean
-    @Description("查询图书价格") 
-    public Function<BookRequest, BookResponse> queryPriceTool() {
-        return request -> {
-            System.out.println("🤖 AI (ModelScope) 正在调用工具查书：" + request.bookName());
-            // 模拟查库逻辑
-            return new BookResponse(request.bookName(), 99.00);
-        };
+@Slf4j
+@Component
+public class BookTools {
+
+    @Autowired
+    private BookService bookService;
+
+    @Tool(description ="查询图书价格")
+    public double queryPriceTool(String bookName){
+        log.info("BookTools 查询图书价格：{}",bookName);
+        return bookService.queryPrice(bookName);
     }
 }
-
-// Record 类 (Java 14+) 用来定义参数结构
-public record BookRequest(String bookName) {}
-public record BookResponse(String bookName, double price) {}
 
 ```
 
 **2. 调用工具**
 
 ```java
-String response = chatClient.prompt()
-        .user("Java编程思想多少钱？")
-        .functions("queryPriceTool") // 👈 告诉 AI 启用这个 Bean
-        .call()
-        .content();
+
+@Slf4j
+@SpringBootTest
+public class ToolAgentTest {
+
+    @Autowired
+    BookTools bookTools;
+
+    @Autowired
+    ChatClient.Builder builder;
+
+    @Test
+    void testSpringAIToolCalling(){
+        ChatClient chatClient = builder.build();
+        String content =chatClient
+                .prompt("《Java 编程思想》 这本书多少钱？")
+                .tools(bookTools)
+                .call()
+                .content();
+        log.info("🤖 AI 回复：" +content);
+        //输出示例
+        //🤖 AI 回复：《Java 编程思想》这本书的价格是 99.0 元。
+    }
+}
 
 ```
 
-**幕后流程**：
-Spring AI 会自动将 `BookRequest` 的结构转换为 JSON Schema 发送给 ModelScope 的 Qwen 模型。当模型决定调用工具时，Spring AI 会自动拦截并执行 Java 方法，最后将结果回传。
 
+**幕后流程**：
+Spring AI 会自动解析 `BookTools` 类中带有 `@Tool` 注解的方法。它会提取方法签名（参数名 `bookName`、类型 `String`）和注解描述，将其自动转换为 JSON Schema 发送给 ModelScope 的 Qwen 模型。当模型决定调用工具时，Spring AI 会拦截请求，自动映射参数并执行 Java 方法，最后将执行结果回传给模型。
 ---
 
 ## 4. 总结

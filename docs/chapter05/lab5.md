@@ -1,59 +1,119 @@
 ---
-title: 实验 5：实战——手搓智能图书导购 Agent (AI 辅助版)
+title: 实验 5：为“智能图书交易系统”开发 AI 客服
 ---
-# 实验 5：实战——手搓智能图书导购 Agent (原理篇)
+# 🧪实验 5：为“智能图书交易系统”开发 AI 客服
 
-!!! abstract "🧪 实验卡片"
-* **难度**: ⭐⭐⭐⭐⭐ (硬核)
-* **耗时**: 60 分钟
-* **目标**: 不依赖 AI 框架，**徒手实现** Agent 的核心循环（思考-执行-回复）。
-* **核心考点**: RestClient 使用、JSON 复杂解析、多轮对话状态维护。
+## 🎯 实验目标
+
+1. **掌握框架**：从“手写 HTTP 调用”升级为使用 **Spring AI** 框架。
+2. **业务连接**：使用 `@Tool` 注解，让 AI 客服能够调用后台的 `BookStoreService`。
+3. **场景落地**：实现用户在聊天窗口问“《三体》还有货吗？”，AI 自动查库并回复。
+
+## 📜 业务场景
+
+你是“智能图书交易系统”的后端负责人。客服部门每天都要回答大量重复问题：
+
+* “这就书多少钱？”
+* “我的订单发货了吗？”
+
+你决定利用 ModelScope 的大模型 + Spring AI，开发一个**7x24小时智能客服**，自动拦截这些基础查询请求。
 
 ---
 
-## 🗺️ 架构设计图 (Agent Loop)
+## 🛠️ 步骤 1：引入依赖 (pom.xml)
 
-我们要手动实现下面这个“死循环”逻辑：
-```mermaid
+保持与之前一致，确保引入了 Spring AI 的 BOM 和 OpenAI Starter。
 
-graph TD
-    StartNode[用户提问] --> BuildReq["构造请求 (Messages + Tools)"]
-    BuildReq --> CallAPI[调用大模型 API]
-    CallAPI --> Check{AI 想要调工具吗?}
-    Check -- "No (直接回复)" --> ShowResult[展示结果给用户]
-    Check -- "Yes (tool_calls)" --> ParseArgs[解析函数名与参数]
-    ParseArgs --> ExecTools["反射/switch 调用本地 Java 方法"]
-    ExecTools --> AppendHistory[将工具结果追加到 Messages 历史]
-    AppendHistory --> BuildReq
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-bom</artifactId>
+            <version>1.0.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.ai</groupId>
+        <artifactId>spring-ai-starter-model-openai</artifactId>
+    </dependency>
+</dependencies>
 
 ```
 
 ---
 
-## 🛠️ 步骤 1：准备工作
+## ⚙️ 步骤 2：配置 application.properties
 
-### 1. 模拟数据库 (LocalBookService)
+```properties
+spring.application.name=smart-book-system
 
-这一步不变，我们依然需要一个本地的 Java 方法供 AI 调用。
+# 1. 你的 ModelScope Token
+spring.ai.openai.api-key=填入你的_ModelScope_Access_Token
 
-```java title="LocalBookService.java"
+# 2. 魔塔基础地址
+spring.ai.openai.base-url=https://api-inference.modelscope.cn
+
+# 3. 指定模型 (智能客服推荐用 Qwen2.5，逻辑能力强)
+spring.ai.openai.chat.options.model=Qwen/Qwen2.5-7B-Instruct
+spring.ai.openai.chat.options.temperature=0.3
+
+```
+
+---
+
+## 🧠 步骤 3：编写业务服务 (Service)
+
+我们要模拟两个核心业务数据的查询：**书籍库**和**订单库**。
+
+新建类 `BookStoreService.java`：
+
+```java
+package com.example.demo.service;
+
+import org.springframework.stereotype.Service;
+import java.util.Map;
+
 @Service
-public class LocalBookService {
-    // 模拟数据
-    private static final List<Book> DB = List.of(
-        new Book("Java核心技术", 89.0, "编程"),
-        new Book("三体", 35.0, "科幻")
+public class BookStoreService {
+
+    // 1. 模拟书籍数据库 (书名 -> 详情)
+    private static final Map<String, String> BOOK_DB = Map.of(
+        "Java编程思想", "价格：¥99.00 | 库存：15 本 | 状态：现货",
+        "三体", "价格：¥68.00 | 库存：0 本 | 状态：缺货补货中",
+        "Spring实战", "价格：¥88.50 | 库存：100+ 本 | 状态：热销中"
     );
 
-    public record Book(String name, Double price, String category) {}
+    // 2. 模拟订单数据库 (订单号 -> 状态)
+    private static final Map<String, String> ORDER_DB = Map.of(
+        "ORDER-2026001", "已发货，物流单号：SF12345678",
+        "ORDER-2026002", "等待付款",
+        "ORDER-2026003", "已取消"
+    );
 
-    // 🔧 工具方法
-    public List<Book> searchBooks(String category, Double maxPrice) {
-        System.out.println("🔍 [本地方法触发] 正在查询分类: " + category + ", 预算: " + maxPrice);
-        return DB.stream()
-            .filter(b -> category == null || b.category().contains(category))
-            .filter(b -> maxPrice == null || b.price() <= maxPrice)
-            .toList();
+    /**
+     * 业务方法1：查询书籍详情
+     */
+    public String getBookDetails(String bookName) {
+        System.out.println("📚 [数据库调用] 正在查询书籍: " + bookName);
+        return BOOK_DB.getOrDefault(bookName, "抱歉，系统暂无该书籍的录入信息。");
+    }
+
+    /**
+     * 业务方法2：查询订单状态
+     */
+    public String getOrderStatus(String orderId) {
+        System.out.println("📦 [数据库调用] 正在查询订单: " + orderId);
+        return ORDER_DB.getOrDefault(orderId, "未找到该订单号，请核对后重试。");
     }
 }
 
@@ -61,133 +121,75 @@ public class LocalBookService {
 
 ---
 
-## 🧠 步骤 2：定义工具描述 (JSON Schema)
+## 🔌 步骤 4：封装 AI 工具 (Tools)
 
-因为没有 Spring AI 帮我们自动生成，我们需要手动定义工具的 JSON 结构（复习第 04 节）。
+将上面的业务方法暴露给 AI。注意 `@Tool` 的 `description` 一定要写清楚，这是 AI 判断何时调用的依据。
 
-在 `AgentController` 中定义常量：
+新建类 `BookTools.java`：
 
 ```java
-private static final List<Map<String, Object>> TOOLS_SCHEMA = List.of(
-    Map.of(
-        "type", "function",
-        "function", Map.of(
-            "name", "search_books",
-            "description", "根据分类或价格预算查询图书库存",
-            "parameters", Map.of(
-                "type", "object",
-                "properties", Map.of(
-                    "category", Map.of("type", "string", "description", "图书分类，如：编程、科幻"),
-                    "maxPrice", Map.of("type", "number", "description", "最高价格预算")
-                ),
-                "required", List.of("category")
-            )
-        )
-    )
-);
+package edu.wtbu.cs.javaweb.lab3.tool;
+
+import com.example.demo.service.BookStoreService;
+import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class BookTools {
+
+    @Autowired
+    private BookStoreService bookStoreService;
+
+    // 工具 1：查书
+    @Tool(description = "根据书籍名称查询价格、库存和销售状态。参数是书名。")
+    public String queryBook(String bookName) {
+        return bookStoreService.getBookDetails(bookName);
+    }
+
+    // 工具 2：查订单
+    @Tool(description = "根据订单号查询订单的当前状态和物流信息。参数是订单号（通常以 ORDER 开头）。")
+    public String queryOrder(String orderId) {
+        return bookStoreService.getOrderStatus(orderId);
+    }
+}
 
 ```
 
 ---
 
-## 💻 步骤 3：核心 Agent 引擎 (手写 Loop)
+## 🎮 步骤 5：智能客服接口 (Controller)
 
-这是实验最核心的部分。新建 `HandwrittenAgentController.java`。
+新建 `CustomerServiceController.java`：
 
 ```java
+package com.example.demo.controller;
+
+import com.example.demo.tool.BookTools;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 @RestController
-@RequestMapping("/agent")
-public class HandwrittenAgentController {
+public class CustomerServiceController {
 
-    private final LocalBookService bookService;
-    private final RestClient restClient;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ChatClient chatClient;
 
-    // 配置
-    private static final String API_KEY = "sk-你的Token";
-    private static final String API_URL = "https://api-inference.modelscope.cn/v1/chat/completions";
-
-    public HandwrittenAgentController(LocalBookService bookService, RestClient.Builder builder) {
-        this.bookService = bookService;
-        this.restClient = builder
-                .baseUrl(API_URL)
-                .defaultHeader("Authorization", "Bearer " + API_KEY)
+    // 注入 ChatClient.Builder 和我们的 BookTools
+    public CustomerServiceController(ChatClient.Builder builder, BookTools bookTools) {
+        this.chatClient = builder
+                .defaultSystem("你是一个'智能图书交易系统'的专业客服。请用亲切、专业的语气回答用户的问题。如果用户询问数据，请调用工具查询。")
+                .defaultTools(bookTools) // 👈 关键：挂载工具箱
                 .build();
     }
 
-    @GetMapping("/chat")
-    public String chat(@RequestParam String msg) throws Exception {
-        // 1. 初始化对话历史 (History)
-        List<Map<String, Object>> messages = new ArrayList<>();
-        messages.add(new HashMap<>(Map.of("role", "system", "content", "你是一个图书导购。")));
-        messages.add(new HashMap<>(Map.of("role", "user", "content", msg)));
-
-        // 🔄 2. 进入 Agent 循环 (最多交互 3 次，防止死循环)
-        for (int i = 0; i < 3; i++) {
-            // 2.1 构建请求体
-            Map<String, Object> requestBody = Map.of(
-                "model", "Qwen/Qwen2.5-7B-Instruct",
-                "messages", messages,
-                "tools", TOOLS_SCHEMA // 👈 把工具箱交给 AI
-            );
-
-            // 2.2 发送 HTTP 请求
-            String responseJson = restClient.post()
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(requestBody)
-                    .retrieve()
-                    .body(String.class);
-
-            // 2.3 解析响应
-            JsonNode rootNode = objectMapper.readTree(responseJson);
-            JsonNode choice = rootNode.path("choices").get(0);
-            JsonNode message = choice.path("message");
-
-            // 🚨 2.4 关键判断：AI 是想说话(content)，还是想调工具(tool_calls)？
-            if (message.has("tool_calls")) {
-                // === 情况 A: AI 想调工具 ===
-                JsonNode toolCall = message.path("tool_calls").get(0);
-                String functionName = toolCall.path("function").path("name").asText();
-                String argsJson = toolCall.path("function").path("arguments").asText();
-                
-                // ⚠️ 必须把 AI 的这轮思考（含 tool_calls）加入历史，否则它会“断片”
-                // 这里为了简单，我们手动构造一个 Map 加进去
-                Map<String, Object> aiMessage = new HashMap<>();
-                aiMessage.put("role", "assistant");
-                aiMessage.put("content", null);
-                aiMessage.put("tool_calls", List.of(objectMapper.convertValue(toolCall, Map.class)));
-                messages.add(aiMessage);
-
-                // 🛠️ 执行本地 Java 方法
-                String toolResult = "未找到书籍";
-                if ("search_books".equals(functionName)) {
-                    JsonNode args = objectMapper.readTree(argsJson);
-                    String category = args.path("category").asText(null);
-                    Double maxPrice = args.has("maxPrice") ? args.path("maxPrice").asDouble() : null;
-                    
-                    // 调用 Service
-                    List<LocalBookService.Book> books = bookService.searchBooks(category, maxPrice);
-                    toolResult = objectMapper.writeValueAsString(books);
-                }
-
-                // 📤 将工具结果回填给 AI (role = tool)
-                messages.add(Map.of(
-                    "role", "tool",
-                    "content", toolResult,
-                    "tool_call_id", toolCall.path("id").asText()
-                ));
-
-                System.out.println("🤖 工具执行完毕，结果已回填，进入下一轮思考...");
-                // 循环继续，带着结果再次请求 AI
-
-            } else {
-                // === 情况 B: AI 也就是普通回复 (有了结果或只是闲聊) ===
-                String finalContent = message.path("content").asText();
-                System.out.println("✅ AI 最终回复: " + finalContent);
-                return finalContent; // 结束循环，返回结果
-            }
-        }
-        return "交互次数过多，强行终止。";
+    @GetMapping("/api/customer-service")
+    public String chat(@RequestParam String question) {
+        return chatClient.prompt()
+                .user(question)
+                .call()
+                .content();
     }
 }
 
@@ -195,38 +197,46 @@ public class HandwrittenAgentController {
 
 ---
 
-## 🧪 步骤 4：测试与观察
+## ✅ 实验验证 (见证 AI 的逻辑判断)
 
-### 测试用例：
+启动项目，模拟真实用户的提问：
 
-访问：`http://localhost:8080/agent/chat?msg=帮我找一本50块以内的编程书`
+**场景 1：查库存 (AI 应该调用 queryBook)**
 
-### 预期日志流：
+* **请求**：`http://localhost:8080/api/customer-service?question=我想买本《三体》，请问现在有货吗？`
+* **后台日志**：`📚 [数据库调用] 正在查询书籍: 三体`
+* **AI 回复**：
+> “您好！经查询，目前《三体》处于**缺货补货中**的状态，暂时无法购买。您可以关注一下后续的到货通知哦~”
 
-1. **Round 1**: 发送用户问题。
-2. **AI 响应**: `tool_calls: search_books`。
-3. **Java 执行**: `[本地方法触发] 正在查询分类: 编程, 预算: 50.0`。
-4. **Java 回填**: `role: tool, content: [{"name":"三体" ...}]`。
-5. **Round 2**: 发送 (问题 + AI思考 + 工具结果)。
-6. **AI 响应**: `content: "为您找到一本《三体》，价格35元..."`。
-7. **程序退出**。
 
----
 
-## 📝 实验总结 (引导至 Spring AI)
+**场景 2：查订单 (AI 应该调用 queryOrder)**
 
-!!! question "思考题"
-做完这个实验，你是否感觉：
-1.  手动维护 `messages` 列表很麻烦？如果不小心漏加了一条，AI 就报错。
-2.  解析 `tool_calls` 的 JSON 结构代码写得想吐？
-3.  如果有 10 个工具，`if-else` 会写到天荒地老？
+* **请求**：`http://localhost:8080/api/customer-service?question=帮我查下我的订单 ORDER-2026001 到哪了？`
+* **后台日志**：`📦 [数据库调用] 正在查询订单: ORDER-2026001`
+* **AI 回复**：
+> “亲，您的订单 ORDER-2026001 状态为**已发货**，物流单号是 SF12345678，请您注意查收。”
 
-```
-**这就是框架存在的意义！**
-在 **附录 A** 中，我们将介绍 **Spring AI**。刚才那 50 行核心代码，用 Spring AI 只需要 **5 行**。
 
-*想要从“造轮子”进化到“开法拉利”吗？请继续选修附录 A！*
 
-```
+**场景 3：混合/闲聊 (AI 不调用工具)**
+
+* **请求**：`http://localhost:8080/api/customer-service?question=你好，你们店里卖咖啡吗？`
+* **后台日志**：(无日志，未调用工具)
+* **AI 回复**：
+> “您好！我们是专业的图书交易平台，主要销售各类书籍，暂时不卖咖啡哦。如果您有想买的书，我可以帮您查询库存。”
+
+
 
 ---
+
+## 🧩 进阶挑战 (课后作业)
+
+在“智能图书交易系统”中，还有一个常见功能是 **“书籍推荐”**。
+
+**挑战任务**：
+
+1. 在 Service 中增加一个方法 `recommendBooks(String category)`，模拟返回某类别的畅销书列表（例如："计算机类" -> "Java编程思想, 深入理解JVM"）。
+2. 在 Tools 中注册这个新工具。
+3. **测试提问**：“我是学计算机的新手，有什么书推荐吗？”
+4. 观察 AI 是否能提取出“计算机”这个关键词，并调用工具返回推荐列表。
