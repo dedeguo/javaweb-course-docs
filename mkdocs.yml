@@ -63,7 +63,7 @@ nav:
       - 06. 事务管理：@Transactional 与 ACID:  chapter04/06-transaction.md
       - 实验4：数据落地——从内存 Map 到 MySQL:  chapter04/lab4.md
       
-  - 第五篇｜AI 集成与接口调用:
+  - 第五篇｜AI 集成与智能体基础:
       - 第5章 导读: chapter05/index.md
       - 01. Java 也就是个“浏览器”：HTTP Client 调用 AI: chapter05/01-ai-api.md
       - 02. 提示词工程与Java模板: chapter05/02-prompt-java.md
@@ -71,7 +71,7 @@ nav:
       - 04. 赋予 AI 双手：Tool Calling:  chapter05/04-tool-calling.md
       - 05. 简化开发：拥抱 Spring AI 框架: chapter05/05-spring-ai.md
       - 06. 未来的标准：MCP简介: chapter05/06-mcp-intro.md
-      - 实验5：智能图书导购Agent实战: chapter05/lab5.md
+      - 实验5：智能客服Agent实战: chapter05/lab5.md
 
   - 第六篇｜综合项目实战:
       - 第6章 导读: chapter06/index.md

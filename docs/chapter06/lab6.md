@@ -1,8 +1,8 @@
 ---
-title: 实验 6：结课大作业 —— SmartBook 开发
+title:  综合项目实战 —— SmartBook 开发
 ---
 
-# 实验 6：结课大作业 —— SmartBook 二手书交易智能体
+# 实验6 综合项目实战 —— SmartBook 二手书交易智能体
 
 !!! abstract "实验信息"
     * **实验类型**：综合设计性
@@ -19,15 +19,18 @@ title: 实验 6：结课大作业 —— SmartBook 开发
 
 ---
 
-## 🏗️ 任务一：环境与数据库准备 (20分)
+## 🏗️ 任务一：环境与数据库准备 
 
 ### 1. 建立工程
-* 创建 Spring Boot 项目，引入 Web, MyBatis, PostgreSQL/openGauss, Lombok 依赖。
+
+* 创建 Spring Boot 项目，引入 Web, MyBatis, MySQL, Lombok 依赖。
 * 将老师提供的前端模板 `index.html` 放入 `src/main/resources/static/` 目录。
 * 将老师提供的工具类 `AiUtils.java` 放入 `utils` 包。
 
 ### 2. 数据库建模
-在 openGauss 中执行 SQL 脚本，创建以下三张表，并**预置测试数据**：
+
+在 MySQL 中执行 SQL 脚本，创建以下三张表，并**预置测试数据**：
+
 * `t_user`: 预置用户 "zhangsan" (余额 0), "lisi" (余额 500)。
 * `t_book`: 预置 "Java编程思想" (50元), "三体" (30元)。
 * `t_transaction`: 空表。
@@ -36,7 +39,7 @@ title: 实验 6：结课大作业 —— SmartBook 开发
 
 ---
 
-## 🔧 任务二：核心业务层开发 (30分)
+## 🔧 任务二：核心业务层开发
 
 编写 `TradeService` 类，实现以下两个核心方法。
 
@@ -60,7 +63,7 @@ title: 实验 6：结课大作业 —— SmartBook 开发
 
 ---
 
-## 🤖 任务三：AI 智能体集成 (40分)
+## 🤖 任务三：AI 智能体集成 
 
 编写 `ChatController`，实现 Chat to Action 流程。
 
@@ -68,22 +71,23 @@ title: 实验 6：结课大作业 —— SmartBook 开发
 在代码中定义 JSON 字符串，描述 `searchBook` 和 `buyBook` 两个工具的参数结构。
 
 ### 2. 实现调度逻辑
-在 `/chat/send` 接口中：
-1.  接收前端传来的 `userMessage` 和 `currentUser`（从 Header 或参数获取）。
-2.  调用 `AiUtils.callDeepSeek` 获取 AI 响应。
-3.  **判断逻辑**：
-    * 如果 AI 返回 `tool_calls` -> 解析函数名 -> 调用 `TradeService` 对应方法 -> 将结果再次发给 AI。
-    * 如果 AI 返回普通文本 -> 直接返回给前端。
 
-> **验收标准**：
-> 1. 打开浏览器 `http://localhost:8080`。
-> 2. 选择用户“李四”。
-> 3. 输入：“**我要买那本 Java 编程思想**”。
-> 4. 截图前端收到的回复：“交易成功，订单已生成”。
+在 `/chat/send` 接口中：  
+1.  接收前端传来的 `userMessage` 和 `currentUser`（从 Header 或参数获取）。  
+2.  调用 `AiUtils.callDeepSeek` 获取 AI 响应。  
+3.  **判断逻辑**：  
+- 如果 AI 返回 `tool_calls` -> 解析函数名 -> 调用 `TradeService` 对应方法 -> 将结果再次发给 AI。
+- 如果 AI 返回普通文本 -> 直接返回给前端。
+
+> **验收标准**：   
+> 1. 打开浏览器 `http://localhost:8080`。  
+> 2. 选择用户“李四”。  
+> 3. 输入：“**我要买那本 Java 编程思想**”。  
+> 4. 截图前端收到的回复：“交易成功，订单已生成”。  
 
 ---
 
-## 📝 任务四：成果展示 (10分)
+## 📝 任务四：成果展示 
 
 在项目根目录的 `README.md` 中，按以下格式填写实验报告：
 
@@ -95,10 +99,3 @@ title: 实验 6：结课大作业 —— SmartBook 开发
     * 截图 3：买书后，数据库 `t_transaction` 表的数据记录。
 
 ---
-
-## 🚀 挑战项 (选做，不计入总分)
-
-如果你学有余力，可以尝试以下改进：  
-1.  **模糊搜索增强**：在 `TradeService` 中使用 MyBatis 的 `<if>` 标签实现按书名、价格区间组合搜索。   
-2.  **Docker 部署**：编写 Dockerfile，将应用打包成镜像运行。  
-3.  **信创部署**:将项目打包并部署在 **Anolis OS (Docker)** 环境中运行，并截图 `java -version` 显示 **Dragonwell** 字样的画面。

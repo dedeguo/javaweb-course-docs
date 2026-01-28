@@ -199,6 +199,7 @@ public class ChatController {
     ```
 
     **预期结果 (Expectation)**
+
     * **后台日志**：
         ```text
         AI 请求执行工具: searchBook | 参数: {"keyword": "Java"}
@@ -216,6 +217,7 @@ public class ChatController {
     ```
 
     **预期结果 (Expectation)**
+    
     * **后台日志**：
         ```text
         AI 请求执行工具: buyBook | 参数: {"bookId": 1, "buyerName": "lisi"}

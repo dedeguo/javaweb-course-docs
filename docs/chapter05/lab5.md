@@ -1,28 +1,41 @@
 ---
 title: 实验 5：为“智能图书交易系统”开发 AI 客服
 ---
-# 🧪实验 5：为“智能图书交易系统”开发 AI 客服
 
-## 🎯 实验目标
+# 实验 5：为“智能图书交易系统”开发 AI 客服
 
-1. **掌握框架**：从“手写 HTTP 调用”升级为使用 **Spring AI** 框架。
-2. **业务连接**：使用 `@Tool` 注解，让 AI 客服能够调用后台的 `BookStoreService`。
-3. **场景落地**：实现用户在聊天窗口问“《三体》还有货吗？”，AI 自动查库并回复。
-
-## 📜 业务场景
-
-你是“智能图书交易系统”的后端负责人。客服部门每天都要回答大量重复问题：
-
-* “这就书多少钱？”
-* “我的订单发货了吗？”
-
-你决定利用 ModelScope 的大模型 + Spring AI，开发一个**7x24小时智能客服**，自动拦截这些基础查询请求。
+!!! abstract "实验信息"
+    * **实验学时**：4 学时
+    * **实验类型**：综合性
+    * **截稿时间**：第XX 周周X XX:XX
+    * **核心目标**：集成 **Spring AI** 框架，利用 **Function Calling (工具调用)** 技术，让 AI 大模型能够连接本地业务数据，实现一个“查库存、查订单”的智能客服。
 
 ---
 
-## 🛠️ 步骤 1：引入依赖 (pom.xml)
+## 🧪 实验目的
 
-保持与之前一致，确保引入了 Spring AI 的 BOM 和 OpenAI Starter。
+1.  **框架升级**：从传统的 CRUD 开发升级为 **AI Native** 开发，掌握 Spring AI 的核心用法。
+2.  **工具调用**：理解并实践 **Tool/Function Calling**，让 AI 拥有“双手”。
+3.  **场景落地**：解决大模型“幻觉”问题，让 AI 基于事实数据回答业务问题（如库存、订单状态）。
+
+---
+
+## 📋 实验前准备
+
+* [x] 已完成 [实验 4](lab4.md)（项目环境正常运行）。
+* [x] 持有 **ModelScope (魔搭社区)** 的 API Key。
+* [x] 了解 Spring AI 的基本使用。
+
+---
+
+## 👣 实验步骤
+
+### 任务一：引入 Spring AI 依赖
+
+我们需要在现有的 `pom.xml` 中添加 Spring AI 的支持。
+
+1.  **添加 BOM (版本管理)**：在 `<dependencyManagement>` 中添加。
+2.  **添加 Starter**：在 `<dependencies>` 中添加。
 
 ```xml
 <dependencyManagement>
@@ -30,18 +43,13 @@ title: 实验 5：为“智能图书交易系统”开发 AI 客服
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-bom</artifactId>
-            <version>1.0.0</version>
-            <type>pom</type>
+            <version>1.0.0</version> <type>pom</type>
             <scope>import</scope>
         </dependency>
     </dependencies>
 </dependencyManagement>
 
 <dependencies>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
     <dependency>
         <groupId>org.springframework.ai</groupId>
         <artifactId>spring-ai-starter-model-openai</artifactId>
@@ -50,18 +58,20 @@ title: 实验 5：为“智能图书交易系统”开发 AI 客服
 
 ```
 
----
+!!! tip "Maven 刷新"
+    修改完 `pom.xml` 后，别忘了点击 IDEA 右上角的 **Maven 刷新图标**，等待依赖下载完成。
 
-## ⚙️ 步骤 2：配置 application.properties
+### 任务二：配置大模型连接
+
+修改 `src/main/resources/application.properties`，配置 AI 连接信息。
 
 ```properties
-spring.application.name=smart-book-system
+# === Spring AI 配置 ===
+# 1. 你的 ModelScope Token (请去魔搭社区申请)
+spring.ai.openai.api-key=sk-xxxxxxxxxxxxxxxxxxxxxxxxx
 
-# 1. 你的 ModelScope Token
-spring.ai.openai.api-key=填入你的_ModelScope_Access_Token
-
-# 2. 魔塔基础地址
-spring.ai.openai.base-url=https://api-inference.modelscope.cn
+# 2. 魔塔基础地址 (兼容 OpenAI 协议)
+spring.ai.openai.base-url=[https://api-inference.modelscope.cn](https://api-inference.modelscope.cn)
 
 # 3. 指定模型 (智能客服推荐用 Qwen2.5，逻辑能力强)
 spring.ai.openai.chat.options.model=Qwen/Qwen2.5-7B-Instruct
@@ -69,16 +79,14 @@ spring.ai.openai.chat.options.temperature=0.3
 
 ```
 
----
+### 任务三：编写模拟业务服务 (Mock Service)
 
-## 🧠 步骤 3：编写业务服务 (Service)
+为了演示 AI 如何调取数据，我们需要模拟“库存”和“订单”两个业务场景。
 
-我们要模拟两个核心业务数据的查询：**书籍库**和**订单库**。
-
-新建类 `BookStoreService.java`：
+在 `edu.wtbu.cs.course.service` 包下新建 `BookStoreService.java`：
 
 ```java
-package com.example.demo.service;
+package edu.wtbu.cs.course.service;
 
 import org.springframework.stereotype.Service;
 import java.util.Map;
@@ -119,18 +127,16 @@ public class BookStoreService {
 
 ```
 
----
+### 任务四：封装 AI 工具 (Tools)
 
-## 🔌 步骤 4：封装 AI 工具 (Tools)
+这是最关键的一步。我们需要将 Java 方法通过 `@Tool` 注解暴露给 AI，让它知道这个方法是干什么用的。
 
-将上面的业务方法暴露给 AI。注意 `@Tool` 的 `description` 一定要写清楚，这是 AI 判断何时调用的依据。
-
-新建类 `BookTools.java`：
+在 `edu.wtbu.cs.course.tool` 包（需新建）下新建 `BookTools.java`：
 
 ```java
-package edu.wtbu.cs.javaweb.lab3.tool;
+package edu.wtbu.cs.course.tool;
 
-import com.example.demo.service.BookStoreService;
+import edu.wtbu.cs.course.service.BookStoreService;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -142,6 +148,7 @@ public class BookTools {
     private BookStoreService bookStoreService;
 
     // 工具 1：查书
+    // description 非常重要！AI 根据它来决定是否调用此方法
     @Tool(description = "根据书籍名称查询价格、库存和销售状态。参数是书名。")
     public String queryBook(String bookName) {
         return bookStoreService.getBookDetails(bookName);
@@ -156,35 +163,33 @@ public class BookTools {
 
 ```
 
----
+### 任务五：编写智能客服控制器
 
-## 🎮 步骤 5：智能客服接口 (Controller)
-
-新建 `CustomerServiceController.java`：
+新建 `edu.wtbu.cs.course.controller.AiToolController.java`，将 AI 与前端请求连接起来。
 
 ```java
-package com.example.demo.controller;
+package edu.wtbu.cs.course.controller;
 
-import com.example.demo.tool.BookTools;
+import edu.wtbu.cs.course.tool.BookTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CustomerServiceController {
+public class AiToolController {
 
     private final ChatClient chatClient;
 
-    // 注入 ChatClient.Builder 和我们的 BookTools
-    public CustomerServiceController(ChatClient.Builder builder, BookTools bookTools) {
+    // 构造器注入：Spring AI 自动配置好的 Builder + 我们的工具类
+    public AiController(ChatClient.Builder builder, BookTools bookTools) {
         this.chatClient = builder
                 .defaultSystem("你是一个'智能图书交易系统'的专业客服。请用亲切、专业的语气回答用户的问题。如果用户询问数据，请调用工具查询。")
                 .defaultTools(bookTools) // 👈 关键：挂载工具箱
                 .build();
     }
 
-    @GetMapping("/api/customer-service")
+    @GetMapping("/ai/chat")
     public String chat(@RequestParam String question) {
         return chatClient.prompt()
                 .user(question)
@@ -197,46 +202,54 @@ public class CustomerServiceController {
 
 ---
 
-## ✅ 实验验证 (见证 AI 的逻辑判断)
+## 💾 作业提交
 
-启动项目，模拟真实用户的提问：
+### 1. 验证截图
 
-**场景 1：查库存 (AI 应该调用 queryBook)**
+请在 `LAB5_README.md` 中附上以下 **3 张截图**，证明 AI 成功调用了你的 Java 代码：
 
-* **请求**：`http://localhost:8080/api/customer-service?question=我想买本《三体》，请问现在有货吗？`
-* **后台日志**：`📚 [数据库调用] 正在查询书籍: 三体`
-* **AI 回复**：
-> “您好！经查询，目前《三体》处于**缺货补货中**的状态，暂时无法购买。您可以关注一下后续的到货通知哦~”
-
+1. **库存查询**：
+* 浏览器访问：`http://localhost:8080/ai/chat?question=我想买本《三体》，请问现在有货吗？`
+* 截图要求：浏览器显示 AI 回复“缺货补货中”，且 IDEA 控制台打印出 `📚 [数据库调用]...` 日志。
 
 
-**场景 2：查订单 (AI 应该调用 queryOrder)**
-
-* **请求**：`http://localhost:8080/api/customer-service?question=帮我查下我的订单 ORDER-2026001 到哪了？`
-* **后台日志**：`📦 [数据库调用] 正在查询订单: ORDER-2026001`
-* **AI 回复**：
-> “亲，您的订单 ORDER-2026001 状态为**已发货**，物流单号是 SF12345678，请您注意查收。”
+2. **订单查询**：
+* 浏览器访问：`http://localhost:8080/ai/chat?question=帮我查下我的订单 ORDER-2026001 到哪了？`
+* 截图要求：浏览器显示 AI 回复物流单号，且 IDEA 控制台打印出 `📦 [数据库调用]...` 日志。
 
 
-
-**场景 3：混合/闲聊 (AI 不调用工具)**
-
-* **请求**：`http://localhost:8080/api/customer-service?question=你好，你们店里卖咖啡吗？`
-* **后台日志**：(无日志，未调用工具)
-* **AI 回复**：
-> “您好！我们是专业的图书交易平台，主要销售各类书籍，暂时不卖咖啡哦。如果您有想买的书，我可以帮您查询库存。”
+3. **普通闲聊**：
+* 浏览器访问：`http://localhost:8080/ai/chat?question=给我讲个程序员的笑话`
+* 截图要求：AI 正常回复笑话，**控制台不应有数据库调用日志**（证明 AI 判断出不需要调用工具）。
 
 
+
+### 2. 代码推送
+
+```bash
+git add .
+git commit -m "feat: lab5 完成AI客服开发，学号+姓名"
+git push
+
+```
 
 ---
 
-## 🧩 进阶挑战 (课后作业)
+## ❓ 常见问题 (FAQ)
 
-在“智能图书交易系统”中，还有一个常见功能是 **“书籍推荐”**。
+**Q1: 启动报错 `Access Denied` 或 `401 Unauthorized`？**
 
-**挑战任务**：
+> **A:** 检查 `application.properties` 中的 `api-key` 是否正确，或者 Token 是否已过期。
 
-1. 在 Service 中增加一个方法 `recommendBooks(String category)`，模拟返回某类别的畅销书列表（例如："计算机类" -> "Java编程思想, 深入理解JVM"）。
-2. 在 Tools 中注册这个新工具。
-3. **测试提问**：“我是学计算机的新手，有什么书推荐吗？”
-4. 观察 AI 是否能提取出“计算机”这个关键词，并调用工具返回推荐列表。
+**Q2: AI 回答了问题，但没有调用我的 Java 方法？**
+
+> **A:**
+> 1. 检查 `BookTools` 类上是否有 `@Component` 注解。
+> 2. 检查方法上是否有 `@Tool` 注解，且 `description` 描述是否清晰。
+> 3. 检查 `AiController` 中是否调用了 `.defaultTools(bookTools)`。
+> 
+> 
+
+**Q3: 报错 `Bean definition not found`？**
+
+> **A:** 确保所有新增的类（Service, Tool, Controller）都在启动类 `CourseDemoApplication` 所在的包或子包下。
