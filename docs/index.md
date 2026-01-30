@@ -85,15 +85,45 @@ title: 课程简介
 
 ---
 
-## 📚 教学资源
 
-* **电子教材网址**: [https://javaweb.chende.top/](https://javaweb.chende.top/)。
-* **💻 实验环境** 
-> * **本地开发端（教室电脑）**：
->     * 已预装 JDK、IntelliJ IDEA、Maven 等基础开发工具，用于编写代码和调试。  
-* **AI 资源**：提供魔塔社区（ModelScope）API Key 申请指导，用于大模型调用。
+## 📚 教学资源与开发环境
+
+### 1. 📖 核心教材
+
+* **电子教材官网**: [https://javaweb.chende.top/](https://javaweb.chende.top/)
+> **说明**：本课程的主要理论知识、实验指导及相关文档均在此发布，请同学们作为重要参考资料。
+
+
+### 2. 💾 代码仓库 (Gitee)
+
+所有课程演示代码及实验所需的工程模板均已托管至 Gitee，请同学们关注并 Clone/Fork 以下地址：
+
+* **👨‍💻 课程组织主页**: [https://gitee.com/javaweb-dev-tech](https://gitee.com/javaweb-dev-tech)
+    * 包含课程整体资源入口、实验报告模板及综合资料。
+
+
+* **📦 综合演示工程 (Course Demo)**: [https://gitee.com/javaweb-dev-tech/course-demo](https://gitee.com/javaweb-dev-tech/course-demo)
+    * 包含课程中后期的案例及框架整合示例。
+
+
+* **☕ Servlet 专项示例 (Servlet Demo)**: [https://gitee.com/javaweb-dev-tech/course-demo-servlet](https://gitee.com/javaweb-dev-tech/course-demo-servlet)
+    * 包含 Servlet 生命周期、Request/Response 处理等基础 Java Web 核心技术的代码演示。
+
+
+
+### 3. 💻 实验与开发环境
+
+* **本地开发端（教室电脑）**：
+    * 已预装 **JDK**、**IntelliJ IDEA** 、**Maven** 等标准开发工具。
+    * 环境已配置完毕，可直接用于编写代码、运行单元测试及本地调试。
+
+
+* **🤖 AI 辅助资源**：
+    * 提供 **魔塔社区（ModelScope）** API Key [申请与使用指导](appendix/a01-account-guide/#modelscope-ai-api)。
+    * 支持在实验中调用大模型能力，辅助代码生成、问题排查及智能化功能开发。
 
 ---
+
 
 !!! tip "写在最后：成为 AI 时代的领航者"
     本课程不仅是一场 Java Web 开发的实战演练，更是一次**拥抱 AI 新范式**的思维升级。

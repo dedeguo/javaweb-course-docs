@@ -97,22 +97,36 @@ git --version
 ```
 
 ---
+
+这是为您优化后的内容。
+
+我在“关于版本与授权”的**第 3 点（最佳方案）中，以及安装步骤**的最后，自然地植入了教育许可申请指南的链接，使其在逻辑上更顺畅，方便学生点击查看。
+
+---
+
 ## 💻 第四步：IntelliJ IDEA 最佳实践
+
 IntelliJ IDEA 是目前地表最强的 Java IDE。
 
 !!! info "关于版本与授权：如何免费使用？"
     现在不再有单独的“社区版”安装包了，所有版本已经合并为一个“统一版”。集成包中提供的是 **ideaIU (旗舰版)**。
-    
+
     **它的工作机制如下：**
-    
+
     1.  **30天全功能试用**：安装后，它通常会给你 30 天的旗舰版（Ultimate）试用体验。
     2.  **永久免费兜底**：试用期结束（或过期）后，你不需要付费。软件会自动锁定高级功能（如 Database 工具、Spring Initializr 向导），但**保留所有核心功能**（即以前社区版的所有功能：Java、Kotlin 开发等）。此时它就变身为“免费版”，你可以永久免费使用下去。
     3.  **🎓 最佳方案 (推荐)**：建议使用你的 **edu.cn 学生邮箱** 申请 **JetBrains 免费教育许可证**，登录后即可解锁 Ultimate 版的所有高级功能，享受最完整的 Spring Boot 开发体验。
+    > 👉 **不懂如何申请？请点击查看 [附录：JetBrains 教育许可申请详细指南](../appendix/a01-account-guide.md#jetbrains-idea-ultimate)**
+
 
 ### 1. 安装与初始化
-1.  解压 `ideaIU-2025.2.5.win.zip` 到 `D:\Dev\Idea`。
-2.  进入 `bin` 目录，找到 `idea64.exe`，右键 -> **发送到桌面快捷方式**。
-3.  双击启动，如果提示激活，可选择 "Start Trial" (试用) 或直接 "Log In" (使用学生账号登录)。
+
+1. 解压 `ideaIU-2025.2.5.win.zip` 到 `D:\Dev\Idea`。
+2. 进入 `bin` 目录，找到 `idea64.exe`，右键 -> **发送到桌面快捷方式**。
+3. 双击启动。
+    * **临时使用**：选择 "Start Trial" (试用)。
+    * **正式激活**：选择 "Log In"，使用已在 [申请指南](../appendix/a01-account-guide.md%23jetbrains-idea-ultimate) 中注册并认证的 JetBrains 账号登录即可。
+
 
 ### 2. 全局配置 (关键!)
 在 IDEA 欢迎界面（不要打开项目），点击 **Customize -> All settings...** 进行全局设置，这样以后新建项目都不用重复配置：
@@ -170,18 +184,17 @@ IntelliJ IDEA 的强大离不开插件生态。为了统一开发规范，请务
 1. 打开 IDEA 右侧侧边栏的 **Database** 面板。
 2. 点击 `+` 号 -> `Data Source` -> `MySQL`。
 3. **填写连接参数**（请牢记以下信息）：
-* **Host (主机)**：`localhost` (本机)
-* **User (用户)**：`root`
-* **Password (密码)**：通常为 `123456` 或空 (具体请听老师当堂说明)
-* **Database (数据库)**：可以先填空，连接后再创建
-
+    * **Host (主机)**：`localhost` (本机)
+    * **User (用户)**：`root`
+    * **Password (密码)**：通常为 `123456` 或空 (具体请听老师当堂说明)
+    * **Database (数据库)**：可以先填空，连接后再创建
 
 4. **下载驱动**：
-* 如果第一次使用，IDEA 底部会提示 "Missing driver files"，点击蓝色的 **Download** 链接，IDEA 会自动下载 MySQL JDBC 驱动。
+    * 如果第一次使用，IDEA 底部会提示 "Missing driver files"，点击蓝色的 **Download** 链接，IDEA 会自动下载 MySQL JDBC 驱动。
 
 
 5. 点击 **Test Connection**。
-* 如果显示绿色的 <span style="color:green">**Succeeded**</span>，恭喜你，数据库连接成功！
+    * 如果显示绿色的 <span style="color:green">**Succeeded**</span>，恭喜你，数据库连接成功！
 
 
 

@@ -82,8 +82,9 @@ nav:
       - 实验6 二手书交易智能体: chapter06/lab6.md
 
   - 📚 附录 进阶资源与内功修炼:
-      - 🛠️ A. 信创开发环境与工具链:
-          - A01. 基于 VMware 的国产化环境搭建: appendix/a01-vmware-kylin.md
+      - 🛠️ A. 开发环境与工具链:
+          - A01. 开发者账号与工具权益申请指南: appendix/a01-account-guide.md
+        #   - A01. 基于 VMware 的国产化环境搭建: appendix/a01-vmware-kylin.md
           - A02. Docker 容器化部署实战: appendix/a02-docker-deploy.md
           - A03. OpenGauss 数据库安装指南: appendix/a03-opengauss-setup.md
     #       - A04. 常用开发工具清单 (Maven/插件): appendix/a04-devtools.md
