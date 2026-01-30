@@ -1,0 +1,3573 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="武汉工商学院《Java Web开发技术》课程电子教材">
+      
+      
+      
+        <link rel="canonical" href="https://dedeguo.github.io/javaweb-course-docs/appendix/e01-industry-report/">
+      
+      
+        <link rel="prev" href="../d02-simple-rag/">
+      
+      
+        <link rel="next" href="../e02-opensource-projects/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>E01. Java Web 行业全景报告 - Java Web 开发技术</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/mermaid/dist/mermaid.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2024-2025-java-web" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Java Web 开发技术" class="md-header__button md-logo" aria-label="Java Web 开发技术" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Java Web 开发技术
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              E01. Java Web 行业全景报告
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Java Web 开发技术" class="md-nav__button md-logo" aria-label="Java Web 开发技术" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Java Web 开发技术
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    课程介绍
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    课程介绍
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter01/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一篇｜开发环境与效能工具
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第一篇｜开发环境与效能工具
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter01/01-env-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01.开发环境安装
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter01/02-maven-git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02.工程化基石：Git与Maven
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter01/03-ai-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.AI 结对编程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter01/lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验1：Web环境与AI助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter02/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二篇｜Web 底层原理
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第二篇｜Web 底层原理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/01-http-protocol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01.HTTP 协议与调试工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/02-servlet-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Servlet 基础
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/03-request-response/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. 请求与响应 (Req & Resp)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/04-json-interaction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. JSON 数据交互
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/05-state-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. 会话与状态 (Session)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/06-filter-listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. 过滤器与监听器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/07-jdbc-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. JDBC 与连接池 Druid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter02/lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验 2：Web 核心综合实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter03/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第三篇｜Spring Boot 核心开发
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第三篇｜Spring Boot 核心开发
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/01-springboot-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. 框架革命：Spring Boot 快速入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/02-ioc-di/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. 核心原理：IOC 容器与依赖注入 (DI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/03-restful-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. 接口规范：RESTful 风格与统一响应
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/04-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. 架构设计：分层解耦 (Controller-Service-Dao)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/05-exception-aop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. 全局兜底：异常处理与 AOP 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/06-test-logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. 生产级基石：日志管理与单元测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/lab3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验3：构建标准化的 RESTful 后端系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter04/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第四篇｜MyBatis 数据持久化
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第四篇｜MyBatis 数据持久化
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/01-orm-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. ORM 思想与 MyBatis 初探
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/02-integrate-mysql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. 整合数据库 (Spring Boot + MySQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/03-mapper-xml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Mapper接口与XML映射
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/04-dynamic-sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. MyBatis 的杀手锏：动态 SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/05-pagehelper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. 插件生态：PageHelper 分页查询
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/06-transaction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. 事务管理：@Transactional 与 ACID
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验4：数据落地——从内存 Map 到 MySQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter05/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第五篇｜AI 集成与智能体基础
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第五篇｜AI 集成与智能体基础
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/01-ai-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Java 也就是个“浏览器”：HTTP Client 调用 AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/02-prompt-java/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. 提示词工程与Java模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/03-structured-output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. 让 AI 说“机器话”：JSON Schema 与解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/04-tool-calling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. 赋予 AI 双手：Tool Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/05-spring-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. 简化开发：拥抱 Spring AI 框架
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/06-mcp-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. 未来的标准：MCP简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/lab5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验5：智能客服Agent实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter06/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第六篇｜综合项目实战
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第六篇｜综合项目实战
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/01-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. 需求分析与建模(Visual Modeling)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/02-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. 核心业务开发(AI 辅助编码)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/03-agent-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. 智能体集成(Tool Calling 实战)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/lab6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验6 二手书交易智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 附录 进阶资源与内功修炼
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📚 附录 进阶资源与内功修炼
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠️ A. 开发环境与工具链
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🛠️ A. 开发环境与工具链
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a01-account-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A01. 开发者账号与工具权益申请指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a02-docker-deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A02. Docker 容器化部署实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../a03-opengauss-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A03. OpenGauss 数据库安装指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤖 D. Spring AI 框架尝鲜
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🤖 D. Spring AI 框架尝鲜
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../d01-spring-ai-quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01. 快速接入 OpenAI/国产大模型
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../d02-simple-rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02. 简单的 RAG 实现 (课程助教)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔭 E. 职业视野与资源库
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🔭 E. 职业视野与资源库
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E01. Java Web 行业全景报告
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E01. Java Web 行业全景报告
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#java" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一章：引言——Java 生态的“文艺复兴”与分化
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一章：引言——Java 生态的“文艺复兴”与分化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 全球视野下的技术演进逻辑
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 中国市场的独特语境
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二章：核心平台演进——JDK 版本与运行时环境
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二章：核心平台演进——JDK 版本与运行时环境">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-lts-java-8-java-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 LTS 版本的代际更替：从 Java 8 到 Java 21
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 LTS 版本的代际更替：从 Java 8 到 Java 21">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#212024-2025-java" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表 2.1：2024-2025 年主流 Java 版本生产环境采用率与趋势分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-jdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 JDK 发行版的格局重塑：开源与多供应商
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 虚拟线程：理想与现实的碰撞
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spring-boot-quarkus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三章：框架生态——Spring Boot 的统治与 Quarkus 的挑战
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三章：框架生态——Spring Boot 的统治与 Quarkus 的挑战">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-spring-boot-3x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Spring Boot 3.x：迈向云原生的深水区
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-quarkus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Quarkus 与微服务新范式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-jakarta-ee-java-ee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Jakarta EE 的复兴：从 Java EE 到云原生标准
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spring-cloud-alibaba-dubbo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四章：中国特色的微服务架构——Spring Cloud Alibaba 与 Dubbo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四章：中国特色的微服务架构——Spring Cloud Alibaba 与 Dubbo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-spring-cloud-alibaba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Spring Cloud Alibaba：事实上的国内标准
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-dubbo-3xrpc-mesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Dubbo 3.x：RPC 的重生与 Mesh 化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-mybatis-plus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 数据持久层：MyBatis-Plus 的绝对优势
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 数据持久层：MyBatis-Plus 的绝对优势">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-java" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表 4.1：中西方 Java 微服务技术栈对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第五章：数据库与中间件——分布式时代的存储变革
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第五章：数据库与中间件——分布式时代的存储变革">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-newsql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 NewSQL 数据库的普及
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 连接池与缓存技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#devops-idp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第六章：开发流程与平台工程——从 DevOps 到 IDP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第六章：开发流程与平台工程——从 DevOps 到 IDP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 CI/CD 工具链的演变
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-platform-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 平台工程（Platform Engineering）在中国
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第七章：AI 辅助开发——重塑代码编写范式
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第七章：AI 辅助开发——重塑代码编写范式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 国产 AI 编程工具的崛起
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 AI 对开发流程的影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第八章：人才市场与职业发展——“内卷”下的技能升级
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第八章：人才市场与职业发展——“内卷”下的技能升级">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 岗位技能画像
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 薪资水平与地域差异
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第九章：总结与展望
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第九章：总结与展望">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#912025-java-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表 9.1：2025 年 Java Web 开发核心技术栈推荐（中国区）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../e02-opensource-projects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E02. 精选开源项目库
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#java" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第一章：引言——Java 生态的“文艺复兴”与分化
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第一章：引言——Java 生态的“文艺复兴”与分化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 全球视野下的技术演进逻辑
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 中国市场的独特语境
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第二章：核心平台演进——JDK 版本与运行时环境
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第二章：核心平台演进——JDK 版本与运行时环境">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-lts-java-8-java-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 LTS 版本的代际更替：从 Java 8 到 Java 21
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 LTS 版本的代际更替：从 Java 8 到 Java 21">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#212024-2025-java" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表 2.1：2024-2025 年主流 Java 版本生产环境采用率与趋势分析
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-jdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 JDK 发行版的格局重塑：开源与多供应商
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 虚拟线程：理想与现实的碰撞
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spring-boot-quarkus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第三章：框架生态——Spring Boot 的统治与 Quarkus 的挑战
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第三章：框架生态——Spring Boot 的统治与 Quarkus 的挑战">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-spring-boot-3x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Spring Boot 3.x：迈向云原生的深水区
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-quarkus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Quarkus 与微服务新范式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-jakarta-ee-java-ee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Jakarta EE 的复兴：从 Java EE 到云原生标准
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spring-cloud-alibaba-dubbo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第四章：中国特色的微服务架构——Spring Cloud Alibaba 与 Dubbo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第四章：中国特色的微服务架构——Spring Cloud Alibaba 与 Dubbo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-spring-cloud-alibaba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Spring Cloud Alibaba：事实上的国内标准
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-dubbo-3xrpc-mesh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Dubbo 3.x：RPC 的重生与 Mesh 化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-mybatis-plus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 数据持久层：MyBatis-Plus 的绝对优势
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 数据持久层：MyBatis-Plus 的绝对优势">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-java" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表 4.1：中西方 Java 微服务技术栈对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第五章：数据库与中间件——分布式时代的存储变革
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第五章：数据库与中间件——分布式时代的存储变革">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-newsql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 NewSQL 数据库的普及
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 连接池与缓存技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#devops-idp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第六章：开发流程与平台工程——从 DevOps 到 IDP
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第六章：开发流程与平台工程——从 DevOps 到 IDP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-cicd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 CI/CD 工具链的演变
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-platform-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 平台工程（Platform Engineering）在中国
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第七章：AI 辅助开发——重塑代码编写范式
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第七章：AI 辅助开发——重塑代码编写范式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 国产 AI 编程工具的崛起
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 AI 对开发流程的影响
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第八章：人才市场与职业发展——“内卷”下的技能升级
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第八章：人才市场与职业发展——“内卷”下的技能升级">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 岗位技能画像
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 薪资水平与地域差异
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        第九章：总结与展望
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="第九章：总结与展望">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#912025-java-web" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        表 9.1：2025 年 Java Web 开发核心技术栈推荐（中国区）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="2024-2025-java-web">2024-2025 年全球及中国 Java Web 开发全景深度研究报告<a class="headerlink" href="#2024-2025-java-web" title="Permanent link">&para;</a></h1>
+<h2 id="java">第一章：引言——Java 生态的“文艺复兴”与分化<a class="headerlink" href="#java" title="Permanent link">&para;</a></h2>
+<p>在经历了近三十年的发展后，Java Web 开发领域在 2024 年至 2025 年期间展现出了惊人的韧性与创新活力。业界普遍认为，当前的 Java 生态正处于一次“文艺复兴”之中，这主要得益于 JDK 六个月发布周期的常态化、云原生技术的深度融合以及人工智能辅助开发的全面渗透。然而，当我们把目光聚焦于中国市场时，会发现一个既与全球趋势紧密耦合，又在架构选型、中间件生态和开发流程上呈现出鲜明本土化特征的平行宇宙。</p>
+<p>本报告旨在通过详实的数据分析、深度的技术拆解以及广泛的行业调研，全面呈现 Java Web 开发在当下的技术全貌。我们将深入探讨从底层的 JDK 版本迁移策略到上层的微服务架构演进，从全球通用的 Spring 生态到中国独特的 Spring Cloud Alibaba 体系，以及在 AI 浪潮下开发模式的范式转移。</p>
+<h3 id="11">1.1 全球视野下的技术演进逻辑<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>全球 Java 生态的核心驱动力已从单纯的“企业级稳健性”转向了“云原生效率”。随着 Spring Boot 3.x 的全面普及，Java 应用正在经历一场从传统的重型应用服务器向轻量级、可编译为本机镜像（Native Image）的云原生微服务转型的过程。这一转型不仅是对基础设施成本的优化，更是对开发体验（DX）的重塑。</p>
+<p>与此同时，JDK 本身的演进速度显著加快。Java 21 作为最新的长期支持（LTS）版本，其引入的虚拟线程（Virtual Threads）被视为自 Java 5 引入并发包以来最大的变革，旨在彻底解决高并发场景下的线程资源瓶颈，使同步编程模型重新焕发生机，挑战了响应式编程（Reactive Programming）在过去几年的主导地位。</p>
+<h3 id="12">1.2 中国市场的独特语境<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>中国国内的 Java Web 开发环境则在“高并发、大流量、复杂业务场景”的独特语境下，演化出了一套以阿里巴巴开源生态为核心的技术栈。不同于西方开发者倾向于使用 AWS 或 Azure 提供的托管服务，中国开发者更倾向于在基础设施即服务（IaaS）之上构建基于开源中间件的 PaaS 层。Spring Cloud Alibaba 的 Nacos、Sentinel、Seata 等组件，因其对海量并发流量的控制能力和对复杂分布式事务的处理能力，成为了国内互联网企业和传统企业数字化转型的首选。</p>
+<p>此外，中国在国产化替代（信创）和数据主权的政策背景下，推动了国产数据库（如 TiDB、OceanBase）和国产 DevOps 工具（如 Zadig、蓝鲸）的快速落地，这也构成了中国 Java 生态不可忽视的一环。</p>
+<h2 id="jdk">第二章：核心平台演进——JDK 版本与运行时环境<a class="headerlink" href="#jdk" title="Permanent link">&para;</a></h2>
+<p>Java 开发工具包（JDK）作为整个生态的基石，其版本的更迭直接决定了上层框架的能力边界。2024 年至 2025 年是 Java 版本迁移的关键窗口期，LTS 版本的更替正在加速。</p>
+<h3 id="21-lts-java-8-java-21">2.1 LTS 版本的代际更替：从 Java 8 到 Java 21<a class="headerlink" href="#21-lts-java-8-java-21" title="Permanent link">&para;</a></h3>
+<p>长期以来，Java 8 以其极高的稳定性和广泛的存量代码基础，占据了生产环境的半壁江山。然而，根据 New Relic 和 JetBrains 在 2024 年发布的生态报告显示，这一格局已发生根本性逆转。Java 17 已正式超越 Java 11 和 Java 8，成为生产环境中最主流的 LTS 版本，其采用率在一年内激增了近 300%，覆盖了超过 35% 的应用程序。</p>
+<p>这一转变并非偶然，而是多重因素叠加的结果。首先，Spring Boot 3.0 及以上版本强制要求 Java 17 作为最低基线，这直接迫使大量依赖 Spring 生态的企业进行升级。其次，Java 17 在 G1 垃圾收集器上的性能优化，以及 Records、Sealed Classes 等语法糖的引入，显著提升了运行时效率和代码可读性。</p>
+<p>更引人注目的是 Java 21 的崛起。尽管发布时间较短，但 Java 21 在发布后六个月内的采用率增长速度达到了 Java 17 同期的 287%。这一爆发式增长的核心驱动力在于其包含的“虚拟线程”（Project Loom）和“分代 ZGC”（Generational ZGC）。对于追求极致吞吐量的中国互联网企业而言，Java 21 提供的不仅仅是语法升级，而是基础设施成本的直接降低。</p>
+<h4 id="212024-2025-java">表 2.1：2024-2025 年主流 Java 版本生产环境采用率与趋势分析<a class="headerlink" href="#212024-2025-java" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>JDK 版本</th>
+<th>生产环境预估占比</th>
+<th>核心驱动力</th>
+<th>典型应用场景</th>
+<th>趋势预测</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Java 8</td>
+<td>~29%</td>
+<td>历史遗留系统兼容性</td>
+<td>传统银行核心、老旧 ERP 系统</td>
+<td>▼ 持续加速衰退，仅做维护</td>
+</tr>
+<tr>
+<td>Java 11</td>
+<td>~28%</td>
+<td>长期支持的中间态</td>
+<td>2018-2021 年构建的微服务</td>
+<td>▼ 逐渐被 Java 17 取代</td>
+</tr>
+<tr>
+<td>Java 17</td>
+<td>~35%</td>
+<td>Spring Boot 3.x 基线、云原生支持</td>
+<td>现代微服务、容器化应用</td>
+<td>▲ 当前主流，增长稳健</td>
+</tr>
+<tr>
+<td>Java 21</td>
+<td>~2%-4%</td>
+<td>虚拟线程、高吞吐需求</td>
+<td>网关、高并发中间件、AI 应用</td>
+<td>▲▲ 爆发式增长，未来标准</td>
+</tr>
+</tbody>
+</table>
+<h3 id="22-jdk">2.2 JDK 发行版的格局重塑：开源与多供应商<a class="headerlink" href="#22-jdk" title="Permanent link">&para;</a></h3>
+<p>在 Oracle 修改 JDK 授权协议后，Java 生态的发行版市场经历了剧烈的碎片化与重组。Oracle JDK 的市场份额已从曾经的 75% 跌至 2024 年的约 21%，而开源、社区驱动的发行版正在迅速填补真空。</p>
+<p>Eclipse Adoptium（前身为 AdoptOpenJDK）成为了最大的赢家，其市场份额年增长率达到 50%，占比约 18%。Adoptium 受到青睐的原因在于其严格的 TCK 测试保证了兼容性，且完全由社区治理，消除了企业的供应商锁定顾虑。与此同时，亚马逊的 Corretto 虽然凭借 AWS 的庞大用户群保持了约 18% 的份额，但也面临着来自 Adoptium 的激烈竞争。</p>
+<p>在中国市场，阿里云的 Dragonwell 作为 OpenJDK 的下游发行版，因其在电商大促场景下的特定优化（如 Wisp 协程、JWarmup 预热技术）而拥有特定的用户群体，尤其是在使用阿里云容器服务（ACK）的企业中。</p>
+<h3 id="23">2.3 虚拟线程：理想与现实的碰撞<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<p>Java 21 引入的虚拟线程被寄予厚望，旨在以同步编程的方式实现异步非阻塞的高并发性能。理论上，这允许开发者在单个 JVM 进程中创建数百万个虚拟线程，每个线程对应一个用户请求，从而摒弃复杂的 Reactive 响应式编程模型（如 WebFlux）。</p>
+<p>然而，来自一线生产环境的反馈——特别是中国高并发场景的实践——揭示了虚拟线程并非“银弹”。美团、阿里等企业的技术团队在实践中发现，虚拟线程在 I/O 密集型任务中表现优异，但在 CPU 密集型任务中可能因调度开销而导致性能不如传统线程池。</p>
+<p>更为棘手的是“线程钉住”（Pinning）问题。当虚拟线程在执行 synchronized 代码块或调用 JNI 本地方法时，它会被“钉”在底层的载体线程（Carrier Thread）上，无法释放资源。由于 Java 生态中存在大量使用 synchronized 的历史代码和第三方库（如旧版 JDBC 驱动、日志库），直接迁移至虚拟线程往往会导致死锁或吞吐量剧烈下降。因此，目前的开发最佳实践建议在新项目中有节制地使用虚拟线程，并配合 ReentrantLock 替代 synchronized，同时等待生态库的全面适配。</p>
+<h2 id="spring-boot-quarkus">第三章：框架生态——Spring Boot 的统治与 Quarkus 的挑战<a class="headerlink" href="#spring-boot-quarkus" title="Permanent link">&para;</a></h2>
+<p>在应用框架层面，Spring 生态依然保持着绝对的统治地位，但面对云原生时代的启动速度和内存占用挑战，它正在经历深刻的自我革新。</p>
+<h3 id="31-spring-boot-3x">3.1 Spring Boot 3.x：迈向云原生的深水区<a class="headerlink" href="#31-spring-boot-3x" title="Permanent link">&para;</a></h3>
+<p>Spring Boot 3.x 不仅是一个版本号的升级，它是 Spring 拥抱 AOT（Ahead-of-Time）编译和 GraalVM 的关键一步。通过引入 Spring AOT 引擎，Spring Boot 3 应用可以被编译为本机镜像，实现毫秒级启动和极低的内存占用，这对于 Serverless 架构（如 AWS Lambda 或阿里云函数计算）至关重要。</p>
+<p>在开发体验上，Spring Boot 3.4 进一步增强了可观测性（Observability）。通过内置对 OpenTelemetry 的支持，开发者无需引入复杂的 Agent 即可实现链路追踪和指标收集。此外，对 Docker Compose 的深度集成（支持多 Compose 文件）和测试框架的改进（MockMvc 与 AssertJ 的结合），都显示出 Spring 团队在提升开发者生产力方面的持续投入。</p>
+<h3 id="32-quarkus">3.2 Quarkus 与微服务新范式<a class="headerlink" href="#32-quarkus" title="Permanent link">&para;</a></h3>
+<p>尽管 Spring Boot 地位稳固，但红帽推出的 Quarkus 框架凭借其“超音速亚原子 Java”（Supersonic Subatomic Java）的理念，在 Kubernetes 原生开发领域撕开了一道口子。Quarkus 在设计之初就以 GraalVM 为第一公民，其构建时优化（Build Time Optimization）策略使其在启动时间和 RSS 内存占用上显著优于 Spring Boot。</p>
+<p>在技术选型上，Quarkus 通常被用于那些对冷启动速度极其敏感的边缘计算或 Serverless 场景。然而，其生态的成熟度（如 Panache ORM 与 Spring Data JPA 的差距）以及社区资源的丰富程度，仍是阻碍其在大规模企业核心业务中普及的主要障碍。许多团队在尝试 Quarkus 后发现，尽管性能诱人，但迁移现有的 Spring 业务逻辑和习惯不仅成本高昂，而且面临人才短缺的问题。</p>
+<h3 id="33-jakarta-ee-java-ee">3.3 Jakarta EE 的复兴：从 Java EE 到云原生标准<a class="headerlink" href="#33-jakarta-ee-java-ee" title="Permanent link">&para;</a></h3>
+<p>出乎意料的是，Jakarta EE（前 Java EE）在 2025 年的开发者调查中显示出强劲的生命力，其采用率（58%）甚至在某些维度上略高于 Spring（56%）。这背后有两个层面的原因：</p>
+<ol>
+<li>
+<p><strong>技术底座依赖：</strong> Spring Framework 本身严重依赖 Jakarta EE 的 API 规范（如 Servlet、JPA、Validation）。随着 Spring Boot 3 全面迁移至 Jakarta EE 10（包名从 javax.<em> 变为 jakarta.</em>），开发者在使用 Spring 的同时，实际上也在深度使用 Jakarta EE。</p>
+</li>
+<li>
+<p><strong>企业级存量市场：</strong> 金融、电信等行业的大量核心系统仍运行在传统的应用服务器（如 WebLogic, JBoss）上。Jakarta EE 11 的发布带来了对 Java 21 的支持和更轻量级的 Profile，使得这些遗留系统的现代化改造成为可能，而无需彻底重写为微服务。</p>
+</li>
+</ol>
+<h2 id="spring-cloud-alibaba-dubbo">第四章：中国特色的微服务架构——Spring Cloud Alibaba 与 Dubbo<a class="headerlink" href="#spring-cloud-alibaba-dubbo" title="Permanent link">&para;</a></h2>
+<p>中国 Java 开发最显著的特征在于其架构选型的高度趋同性。在经历了 Spring Cloud Netflix 组件（Eureka, Hystrix, Zuul）的停更风波后，中国社区迅速转向了由阿里巴巴主导的开源技术栈，形成了一套成熟的“高并发、高可用”解决方案。</p>
+<h3 id="41-spring-cloud-alibaba">4.1 Spring Cloud Alibaba：事实上的国内标准<a class="headerlink" href="#41-spring-cloud-alibaba" title="Permanent link">&para;</a></h3>
+<p>Spring Cloud Alibaba 在 2024-2025 年已成为中国 Java 微服务开发的“事实标准”。它提供了一站式的微服务组件，完美解决了 Spring Cloud 官方组件生态碎片化的问题。</p>
+<ul>
+<li>
+<p><strong>Nacos（注册配置中心）：</strong> Nacos 是这一生态的核心。相比于 Eureka（仅注册中心）和 Spring Cloud Config（需配合 Git 和 Bus），Nacos 将服务发现与动态配置管理合二为一。其基于 Raft 协议的一致性模型和毫秒级的配置推送能力，使其能够支撑双十一级别的流量洪峰。Nacos 2.x 版本引入的 gRPC 长连接更是大幅提升了性能。</p>
+</li>
+<li>
+<p><strong>Sentinel（流量防卫兵）：</strong> 替代了 Hystrix 的 Sentinel，提供了更细粒度的流量控制能力。它不仅支持熔断降级，还支持热点参数限流、系统自适应保护等。其可视化的控制台让运维人员能够实时干预流量，这对于经常面临大促流量冲击的中国企业来说是刚需。</p>
+</li>
+<li>
+<p><strong>Seata（分布式事务）：</strong> 在微服务拆分后，数据一致性成为最大痛点。Seata 提供的 AT 模式（自动生成回滚日志）、TCC 模式和 Saga 模式，覆盖了绝大多数业务场景。尤其是 AT 模式，以无侵入的方式解决了分布式事务问题，极大地降低了开发门槛。</p>
+</li>
+<li>
+<p><strong>RocketMQ：</strong> 在消息队列的选择上，尽管 Kafka 在全球范围内流行，但在中国，RocketMQ 因其对事务消息的支持和在阿里内部的长期验证，被广泛用于核心交易链路的削峰填谷。</p>
+</li>
+</ul>
+<h3 id="42-dubbo-3xrpc-mesh">4.2 Dubbo 3.x：RPC 的重生与 Mesh 化<a class="headerlink" href="#42-dubbo-3xrpc-mesh" title="Permanent link">&para;</a></h3>
+<p>Apache Dubbo 在中国拥有深厚的群众基础。随着 Dubbo 3.0 及后续版本的发布，它已不再仅仅是一个 RPC 框架，而是演进为云原生服务治理平台。</p>
+<ul>
+<li>
+<p><strong>Triple 协议：</strong> 针对 Dubbo 2.x 协议在跨语言和网关穿透上的弱点，Dubbo 3 推出了基于 HTTP/2 和 gRPC 的 Triple 协议。这使得 Dubbo 服务可以轻松地与 Go、Node.js 等语言编写的服务进行交互，同时也更友好地支持 Service Mesh 架构。</p>
+</li>
+<li>
+<p><strong>应用级服务发现：</strong> 为了适配 Kubernetes 的 Service 模型，Dubbo 3 从接口级服务发现转型为应用级服务发现，大幅减少了注册中心的元数据存储压力，解决了大规模集群下的性能瓶颈。</p>
+</li>
+<li>
+<p><strong>Dubbo vs Spring Cloud：</strong> 在中国技术社区，“选 Dubbo 还是 Spring Cloud”曾是热门话题。现在的趋势是二者的融合：使用 Spring Cloud Alibaba 作为整体架构（利用 Nacos、Sentinel），但在服务间调用上，利用 Dubbo 替换 OpenFeign，以获取更高的 RPC 性能和更强的类型安全。</p>
+</li>
+</ul>
+<h3 id="43-mybatis-plus">4.3 数据持久层：MyBatis-Plus 的绝对优势<a class="headerlink" href="#43-mybatis-plus" title="Permanent link">&para;</a></h3>
+<p>在 ORM 框架的选择上，中国与西方存在巨大差异。西方开发者普遍使用 JPA (Hibernate)，崇尚对象图操作；而中国开发者则压倒性地偏向 <strong>MyBatis</strong> 及其增强版 <strong>MyBatis-Plus</strong>。</p>
+<ul>
+<li><strong>MyBatis-Plus 的流行逻辑：</strong></li>
+<li><strong>SQL 控制权：</strong> 中国复杂的业务逻辑和报表需求往往需要高度优化的 SQL，Hibernate 自动生成的 SQL 难以满足 DBA 的审核要求。MyBatis 允许开发者手写 SQL，精确控制执行计划。</li>
+<li><strong>开发效率：</strong> MyBatis-Plus 在 MyBatis 基础上提供了类似 JPA 的 CRUD 接口（BaseMapper），无需编写 XML 即可完成单表操作，同时通过注解和 Wrapper 提供了强大的条件构造能力。</li>
+<li><strong>插件生态：</strong> 其内置的分页插件、多租户插件、乐观锁插件等，极大地简化了企业级开发中常见问题的处理。</li>
+</ul>
+<h4 id="41-java">表 4.1：中西方 Java 微服务技术栈对比<a class="headerlink" href="#41-java" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>组件层级</th>
+<th>全球/西方主流方案</th>
+<th>中国主流方案 (Spring Cloud Alibaba)</th>
+<th>核心差异点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>服务注册与发现</td>
+<td>Netflix Eureka (遗留), Consul, K8s DNS</td>
+<td><strong>Nacos</strong></td>
+<td>Nacos 集成了配置管理，且对 CAP 模型支持更灵活</td>
+</tr>
+<tr>
+<td>配置管理</td>
+<td>Spring Cloud Config</td>
+<td><strong>Nacos</strong></td>
+<td>Nacos 支持配置热更新，且无外部 Git 依赖</td>
+</tr>
+<tr>
+<td>熔断限流</td>
+<td>Resilience4j</td>
+<td><strong>Sentinel</strong></td>
+<td>Sentinel 提供可视化控制台和更丰富的流控规则</td>
+</tr>
+<tr>
+<td>服务调用 (RPC)</td>
+<td>REST (OpenFeign), gRPC</td>
+<td><strong>Dubbo</strong>, REST (OpenFeign)</td>
+<td>Dubbo 提供更强的 RPC 性能和接口级治理</td>
+</tr>
+<tr>
+<td>分布式事务</td>
+<td>Saga (手动实现)</td>
+<td><strong>Seata</strong></td>
+<td>Seata 提供 AT 模式，对业务无侵入</td>
+</tr>
+<tr>
+<td>ORM 框架</td>
+<td>Spring Data JPA (Hibernate)</td>
+<td><strong>MyBatis-Plus</strong></td>
+<td>MyBatis-Plus 提供更强的 SQL 掌控力和代码生成能力</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_1">第五章：数据库与中间件——分布式时代的存储变革<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>随着数据量的爆发，传统的单机 MySQL 已无法满足中国互联网企业的需求。2024 年，NewSQL 分布式数据库在 Java 开发中的渗透率显著提升。</p>
+<h3 id="51-newsql">5.1 NewSQL 数据库的普及<a class="headerlink" href="#51-newsql" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>TiDB (PingCAP)：</strong> 作为一款开源的分布式 HTAP（混合事务/分析处理）数据库，TiDB 兼容 MySQL 协议，这意味着 Java 开发者可以直接使用 JDBC 或 MyBatis 连接 TiDB，而无需修改代码。它通过计算存储分离架构，实现了无限的水平扩展，彻底解决了传统 MySQL 分库分表带来的复杂性（如跨分片 Join、分布式事务）。</p>
+</li>
+<li>
+<p><strong>OceanBase (蚂蚁集团)：</strong> 凭借在支付宝核心链路的实战经验，OceanBase 在金融、电信等对数据一致性要求极高的领域占据了一席之地。其多租户能力和 Oracle 兼容性模式，使其成为传统企业“去 IOE”架构升级的首选目标。</p>
+</li>
+</ul>
+<h3 id="52">5.2 连接池与缓存技术<a class="headerlink" href="#52" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>Druid 连接池：</strong> 阿里巴巴开源的 Druid 连接池不仅仅是一个连接池，它强大的监控功能（WallFilter）可以实时监控 SQL 执行情况，防御 SQL 注入，这使得它在中国市场的占有率远超 HikariCP（尽管后者是 Spring Boot 默认）。</p>
+</li>
+<li>
+<p><strong>Redis 与 Redisson：</strong> Redis 已是 Web 开发的标配。在中国，Redisson 客户端因其封装了分布式锁、布隆过滤器、分布式集合等高级功能，成为了处理高并发抢单、秒杀场景的标准工具。</p>
+</li>
+</ul>
+<h2 id="devops-idp">第六章：开发流程与平台工程——从 DevOps 到 IDP<a class="headerlink" href="#devops-idp" title="Permanent link">&para;</a></h2>
+<p>开发流程的演进正在从单纯的 CI/CD 自动化向平台工程（Platform Engineering）迈进。企业不再满足于脚本化的流水线，而是致力于构建内部开发者平台（IDP），以自助服务的方式提供基础设施。</p>
+<h3 id="61-cicd">6.1 CI/CD 工具链的演变<a class="headerlink" href="#61-cicd" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>Jenkins 的坚守与局限：</strong> 尽管被视为“传统”工具，但 Jenkins 凭借其庞大的插件生态和存量基础，依然是中国企业使用最广泛的 CI 工具。然而，其配置复杂、维护成本高的问题也日益凸显。</p>
+</li>
+<li>
+<p><strong>GitLab CI 的崛起：</strong> 对于新项目，GitLab CI 因其代码库与流水线的一体化设计，正迅速成为首选。在中国，出于代码安全和访问速度的考虑，私有化部署的 GitLab（或极狐 GitLab）是主流。</p>
+</li>
+<li>
+<p><strong>Zadig 与国产 DevOps 平台：</strong> Zadig 作为一款源自中国的云原生 DevOps 平台，针对微服务架构下的多环境管理（开发、测试、预发布）进行了深度优化。它支持并行的环境拉起和差异化配置，解决了微服务联调难的问题，被字节跳动、腾讯等大厂广泛采用。</p>
+</li>
+<li>
+<p><strong>腾讯蓝鲸（BlueKing）：</strong> 腾讯开源的蓝鲸平台不仅关注 CI/CD，更覆盖了运维自动化（SRE）的全生命周期，体现了中国大厂“研运一体化”的平台思维。</p>
+</li>
+</ul>
+<h3 id="62-platform-engineering">6.2 平台工程（Platform Engineering）在中国<a class="headerlink" href="#62-platform-engineering" title="Permanent link">&para;</a></h3>
+<p>平台工程的核心在于通过 IDP（Internal Developer Platform）降低开发者的认知负载。在字节跳动、美团等公司，内部平台屏蔽了 Kubernetes 的底层细节（如 Deployment、Service、Ingress 的 YAML 编写），开发者只需关注业务代码和简单的应用描述文件。根据 Gartner 预测，到 2026 年，80% 的软件工程组织将建立平台团队。中国企业的这一进程似乎走得更快，这得益于其庞大的工程团队规模对标准化和效率的极致追求。</p>
+<h2 id="ai">第七章：AI 辅助开发——重塑代码编写范式<a class="headerlink" href="#ai" title="Permanent link">&para;</a></h2>
+<p>2024 年是 AI 编程助手全面爆发的一年。在中国，由于网络环境和数据合规的要求，国产 AI 模型在开发工具中的集成度远超国外同类产品。</p>
+<h3 id="71-ai">7.1 国产 AI 编程工具的崛起<a class="headerlink" href="#71-ai" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>通义灵码（Tongyi Lingma）：</strong> 阿里云推出的通义灵码是目前中国市场占有率最高的 AI 编程插件（超过 10%）。它深度集成了 IDEA 和 VS Code，不仅能生成代码，还能自动生成单元测试（解决了开发者最不愿意做的工作）、解释遗留代码、甚至基于阿里云的 SDK 文档生成云资源编排代码。其背后的 Qwen（通义千问）大模型对中文注释和国内技术栈（如 Dubbo、MyBatis）的理解能力优于 GitHub Copilot。</p>
+</li>
+<li>
+<p><strong>百度 Comate：</strong> 基于文心一言大模型的 Comate 在百度内部覆盖率超过 80%，并对外商业化。它强调对企业私有代码库的学习能力，能够根据企业内部规范生成代码，这对于拥有大量私有框架的大型企业极具吸引力。</p>
+</li>
+</ul>
+<h3 id="72-ai">7.2 AI 对开发流程的影响<a class="headerlink" href="#72-ai" title="Permanent link">&para;</a></h3>
+<p>AI 正在改变 Java 开发的“样板代码”（Boilerplate）痛点。Lombok 解决了 Getter/Setter，而 AI 解决了 CRUD Service、Mapper XML 以及 DTO 转换代码的编写。这使得开发者可以将精力集中在核心业务逻辑和系统架构设计上。据统计，AI 辅助代码在部分企业的采纳率已超过 20%，显著提升了研发效率。</p>
+<h2 id="_2">第八章：人才市场与职业发展——“内卷”下的技能升级<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>2025 年的中国 Java 人才市场呈现出明显的“两极分化”：初级岗位需求萎缩，而对具备架构能力和底层原理的高级人才需求依旧旺盛。</p>
+<h3 id="81">8.1 岗位技能画像<a class="headerlink" href="#81" title="Permanent link">&para;</a></h3>
+<p>通过分析招聘网站（猎聘、BOSS 直聘）的数据，高薪 Java 开发岗位（年薪 40 万以上）普遍要求以下核心能力：</p>
+<ol>
+<li><strong>高并发实战经验：</strong> 这不仅仅是会使用 Redis，而是要求懂得缓存穿透/击穿/雪崩的解决方案，懂得如何进行全链路压测和容量规划。</li>
+<li><strong>Kubernetes 与云原生：</strong> 开发者不能只懂代码，必须懂容器。熟悉 Docker 原理，能够排查 K8s 环境下的 Pod 故障、OOM 问题是基本功。</li>
+<li><strong>JVM 深度调优：</strong> 要求能够通过 GC 日志分析、Arthas 在线诊断工具解决生产环境的 CPU 飙高或内存泄漏问题。</li>
+<li><strong>源码级理解：</strong> 对 Spring Boot 自动装配原理、Nacos 的一致性协议、Netty 的线程模型要有源码级的认知，而非仅仅停留在 API 调用。</li>
+</ol>
+<h3 id="82">8.2 薪资水平与地域差异<a class="headerlink" href="#82" title="Permanent link">&para;</a></h3>
+<p>尽管宏观经济环境充满挑战，但 Java 开发在核心城市依然是高收入职业。</p>
+<ul>
+<li><strong>一线城市（北上深）：</strong> 高级 Java 开发工程师（5-8 年经验）的年薪普遍在 35 万至 55 万人民币之间。架构师级别的薪资则更高，且通常包含股票期权。</li>
+<li><strong>地域套利：</strong> 随着远程工作和二线城市（如成都、武汉、西安）互联网产业的发展，虽然薪资绝对值低于一线城市（约低 30%），但考虑到房价和生活成本，这些城市的吸引力正在上升。</li>
+</ul>
+<h2 id="_3">第九章：总结与展望<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>2025 年的 Java Web 开发领域，正处于技术深度与广度双重扩张的时代。</p>
+<p><strong>对于企业而言</strong>，升级到 Java 17/21、采纳 Spring Cloud Alibaba 或云原生架构、构建内部开发者平台（IDP）已成为提升研发效能的必选项。同时，积极引入通义灵码等 AI 工具，将是降低研发成本、提升代码质量的关键杠杆。</p>
+<p><strong>对于开发者而言</strong>，单纯的“CRUD 程序员”生存空间已被极度压缩。未来的 Java 工程师必须是“全栈”的——不是指前端+后端，而是指“业务逻辑+基础设施+架构原理”。掌握云原生技术栈、精通国产中间件、并能熟练运用 AI 工具进行效能倍增，将是立足于未来的核心竞争力。</p>
+<p>Java，这位三十岁的“老将”，在云原生和 AI 的双重加持下，依然是中国乃至全球企业级开发最坚实的脊梁。</p>
+<h3 id="912025-java-web">表 9.1：2025 年 Java Web 开发核心技术栈推荐（中国区）<a class="headerlink" href="#912025-java-web" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>推荐技术/工具</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>语言版本</td>
+<td><strong>Java 17 (LTS)</strong></td>
+<td>兼顾生态兼容性与性能，Spring Boot 3 的基线</td>
+</tr>
+<tr>
+<td>Web 框架</td>
+<td><strong>Spring Boot 3.2+</strong></td>
+<td>虚拟线程支持，AOT 能力，可观测性增强</td>
+</tr>
+<tr>
+<td>微服务架构</td>
+<td><strong>Spring Cloud Alibaba 2023.x</strong></td>
+<td>Nacos/Sentinel/Seata 成熟稳定，社区活跃</td>
+</tr>
+<tr>
+<td>ORM 框架</td>
+<td><strong>MyBatis-Plus</strong></td>
+<td>开发效率高，SQL 可控，适合复杂业务</td>
+</tr>
+<tr>
+<td>数据库</td>
+<td><strong>MySQL 8.0 / TiDB</strong></td>
+<td>MySQL 适合常规业务，TiDB 适合海量数据/分库分表替代</td>
+</tr>
+<tr>
+<td>缓存/中间件</td>
+<td><strong>Redis / RocketMQ</strong></td>
+<td>高并发场景下的标准配置</td>
+</tr>
+<tr>
+<td>容器化</td>
+<td><strong>Docker / Kubernetes</strong></td>
+<td>部署运维的标准底座</td>
+</tr>
+<tr>
+<td>AI 助手</td>
+<td><strong>通义灵码 / Comate</strong></td>
+<td>中文理解好，对国产技术栈支持更佳</td>
+</tr>
+</tbody>
+</table>
+<p><strong>报告结束</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="dedeguo/javaweb-course-docs"
+        data-repo-id="R_kgDOQj_o1A"
+        data-category="Comments"
+        data-category-id="DIC_kwDOQj_o1M4CzvTT"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 武汉工商学院 计算机与自动化学院 陈德
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.highlight", "search.suggest", "content.code.copy", "navigation.indexes", "navigation.sections", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
