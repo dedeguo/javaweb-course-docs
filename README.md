@@ -12,6 +12,10 @@ pip install mkdocs mkdocs-material
 mkdocs --version
 # 本地运行
 mkdocs serve
+
+# 清理旧文件： 
+mkdocs build --clean
+
 ```
 
 ### 评论功能

@@ -67,8 +67,8 @@ Java Web开发技术是计算机科学与技术专业的一门专业必修课。
 | ------ | ------------------------------ | ------ | --------------------------------------- |
 | 1      | 第1章 Web开发基础与效能工具               | 2      | Maven、Git、AI 使用技巧                       |
 | 2      | 第2章 Web底层原理（HTTP 与会话）          | 6      | Request/Response、Session/Cookie、Servlet |
-| 3      | 第3章 Spring Boot 快速开发           | 8      | IoC/DI、RESTful API、Controller           |
-| 4      | 第4章 数据持久化（MyBatis + openGauss） | 4      | ORM、CRUD、事务管理                           |
+| 3      | 第3章 Spring Boot 快速开发           | 6      | IoC/DI、RESTful API、Controller           |
+| 4      | 第4章 数据持久化（MyBatis          | 6      | ORM、CRUD、事务管理                           |
 | 5      | 第5章 AI 集成与智能体基础                | 6      | RestTemplate、DeepSeek、MCP、Tool Calling  |
 | 6      | 第6章 综合项目：智能航班系统                | 6      | 业务逻辑串联、部署                               |
 | **合计** |                                | **32** |                                         |
@@ -78,11 +78,11 @@ Java Web开发技术是计算机科学与技术专业的一门专业必修课。
 | 序号 | 实验项目                  | 学时 | 实验类型 | 要求 |
 | -- | --------------------- | -- | ---- | -- |
 | 1  | Web环境与 AI 助手配置        | 2  | 演示性  | 必做 |
-| 2  | Servlet 登录与接口测试       | 2  | 验证性  | 必做 |
+| 2  | Servlet 登录与接口测试       | 4  | 验证性  | 必做 |
 | 3  | Spring Boot 航班 API 开发 | 4  | 演示性  | 必做 |
-| 4  | MyBatis 对接 openGauss  | 2  | 验证性  | 必做 |
+| 4  | MyBatis   | 2  | 验证性  | 必做 |
 | 5  | AI 智能助手集成             | 2  | 演示性  | 必做 |
-| 6  | 智能航班系统综合              | 4  | 综合性  | 必做 |
+| 6  | 智能航班系统综合              | 2  | 综合性  | 必做 |
 
 ---
 

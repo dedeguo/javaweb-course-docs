@@ -59,16 +59,16 @@ title: 课程简介
 ## 🗺️ 学习路线图
 
 !!! success "阶段一：基础夯实"
-    * **Web 开发基础与效能 (2学时)**：Maven 工程构建, Git 版本控制, AI 辅助工具技巧。
-    * **Web 底层原理 (8学时)**：HTTP 协议, Servlet 生命周期，过滤器拦截器、Session/Cookie 会话机制及JDBC等。
+    * **Web 开发基础与效能 (2+2学时)**：Maven 工程构建, Git 版本控制, AI 辅助工具技巧。
+    * **Web 底层原理 (6+4学时)**：HTTP 协议, Servlet 生命周期，过滤器拦截器、Session/Cookie 会话机制及JDBC等。
 
 !!! abstract "阶段二：现代框架进阶"
-    * **Spring Boot 快速开发 (6学时)**：IoC/DI 依赖注入, RESTful API 设计, 前后端联调。
-    * **数据持久化实战 (4学时)**：openGauss 数据库, MyBatis 动态 SQL，事务管理。
+    * **Spring Boot 快速开发 (6+4学时)**：IoC/DI 依赖注入, RESTful API 设计, 前后端联调。
+    * **数据持久化实战 (6+2学时)**：MySQL 数据库, MyBatis 动态 SQL，事务管理。
 
 !!! note "阶段三：AI 与 综合实战 (高阶拓展)"
-    * **AI 集成与智能体基础 (6学时)** 🔥：Prompt 工程, Tool Calling, MCP 协议。
-    * **综合项目实战 (6学时)**：将课堂学的 AI 技术迁移到图书交易业务中, 需求分析建模、核心功能开发、智能体开发、项目部署运行。
+    * **AI 集成与智能体基础 (6+2学时)** 🔥：Prompt 工程, Tool Calling, MCP 协议。
+    * **综合项目实战 (6+2学时)**：将课堂学的 AI 技术迁移到图书交易业务中, 需求分析建模、核心功能开发、智能体开发、项目部署运行。
 
 ---
 
