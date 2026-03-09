@@ -89,6 +89,7 @@ nav:
           - A03. OpenGauss 数据库安装指南: appendix/a03-opengauss-setup.md
     #       - A04. 常用开发工具清单 (Maven/插件): appendix/a04-devtools.md
     #       - A05. 结对编程：AI 辅助工具配置: appendix/a05-ai-coding.md
+          - A06. 零成本体验专属 AI 助理 CoPaw: appendix/a06-copaw-tutorial.md
     #   - 🔋 B. Java 高级特性补给站:
     #       - B01. 魔法起源：Java 反射机制: appendix/b01-reflection.md
     #       - B02. 框架灵魂：注解与元编程: appendix/b02-annotation.md
