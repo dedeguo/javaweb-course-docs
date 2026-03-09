@@ -47,14 +47,14 @@ title: 附录 A06：零成本体验专属 AI 助理 CoPaw
 
 最新版的 CoPaw 已经原生支持了 **ModelScope (魔搭)** 作为模型提供商，我们只需填入 API Key 即可激活。
 
-1. **填写 API Key**：在 CoPaw 界面左侧导航栏点击 **【设置】**，找到 **【模型 (Models)】** 列表。找到 `ModelScope`，点击它旁边的“设置”图标（⚙️），输入你的魔搭 API Key (`sk-...`)，并保存配置。
+1. **填写 API Key**：在 CoPaw 界面左侧导航栏点击 **【设置】**，找到 **【模型 (Models)】** 列表。找到 `ModelScope`，点击它旁边的“设置”图标（⚙️），输入你的魔搭 API Key (`sk-...`)，并保存配置。  
    ![CoPaw API Key 配置](../assets/imgs/copaw/copaw_model_config.png){ width="70%" .shadow }
 
-2. **添加具体模型**：在模型列表顶部，点击 **“+ 添加模型”**。在弹出的窗口中输入你想使用的免费模型 ID，例如：`moonshotai/Kimi-K2.5`。
-   ![CoPaw 添加模型](../assets/imgs/copaw/model_add.png){ width="70%" .shadow }
+2. **添加具体模型**：在模型列表顶部，点击 **“+ 添加模型”**。在弹出的窗口中输入你想使用的免费模型 ID，例如：`moonshotai/Kimi-K2.5`。  
+   ![CoPaw 添加模型](../assets/imgs/copaw/model_add.png){ width="70%" .shadow }  
    *(💡提示：只要魔搭平台支持且免费，你也可以随时添加 `deepseek-ai/DeepSeek-R1-0528` 等其他优秀的大模型。)*
 
-3. **激活 LLM 大脑**：切换到 **【LLM】** 选项卡。将“提供商”选择为 `ModelScope`，“模型”选择你刚刚配置的 `moonshotai/Kimi-K2.5`，点击保存。大功告成！
+3. **激活 LLM 大脑**：切换到 **【LLM】** 选项卡。将“提供商”选择为 `ModelScope`，“模型”选择你刚刚配置的 `moonshotai/Kimi-K2.5`，点击保存。大功告成！  
    ![ LLM大模型](../assets/imgs/copaw/LLM_config.png){ width="70%" .shadow }
 
 ---
