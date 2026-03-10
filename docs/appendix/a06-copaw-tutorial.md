@@ -15,7 +15,7 @@ title: 附录 A06：零成本体验专属 AI 助理 CoPaw
 
 在开始“养虾”之前，请确保你已经拥有了**魔搭社区 (ModelScope)** 的账号和 API Key。
 
-* 如果你还没有，请出门左转查看：[👉 附录 A：开发者账号申请指南](a01-account-guide.md)。
+* 如果你还没有，请出门左转查看：[👉 附录 A：开发者账号申请指南](a01-account-guide.md#modelscope-ai-api)。
 * 请准备好你的魔搭 Access Token（以 `sk-` 开头）。
 
 ---
@@ -26,7 +26,7 @@ title: 附录 A06：零成本体验专属 AI 助理 CoPaw
 
 1. **访问官方创空间**：
    打开浏览器，访问 CoPaw 在魔搭的官方空间：
-   [🔗 https://www.modelscope.cn/studios/AgentScope/CoPaw](https://www.modelscope.cn/studios/AgentScope/CoPaw)
+   [🔗 https://modelscope.cn/studios/fork?target=AgentScope/CoPaw](https://modelscope.cn/studios/fork?target=AgentScope/CoPaw)
 
 2. **复制空间 (Clone Space)**：
    在页面右上角，找到并点击 **“复制空间”** 按钮。
