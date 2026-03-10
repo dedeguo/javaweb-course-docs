@@ -69,7 +69,7 @@ classDiagram
     UserMapperInterface --|> UserMapperXML : 3. parameterType = 接口参数类型
     UserMapperInterface --|> UserMapperXML : 4. resultType = 接口返回值类型
 
-    note for UserMapperXML "⚠️ 这一步最容易写错！\n必须复制粘贴包名，不要手敲！"
+    note for UserMapperXML "⚠️ 这一步最容易写错！<br/>必须复制粘贴包名，不要手敲！"
 
 ```
 
