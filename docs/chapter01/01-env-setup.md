@@ -9,16 +9,18 @@
 
 请先下载教师提供的 **JavaWeb 实战开发集成包 (2025版)**。
 
-[:material-download: 点击下载课程集成包](https://xunke.wtbu.edu.cn/bmd/bmd-vue/#/platformRouteStation?needBack=1&dist_id=1&platform_uuid=48a6835735d730a19f94ccb8df490a7d&level=4&school_id=1&route_name=guestDiskShare&_fid=504884&_link_id=VQw4M&_name=JavaWeb实战开发集成包){ .md-button .md-button--primary }
+[ :material-download: 点击下载课程集成包 ](https://xunke.wtbu.edu.cn/bmd/bmd-vue/#/platformRouteStation?needBack=1&dist_id=1&platform_uuid=48a6835735d730a19f94ccb8df490a7d&level=4&school_id=1&route_name=guestDiskShare&_fid=504884&_link_id=YMjqQ&_name=JavaWeb实战开发集成包){ .md-button .md-button--primary } [ :material-cloud-download: 百度网盘备用下载 ](https://pan.baidu.com/s/1vDXlY6hU9H0IDxWo6ftZfw?pwd=fpkb){ .md-button }
 
-> **集成包清单：**
+> 💡 **提示**：百度网盘链接已自带提取码。如需手动输入，请填写提取码：**`fpkb`**。
+
+> **🧰 集成包清单：**
 >
 > * **JDK**: Oracle JDK 17 (长期支持版)
 > * **Build Tool**: Apache Maven 3.9.11
-> * **版本控制VCS**: Git 2.52.0 (64-bit)
-> * **Web Server**: Apache Tomcat 11.0.15(用于Web底层原理实验)
+> * **版本控制 (VCS)**: Git 2.52.0 (64-bit)
+> * **Web Server**: Apache Tomcat 11.0.15 (用于 Web 底层原理实验)
 > * **IDE**: IntelliJ IDEA 2025.2.5 (免安装旗舰版)
-> * **Database Tool**: Navicat / DBeaver (可选，IDEA已内置)
+> * **Database Tool**: Navicat / DBeaver (可选，IDEA 已内置)
 !!! tip "建议目录结构"
     为了避免路径空格带来的莫名其妙的报错，建议在 D 盘新建 `Dev` 文件夹，将所有工具解压到此：
     `D:\Dev\Java`、`D:\Dev\Maven`、`D:\Dev\Idea` 等。
