@@ -92,10 +92,11 @@ nav:
     #       - A05. 结对编程：AI 辅助工具配置: appendix/a05-ai-coding.md
           - A06. 零成本体验专属 AI 助理 CoPaw: appendix/a06-copaw-tutorial.md
       - 🔋 B. Java 基础补给站:
-          - B01. 从 HelloWorld 到面向对象: appendix/b01-oop-basics.md
-          - B02. Java 中的重写、重载与注解: appendix/b02-annotation.md
-    #       - B03. 偷天换日：动态代理原理: appendix/b03-proxy.md
-    #       - B04. 网络基石：Socket 与 HTTP: appendix/b04-network-basics.md
+          - B01. 万物起源：从 HelloWorld 到对象: appendix/b01-oop-basics.md
+          - B02. 语法贴纸：重写、重载与注解: appendix/b02-annotation.md
+          - B03. 框架黑客：Class 说明书与反射: appendix/b03-class-reflection.md
+          - B04. 超级容器：泛型标签与集合大军: appendix/b04-generics-collections.md
+          - B05. 数据管道：文件与网络 I/O 流: appendix/b05-file-network-io.md
     #   - 🥋 C. 源码级内功修炼 (选修):
     #       - C01. Servlet 规范核心解读: appendix/c01-servlet-spec.md
     #       - C02. 手写 Tomcat：容器原理: appendix/c02-tomcat4-source.md
