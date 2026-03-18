@@ -89,7 +89,7 @@ public class FrameworkDemo {
         
         // 第一步：拿到 LoginServlet 的“说明书”
         // 这里我们用最动态的方式，模拟框架读取配置的过程
-        Class<?> clazz = Class.forName("LoginServlet"); // 假设在当前包下
+        Class<?> clazz = Class.forName("edu.wtbu.cs.LoginServlet"); // 假设在当前包下
 
         // 第二步：看看这本说明书上，有没有贴 @WebRoute 这张便利贴？
         if (clazz.isAnnotationPresent(WebRoute.class)) {
@@ -217,7 +217,7 @@ import java.lang.reflect.Method;
 public class TomcatSimulator {
     public static void main(String[] args) throws Exception {
         // 假设 Tomcat 通过读取配置文件或注解，知道了用户想访问的类和方法名
-        String className = "LoginServlet"; // 假设在当前包下
+        String className = "edu.wtbu.cs.LoginServlet"; // 全路径类名
         String methodName = "doGet";       // Servlet 常用方法
 
         System.out.println("Tomcat 接收到请求，开始寻找对应的代码...");

@@ -44,6 +44,7 @@ import java.io.*;
 
 public class FileIODemo {
     public static void main(String[] args) {
+        //在这个D:\\Dev路径下新建text.txt文件
         String filePath = "D:\\Dev\\test.txt";
 
         // ------------------ 【写数据 (Output)】 ------------------
