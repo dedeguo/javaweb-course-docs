@@ -97,6 +97,7 @@ nav:
           - B03. 框架黑客：Class 说明书与反射: appendix/b03-class-reflection.md
           - B04. 超级容器：泛型标签与集合大军: appendix/b04-generics-collections.md
           - B05. 数据管道：文件与网络 I/O 流: appendix/b05-file-network-io.md
+          - B06. 事故救援：异常捕获与 JUnit 质检: appendix/b06-exception-junit
     #   - 🥋 C. 源码级内功修炼 (选修):
     #       - C01. Servlet 规范核心解读: appendix/c01-servlet-spec.md
     #       - C02. 手写 Tomcat：容器原理: appendix/c02-tomcat4-source.md
