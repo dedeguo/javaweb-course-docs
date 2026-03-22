@@ -43,6 +43,7 @@ nav:
       - 06. 过滤器与监听器: chapter02/06-filter-listener.md
       - 07. JDBC 与连接池 Druid: chapter02/07-jdbc-core.md
       - 08. 告别 JDBC 泥潭：MyBatis 初体验: chapter02/08-mybatis-intro.md
+      - 09. 图书管理模块 CRUD 详解: chapter02/09-servlet-crud.md
       - 实验 2：Web 核心综合实战: chapter02/lab2.md
   - 第三篇｜Spring Boot 核心开发:
       - 第3章 导读: chapter03/index.md
