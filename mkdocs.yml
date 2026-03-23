@@ -112,7 +112,7 @@ nav:
           - E02. 精选开源项目库: appendix/e02-opensource-projects.md    
   - ☕ 关于与支持:
       - 📖 关于本站与更新日志: about/about.md
-      - 💖 赞赏与支持: about/donate.md 
+    #   - 💖 赞赏与支持: about/donate.md 
 plugins:
   - search:
       lang: zh
