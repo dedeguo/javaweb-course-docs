@@ -17,7 +17,7 @@ theme:
     - content.code.copy
     # - toc.integrate
     - navigation.indexes        # 允许点击目录本身进入页面
-    # - navigation.sections       # 将一级目录作为"区段"标题（不折叠），视觉更清晰
+    - navigation.sections       # 将一级目录作为"区段"标题（不折叠），视觉更清晰
     # - navigation.expand         # (可选) 默认展开所有目录，方便学生通过 Ctrl+F 搜索
     - navigation.top            # 返回顶部按钮
     - navigation.tracking       # 滚动时侧边栏自动高亮当前章节
