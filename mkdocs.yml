@@ -1,6 +1,6 @@
 site_name: Java Web 开发技术
-site_description: 武汉工商学院《Java Web开发技术》课程电子教材
-site_url: https://dedeguo.github.io/javaweb-course-docs
+site_description: 《Java Web开发技术》课程电子教材
+site_url: https://javaweb.chende.top/
 
 theme:
   name: material
@@ -17,7 +17,7 @@ theme:
     - content.code.copy
     # - toc.integrate
     - navigation.indexes        # 允许点击目录本身进入页面
-    - navigation.sections       # 将一级目录作为"区段"标题（不折叠），视觉更清晰
+    # - navigation.sections       # 将一级目录作为"区段"标题（不折叠），视觉更清晰
     # - navigation.expand         # (可选) 默认展开所有目录，方便学生通过 Ctrl+F 搜索
     - navigation.top            # 返回顶部按钮
     - navigation.tracking       # 滚动时侧边栏自动高亮当前章节
@@ -110,6 +110,9 @@ nav:
       - 🔭 E. 职业视野与资源库:
           - E01. Java Web 行业全景报告: appendix/e01-industry-report.md
           - E02. 精选开源项目库: appendix/e02-opensource-projects.md    
+  - ☕ 关于与支持:
+      - 📖 关于本站与更新日志: about/about.md
+      - 💖 赞赏与支持: about/donate.md 
 plugins:
   - search:
       lang: zh
@@ -155,4 +158,4 @@ extra_javascript:
 extra_css:
   - https://unpkg.com/mermaid/dist/mermaid.min.css # (注：新版 mermaid 其实通常不需要这个，但加上也没坏处，主要靠 JS)
 
-copyright: "Copyright &copy; 2026 武汉工商学院 计算机与自动化学院 陈德"
+copyright: "Copyright &copy; 2026  陈德"
