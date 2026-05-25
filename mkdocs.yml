@@ -44,6 +44,8 @@ nav:
       - 07. JDBC 与连接池 Druid: chapter02/07-jdbc-core.md
       - 08. 告别 JDBC 泥潭：MyBatis 初体验: chapter02/08-mybatis-intro.md
       - 09. 图书管理模块 CRUD 详解: chapter02/09-servlet-crud.md
+      - 实验 2-1：Servlet 用户认证: chapter02/lab2-1.md
+      - 实验 2-2：Vibe Coding 图书管理系统: chapter02/lab2-2.md
       - 实验 2：Web 核心综合实战: chapter02/lab2.md
   - 第三篇｜Spring Boot 核心开发:
       - 第3章 导读: chapter03/index.md
@@ -53,6 +55,7 @@ nav:
       - 04. 架构设计：分层解耦 (Controller-Service-Dao):  chapter03/04-architecture.md
       - 05. 全局兜底：异常处理与 AOP 简介:  chapter03/05-exception-aop.md        # 实战：@RestControllerAdvice
       - 06. 生产级基石：日志管理与单元测试: chapter03/06-test-logging.md
+      - 实验 3-1：AI 辅助 API 开发: chapter03/lab3-1.md
       - 实验3：构建标准化的 RESTful 后端系统:  chapter03/lab3.md     # 综合实战
   
   - 第四篇｜MyBatis 数据持久化 :

@@ -1,7 +1,7 @@
 ---
 title: 课程简介
 ---
-# 《Java Web开发技术》课程教学大纲（实战版｜2025 修订）
+# 《Java Web开发技术》课程教学大纲（实战版｜2026 修订）
 
 ---
 
@@ -23,11 +23,11 @@ title: 课程简介
 
 Java Web开发技术是计算机科学与技术专业的一门专业必修课。针对48学时的紧凑安排，课程采用 **“Spring Boot First”** 的教学策略。
 
-课程以构建 **“AI赋能的航班管理系统”** 为主线，快速通过 Web 底层原理，重点讲解 Spring Boot 企业级开发框架与 MyBatis 持久层技术。
+课程以构建 **"SmartBook 智能图书交易系统"** 为主线，快速通过 Web 底层原理，重点讲解 Spring Boot 企业级开发框架与 MyBatis 持久层技术。
 
-在 AI 智能助手部分，课程引入前沿的 **MCP（Model Context Protocol）** 标准，系统讲解 **Tool Calling（工具调用）** 技术，使学生掌握从接口设计、数据库交互到 **“大模型驱动本地 Java 方法”** 的现代全栈智能开发流程。
+在 AI 智能助手部分，课程引入前沿的 **MCP（Model Context Protocol）** 标准，系统讲解 **Tool Calling（工具调用）** 技术，使学生掌握从接口设计、数据库交互到 **"大模型驱动本地 Java 方法"** 的现代全栈智能开发流程。
 
-学生将在 **信创环境（龙蜥 OS + Dragonwell JDK + openGauss）** 下完成开发与部署实践。
+课程使用 **Trae AI IDE** 等 AI 编程工具辅助教学，采用 **Vibe Coding** 与 **Vibe Learning** 模式，引导学生借助 AI 理解底层原理、生成样板代码、完成业务逻辑开发，实现"AI 引导 + 自主编码"的高效学习闭环。
 
 ---
 
@@ -43,18 +43,18 @@ Java Web开发技术是计算机科学与技术专业的一门专业必修课。
 
 * 熟练使用 Spring Boot + MyBatis 进行 RESTful API 开发
 * 掌握 Maven 依赖管理
-* 熟练使用 AI 辅助编程工具（通义灵码、Cursor 等）生成样板代码、单元测试并辅助 Debug
+* 熟练使用 AI 辅助编程工具（Trae AI IDE、通义灵码等）进行 Vibe Coding 开发、生成单元测试并辅助 Debug
 
-### 课程目标 3：信创与 AI 集成能力
+### 课程目标 3：AI 集成与智能体开发能力
 
-* 能够连接国产数据库 openGauss 进行开发
+* 能够熟练使用 MySQL 数据库进行开发与数据建模
 * 掌握 HTTP Client 调用 AI 大模型（如 DeepSeek）并处理 JSON 数据
 * 理解 MCP 架构，掌握 Tool Calling 机制，实现大模型对 Java 业务逻辑的自动调用
 
 ### 课程目标 4：综合素质
 
 * 具备良好的代码规范意识
-* 体验国产软硬件生态
+* 体验 AI 赋能开发范式（Vibe Coding / Vibe Learning）
 * 培养解决复杂工程问题的创新思维
 
 ---
@@ -66,11 +66,11 @@ Java Web开发技术是计算机科学与技术专业的一门专业必修课。
 | 序号     | 章节                             | 学时     | 重点内容                                    |
 | ------ | ------------------------------ | ------ | --------------------------------------- |
 | 1      | 第1章 Web开发基础与效能工具               | 2      | Maven、Git、AI 使用技巧                       |
-| 2      | 第2章 Web底层原理（HTTP 与会话）          | 6      | Request/Response、Session/Cookie、Servlet |
-| 3      | 第3章 Spring Boot 快速开发           | 6      | IoC/DI、RESTful API、Controller           |
-| 4      | 第4章 数据持久化（MyBatis          | 6      | ORM、CRUD、事务管理                           |
-| 5      | 第5章 AI 集成与智能体基础                | 6      | RestTemplate、DeepSeek、MCP、Tool Calling  |
-| 6      | 第6章 综合项目：智能航班系统                | 6      | 业务逻辑串联、部署                               |
+| 2      | 第2章 Web底层原理（Servlet、JDBC）      | 6      | HTTP、Servlet、Session、Filter、JDBC、Druid |
+| 3      | 第3章 Spring Boot 核心与 RESTful API   | 8      | IoC/DI、RESTful API、分层架构、异常处理、AOP    |
+| 4      | 第4章 数据持久化（MyBatis）            | 4      | ORM、MySQL 整合、动态 SQL、PageHelper、事务管理    |
+| 5      | 第5章 AI 集成与智能体基础                | 6      | HTTP Client、Prompt、JSON Schema、Tool Calling、Spring AI、MCP |
+| 6      | 第6章 综合项目：SmartBook 智能图书交易系统     | 6      | 系统设计、核心业务开发、Agent 集成、部署              |
 | **合计** |                                | **32** |                                         |
 
 ### （二）实验学时安排（16 学时）
@@ -78,11 +78,11 @@ Java Web开发技术是计算机科学与技术专业的一门专业必修课。
 | 序号 | 实验项目                  | 学时 | 实验类型 | 要求 |
 | -- | --------------------- | -- | ---- | -- |
 | 1  | Web环境与 AI 助手配置        | 2  | 演示性  | 必做 |
-| 2  | Servlet 登录与接口测试       | 4  | 验证性  | 必做 |
-| 3  | Spring Boot 航班 API 开发 | 4  | 演示性  | 必做 |
-| 4  | MyBatis   | 2  | 验证性  | 必做 |
-| 5  | AI 智能助手集成             | 2  | 演示性  | 必做 |
-| 6  | 智能航班系统综合              | 2  | 综合性  | 必做 |
+| 2  | Servlet 核心组件与持久化综合实战（Vibe Coding） | 4  | 验证性  | 必做 |
+| 3  | Spring Boot RESTful API 开发（学生+图书模块 CRUD，AI 辅助） | 4  | 演示性  | 必做 |
+| 4  | MyBatis 综合实战            | 2  | 验证性  | 必做 |
+| 5  | AI 智能图书导购 Agent        | 2  | 演示性  | 必做 |
+| 6  | SmartBook 智能图书交易系统综合   | 2  | 综合性  | 必做 |
 
 ---
 
@@ -96,18 +96,23 @@ Java Web开发技术是计算机科学与技术专业的一门专业必修课。
 * Servlet 规范简介
 * Maven 依赖管理（pom.xml）
 * 快速环境搭建（JDK / Maven / IDEA / Tomcat）
-* AI 工具介绍：DeepSeek、Kimi、豆包
+* AI 工具介绍：DeepSeek、Trae AI IDE
 * 开发效能插件：Lombok、MyBatisX
-* 通义灵码：生成代码、单元测试与代码解释
+* AI 辅助编程：Vibe Coding 与 Vibe Learning 模式
 
-### 第2章 Web 底层原理：Servlet 与 HTTP（6 学时）
+### 第2章 Web 底层原理：Servlet 与 JDBC（6 学时）
 
 * Servlet 生命周期
-* 登录/注册 Demo
 * HTTP 协议与 Request/Response
-* Cookie 与 Session 机制
 * JSON 数据格式与 Jackson
+* Cookie 与 Session 机制
+* 过滤器与监听器（Filter & Listener）
+* JDBC 核心与 Druid 连接池
+* Servlet CRUD 综合实战（含 Vibe Coding 实验）
 * **删减说明**：不讲 JSP、不讲 Servlet 高级标签
+* **实验资源**：
+  * [实验 2-1：基于 Servlet 的用户认证功能实现](https://gitee.com/javaweb-dev-tech/lab2_1)（Session 登录/注册/登出）
+  * [实验 2-2：Vibe Coding 及 Vibe Learning](https://gitee.com/javaweb-dev-tech/lab2_2)（AI 辅助图书管理系统开发）
 
 ### 第3章 Spring Boot 核心与 RESTful API（8 学时）
 
@@ -115,34 +120,51 @@ Java Web开发技术是计算机科学与技术专业的一门专业必修课。
 * IoC / DI（@Autowired、@Service）
 * MVC 核心注解
 * RESTful API 设计规范
+* **AI 辅助开发实验（学生模块 CRUD）**：
+  * 使用 AI 生成 SQL 建表语句（student 表：id, name, age, major）及测试数据
+  * 使用 AI 生成实体类、Mapper 接口/XML、Service、Controller
+  * 实现完整 RESTful API：
+    * `GET /api/students` → 查询所有
+    * `GET /api/students/{id}` → 查询单个
+    * `POST /api/students` → 新增
+    * `PUT /api/students/{id}` → 更新
+    * `DELETE /api/students/{id}` → 删除
+  * 使用 IDEA HTTP Client 或 Postman 进行接口测试
+  * **图书模块（Book）CRUD**：仿照学生模块，由学生独立使用 AI 完成 Book 实体类、Mapper、Service、Controller 的完整开发
+* 三层架构设计（Controller-Service-Dao）
 * 统一返回结果封装
-* 接口测试（Postman / Apifox）
+* 全局异常处理与 AOP 简介
+* 单元测试（JUnit 5）与日志管理（SLF4J）
+* 接口测试（IDEA HTTP Client / Postman）
+* **实验报告要求**：AI 对话截图、SQL 建表及测试数据语句、核心代码、接口测试截图
 
-### 第4章 数据持久化：MyBatis 与信创数据库（4 学时）
+### 第4章 数据持久化：MyBatis 与事务管理（4 学时）
 
 * ORM 思想
-* MyBatis 整合 Spring Boot
-* openGauss 数据库连接
-* Mapper 接口与映射
+* MyBatis 整合 Spring Boot + MySQL
+* Mapper 接口与 XML 映射
+* 动态 SQL（if、where、foreach）
+* PageHelper 分页插件
 * 事务管理（@Transactional）
 
 ### 第5章 AI 集成与智能体基础：MCP 与 Tool Calling（6 学时）
 
-* Prompt 工程
 * Java HTTP 客户端
+* Prompt 工程
 * DeepSeek / OpenAI API 调用
-* Markdown 数据解析
-* Tool Calling 原理与 JSON Schema
+* 结构化输出与 JSON Schema 解析
+* Tool Calling 原理与 JSON Schema 定义
+* Spring AI 框架接入
 * MCP：Context / Tools / Resources
-* 意图识别搜索实战
+* 意图识别与智能体实战
 
-### 第6章 综合项目：智能航班管理系统（6 学时）
+### 第6章 综合项目：SmartBook 智能图书交易系统（6 学时）
 
-* 系统设计与 E-R 图
+* 系统需求分析与建模（用例图、ER 图）
 * 用户模块与权限拦截
-* 航班查询与预订
-* AI 旅行助手模块
-* Maven 打包与龙蜥 OS 部署
+* 图书发布、搜索与交易核心业务
+* AI 智能图书导购 Agent 集成
+* Maven 打包与 Tomcat 部署
 
 ---
 
@@ -169,7 +191,7 @@ Java Web开发技术是计算机科学与技术专业的一门专业必修课。
 ## 六、教学资源保障
 
 * 电子教材与补充文档
-* 私有云 / 服务器 openGauss 环境
+* 远程 MySQL 数据库服务器
 * 前端模板（Vue / HTML + jQuery）
 * 魔塔社区 API Key（每日 2000 次）
 * Git 仓库：码云高校版
@@ -191,4 +213,4 @@ Java Web开发技术是计算机科学与技术专业的一门专业必修课。
 
 **编写人**：陈德
 **审核人**：
-**时间**：2025.12
+**时间**：2026.05
