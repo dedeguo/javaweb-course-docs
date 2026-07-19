@@ -1,0 +1,4105 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="《Java Web开发技术》课程电子教材">
+      
+      
+      
+        <link rel="canonical" href="https://javaweb.chende.top/chapter02/lab2-2/">
+      
+      
+        <link rel="prev" href="../lab2-1/">
+      
+      
+        <link rel="next" href="../lab2/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>实验 2-2：Vibe Coding 图书管理系统 - Java Web 开发技术</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/mermaid/dist/mermaid.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#2-2vibe-coding-vibe-learning-ai" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="Java Web 开发技术" class="md-header__button md-logo" aria-label="Java Web 开发技术" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Java Web 开发技术
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              实验 2-2：Vibe Coding 图书管理系统
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Java Web 开发技术" class="md-nav__button md-logo" aria-label="Java Web 开发技术" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Java Web 开发技术
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    课程介绍
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    课程介绍
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter01/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第一篇｜开发环境与效能工具
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第一篇｜开发环境与效能工具
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter01/01-env-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01.开发环境安装
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter01/02-maven-git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02.工程化基石：Git与Maven
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter01/03-ai-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03.AI 结对编程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter01/lab1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验1：Web环境与AI助手
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第二篇｜Web 底层原理
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第二篇｜Web 底层原理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-http-protocol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01.HTTP 协议与调试工具
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-servlet-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. Servlet 基础
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-request-response/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. 请求与响应 (Req & Resp)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-json-interaction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. JSON 数据交互
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-state-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. 会话与状态 (Session)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-filter-listener/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. 过滤器与监听器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-jdbc-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07. JDBC 与连接池 Druid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-mybatis-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08. 告别 JDBC 泥潭：MyBatis 初体验
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-servlet-crud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09. 图书管理模块 CRUD 详解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验 2-1：Servlet 用户认证
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验 2-2：Vibe Coding 图书管理系统
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验 2-2：Vibe Coding 图书管理系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 实验目的
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 实验前准备
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🗺️ 项目结构预览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        👣 实验步骤
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👣 实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1vibe-learning-ai-jdbc-servlet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模块 1：Vibe Learning —— AI 引导学习 JDBC 与 Servlet
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="模块 1：Vibe Learning —— AI 引导学习 JDBC 与 Servlet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agent-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务一：配置 Agent Skill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai-jdbc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务二：AI 引导学习 JDBC 与数据库连接池
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务三：图书模块 CRUD 独立练习
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务四：使用 Skill 优化前端 UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2vibe-coding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模块 2：Vibe Coding —— 图书管理系统后端开发
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="模块 2：Vibe Coding —— 图书管理系统后端开发">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务五：数据库设计与建表
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务六：项目配置及初始化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trae-ai-ide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务七：使用 Trae AI IDE 生成后端代码（核心）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务八：关键技术要点理解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postman" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务九：Postman 接口测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 挑战任务（Optional - 加分项）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 挑战任务（Optional - 加分项）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战 A：超期检测
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战 B：借阅历史分页
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战 C：密码加密升级
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💾 作业提交
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💾 作业提交">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        提交内容
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        学习通提交
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 相关资源
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lab2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验 2：Web 核心综合实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter03/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第三篇｜Spring Boot 核心开发
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第三篇｜Spring Boot 核心开发
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/01-springboot-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. 框架革命：Spring Boot 快速入门
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/02-ioc-di/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. 核心原理：IOC 容器与依赖注入 (DI)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/03-restful-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. 接口规范：RESTful 风格与统一响应
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/04-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. 架构设计：分层解耦 (Controller-Service-Dao)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/05-exception-aop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. 全局兜底：异常处理与 AOP 简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/06-test-logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. 生产级基石：日志管理与单元测试
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/lab3-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验 3-1：AI 辅助 API 开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter03/lab3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验3：构建标准化的 RESTful 后端系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter04/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第四篇｜MyBatis 数据持久化
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第四篇｜MyBatis 数据持久化
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/01-orm-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. ORM 思想与 MyBatis 初探
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/02-integrate-mysql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. 整合数据库 (Spring Boot + MySQL)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/03-mapper-xml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. Mapper接口与XML映射
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/04-dynamic-sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. MyBatis 的杀手锏：动态 SQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/05-pagehelper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. 插件生态：PageHelper 分页查询
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/06-transaction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. 事务管理：@Transactional 与 ACID
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter04/lab4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验4：数据落地——从内存 Map 到 MySQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter05/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第五篇｜AI 集成与智能体基础
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第五篇｜AI 集成与智能体基础
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/01-ai-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. Java 也就是个“浏览器”：HTTP Client 调用 AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/02-prompt-java/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. 提示词工程与Java模板
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/03-structured-output/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. 让 AI 说“机器话”：JSON Schema 与解析
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/04-tool-calling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04. 赋予 AI 双手：Tool Calling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/05-spring-ai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05. 简化开发：拥抱 Spring AI 框架
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/06-mcp-intro/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06. 未来的标准：MCP简介
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter05/lab5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验5：智能客服Agent实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../chapter06/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    第六篇｜综合项目实战
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    第六篇｜综合项目实战
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/01-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01. 需求分析与建模(Visual Modeling)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/02-implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02. 核心业务开发(AI 辅助编码)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/03-agent-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03. 智能体集成(Tool Calling 实战)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../chapter06/lab6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    实验6 二手书交易智能体
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📚 附录 进阶资源与内功修炼
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    📚 附录 进阶资源与内功修炼
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_1" id="__nav_8_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🛠️ A. 开发环境与工具链
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🛠️ A. 开发环境与工具链
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/a01-account-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A01. 开发者账号与工具权益申请指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/a02-docker-deploy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A02. Docker 容器化部署实战
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/a03-opengauss-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A03. OpenGauss 数据库安装指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/a06-copaw-tutorial/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A06. 零成本体验专属 AI 助理 CoPaw
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔋 B. Java 基础补给站
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🔋 B. Java 基础补给站
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/b01-oop-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B01. 万物起源：从 HelloWorld 到对象
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/b02-annotation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B02. 语法贴纸：重写、重载与注解
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/b03-class-reflection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B03. 框架黑客：Class 说明书与反射
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/b04-generics-collections/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B04. 超级容器：泛型标签与集合大军
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/b05-file-network-io/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B05. 数据管道：文件与网络 I/O 流
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/b06-exception-junit" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    B06. 事故救援：异常捕获与 JUnit 质检
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🤖 D. Spring AI 框架尝鲜
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🤖 D. Spring AI 框架尝鲜
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/d01-spring-ai-quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D01. 快速接入 OpenAI/国产大模型
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/d02-simple-rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    D02. 简单的 RAG 实现 (课程助教)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_4" id="__nav_8_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    🔭 E. 职业视野与资源库
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    🔭 E. 职业视野与资源库
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/e01-industry-report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E01. Java Web 行业全景报告
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../appendix/e02-opensource-projects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E02. 精选开源项目库
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ☕ 关于与支持
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ☕ 关于与支持
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    📖 关于本站与更新日志
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/donate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    💖 赞赏与支持
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🧪 实验目的
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 实验前准备
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🗺️ 项目结构预览
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        👣 实验步骤
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👣 实验步骤">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1vibe-learning-ai-jdbc-servlet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模块 1：Vibe Learning —— AI 引导学习 JDBC 与 Servlet
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="模块 1：Vibe Learning —— AI 引导学习 JDBC 与 Servlet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#agent-skill" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务一：配置 Agent Skill
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ai-jdbc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务二：AI 引导学习 JDBC 与数据库连接池
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crud" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务三：图书模块 CRUD 独立练习
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skill-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务四：使用 Skill 优化前端 UI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2vibe-coding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模块 2：Vibe Coding —— 图书管理系统后端开发
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="模块 2：Vibe Coding —— 图书管理系统后端开发">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务五：数据库设计与建表
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务六：项目配置及初始化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trae-ai-ide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务七：使用 Trae AI IDE 生成后端代码（核心）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务八：关键技术要点理解
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postman" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        任务九：Postman 接口测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 挑战任务（Optional - 加分项）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🚀 挑战任务（Optional - 加分项）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战 A：超期检测
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战 B：借阅历史分页
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        挑战 C：密码加密升级
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        💾 作业提交
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="💾 作业提交">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        提交内容
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        学习通提交
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 相关资源
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="2-2vibe-coding-vibe-learning-ai">实验 2-2：Vibe Coding 及 Vibe Learning —— 基于 AI 辅助的图书管理系统开发<a class="headerlink" href="#2-2vibe-coding-vibe-learning-ai" title="Permanent link">&para;</a></h1>
+<div class="admonition abstract">
+<p class="admonition-title">实验信息</p>
+<ul>
+<li><strong>实验学时</strong>：2 学时</li>
+<li><strong>实验类型</strong>：验证性 + 设计性</li>
+<li><strong>核心目标</strong>：使用 Trae AI IDE，通过 Vibe Learning（AI 引导学习）+ Vibe Coding（AI 辅助编码）双模式，完成一个完整的<strong>校园图书管理系统</strong>后端开发。</li>
+</ul>
+</div>
+<hr />
+<h2 id="_1">🧪 实验目的<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Vibe Learning</strong>：利用 Trae AI IDE 学习 JDBC、数据库连接池、Servlet 等 Java Web 核心技术，掌握"AI 引导 + 自己编码"的高效学习模式。</li>
+<li><strong>Vibe Coding</strong>：通过 AI 辅助完成一个完整的后端系统开发，理解 MVC 架构、分层设计（Controller / Service / DAO）、RESTful API 设计等工程实践。</li>
+<li><strong>Agent Skill 概念</strong>：了解和使用 AI Agent 的 Skill 配置，为后续使用更强大的 AI 编程工具打下基础。</li>
+<li><strong>接口测试</strong>：掌握 Postman 接口测试方法，理解前后端分离开发中的联调流程。</li>
+<li><strong>业务建模</strong>：理解图书管理系统的借阅业务规则，实现完整的业务逻辑闭环。</li>
+</ol>
+<hr />
+<h2 id="_2">📋 实验前准备<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 已完成 <a href="../lab2-1/">实验 2-1</a>，掌握 Servlet 创建与 Session 管理等基础技能。</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 已安装 <a href="https://www.trae.cn/">Trae AI IDE</a> 并登录账号。</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 已安装 Postman（用于 API 接口测试）。</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> 本地 MySQL 已启动并创建数据库 <code>book_management</code>（或使用实验提供的远程数据库）。</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Java 和 Maven 命令行可直接调用（验证：<code>java -version</code>、<code>mvn -version</code>）。</li>
+</ul>
+<hr />
+<h2 id="_3">🗺️ 项目结构预览<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>lab2_2/
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>├── vibe_learning/                             # 模块 1：Vibe Learning 学习环境
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>│   ├── .trae/skills/                          # 预置的 AI Agent Skills
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>│   │   ├── ai-assisted-jdbc-learning/          # JDBC 学习引导 Skill（8 步结构化工作流）
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a>│   │   └── frontend-design/                    # 前端 UI 设计 Skill
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a>│   ├── src/main/java/                          # 学生练习代码目录
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a>│   └── pom.xml
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a>│
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a>├── book_template/                              # 模块 2：图书管理系统模板工程
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a>│   ├── src/main/java/                          # 后端 Java 代码（学生在此开发）
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a>│   ├── src/main/webapp/                        # 前端页面（已提供，无需修改）
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a>│   │   ├── user/                               # 用户端页面
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a>│   │   ├── admin/                              # 管理员端页面
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a>│   │   └── js/common.js                        # 公共 API 工具模块（Fetch API）
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a>│   ├── src/main/resources/db.properties        # 数据库配置文件
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a>│   ├── doc/ui界面设计/                          # UI 设计参考图
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a>│   ├── API.md                                  # API 接口文档（重要）
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a>│   ├── 项目需求及设计文档.md                     # 完整的需求和设计说明（重要）
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a>│   ├── A-校园图书管理系统.postman_collection.json # Postman 测试集合
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a>│   └── pom.xml
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a>│
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a>└── README.md
+</code></pre></div></td></tr></table></div>
+<hr />
+<h2 id="_4">👣 实验步骤<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<hr />
+<h3 id="1vibe-learning-ai-jdbc-servlet">模块 1：Vibe Learning —— AI 引导学习 JDBC 与 Servlet<a class="headerlink" href="#1vibe-learning-ai-jdbc-servlet" title="Permanent link">&para;</a></h3>
+<h4 id="agent-skill">任务一：配置 Agent Skill<a class="headerlink" href="#agent-skill" title="Permanent link">&para;</a></h4>
+<p><strong>什么是 Agent Skill？</strong></p>
+<p>Agent Skill 是 AI 编程助手的可复用能力模块。每个 Skill 定义一个 <code>SKILL.md</code> 文件，描述 AI 在特定场景下的行为模式。配置完成后，只需简短指令即可触发专业工作流。</p>
+<p><strong>实验已预置的 Skill</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>Skill 名称</th>
+<th>文件</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI 辅助 JDBC 学习</td>
+<td><code>ai-assisted-jdbc-learning/SKILL.md</code></td>
+<td>8 步结构化工作流引导学习 Java Web 开发</td>
+</tr>
+<tr>
+<td>前端 UI 设计</td>
+<td><code>ui-ux-pro-max/SKILL.md</code></td>
+<td>生成高质量、独特风格的前端界面</td>
+</tr>
+</tbody>
+</table>
+<p><strong>验证步骤</strong>：</p>
+<ol>
+<li>用 Trae AI IDE 打开 <code>vibe_learning</code> 目录。</li>
+<li>在 Trae 的 AI 对话框中输入 <code>/skills</code>（或对应指令）查看 Skill 列表。</li>
+<li>确认上述两个 Skill 已正确加载。</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">📸 截图 1（提交物）</p>
+<p>Trae 中 Skill 列表加载成功的截图，重命名为 <code>skill_loaded.png</code>。</p>
+</div>
+<hr />
+<h4 id="ai-jdbc">任务二：AI 引导学习 JDBC 与数据库连接池<a class="headerlink" href="#ai-jdbc" title="Permanent link">&para;</a></h4>
+<p>利用 <code>ai-assisted-jdbc-learning</code> Skill，按照 <strong>"概念讲解 → 最小示例 → 代码讲解 → 引导重构 → 代码审核 → 工程化升级 → 练习生成 → 作业审核"</strong> 的 8 步循环完成以下学习路径：</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>学习内容</th>
+<th>关键 API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>JDBC 基础</td>
+<td><code>Connection</code>、<code>Statement</code>、<code>ResultSet</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>PreparedStatement</td>
+<td>参数化查询，防止 SQL 注入</td>
+</tr>
+<tr>
+<td>3</td>
+<td>DAO 模式</td>
+<td>数据访问对象模式，分离数据库操作与业务逻辑</td>
+</tr>
+<tr>
+<td>4</td>
+<td>数据库连接池</td>
+<td>Druid 连接池的概念与使用</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition quote">
+<p class="admonition-title">🤖 Prompt（提示词）</p>
+<p>请使用 ai-assisted-jdbc-learning Skill，引导我学习 JDBC 和数据库连接池。</p>
+</div>
+<hr />
+<h4 id="crud">任务三：图书模块 CRUD 独立练习<a class="headerlink" href="#crud" title="Permanent link">&para;</a></h4>
+<p>在 <code>vibe_learning</code> 项目中，独立完成以下练习：</p>
+<ol>
+<li>使用 AI 生成 SQL 建表语句，创建 <code>books</code> 表（字段：id, title, author, isbn, category, total_copies, available_copies）。</li>
+<li>使用 AI 生成插入测试数据的 SQL。</li>
+<li>使用 JDBC 实现图书的增删改查（DAO 层）。</li>
+<li>使用 Servlet 实现图书列表和详情查询的 API。</li>
+<li>使用 Druid 连接池优化数据库连接。</li>
+</ol>
+<hr />
+<h4 id="skill-ui">任务四：使用 Skill 优化前端 UI<a class="headerlink" href="#skill-ui" title="Permanent link">&para;</a></h4>
+<p>使用 <code>ui-ux-pro-max</code> Skill 快速生成专业风格的界面。</p>
+<div class="admonition quote">
+<p class="admonition-title">🤖 Prompt</p>
+<p>使用技能 ui-ux-pro-max，帮我修改登录页 login.html 的风格，采用正式、简洁的官方风格。</p>
+</div>
+<p>操作步骤：</p>
+<ol>
+<li>在 Trae AI 对话框中输入上述 Prompt。</li>
+<li>等待 AI 生成并预览修改后的页面效果。</li>
+<li>满意后应用到实际项目中。</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">📸 截图 2（提交物）</p>
+<p>AI 生成 UI 优化的前后对比截图，重命名为 <code>ui_optimize.png</code>。</p>
+</div>
+<hr />
+<h3 id="2vibe-coding">模块 2：Vibe Coding —— 图书管理系统后端开发<a class="headerlink" href="#2vibe-coding" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">说明</p>
+<p>若在之前的课程中已完成图书管理系统后端开发，可以使用自己之前的代码为基础继续。请使用 AI 生成你项目的 API 接口文档，并依据该文档生成 Postman 接口测试集合（JSON 文件），导入到 Postman 中进行接口测试。</p>
+</div>
+<hr />
+<h4 id="_5">任务五：数据库设计与建表<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<p><strong>数据库选择（二选一）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>适用场景</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本地数据库（推荐）</td>
+<td>已安装 MySQL 8.0+</td>
+<td>性能更好，开发调试方便</td>
+</tr>
+<tr>
+<td>远程数据库</td>
+<td>未安装 MySQL</td>
+<td>使用实验提供的数据库服务器</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本地数据库配置</strong>：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">book_management</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="nb">CHARACTER</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">utf8mb4</span><span class="p">;</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>远程数据库配置</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>主机</th>
+<th>端口</th>
+<th>用户名</th>
+<th>密码</th>
+<th>数据库</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>校园网</td>
+<td><code>10.50.79.225</code></td>
+<td><code>3306</code></td>
+<td><code>user_学号</code></td>
+<td><code>学号</code></td>
+<td><code>app_学号</code></td>
+</tr>
+<tr>
+<td>外网</td>
+<td><code>8.140.216.36</code></td>
+<td><code>29206</code></td>
+<td><code>user_学号</code></td>
+<td><code>学号</code></td>
+<td><code>app_学号</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>需要创建的三张表</strong>（参照 <code>项目需求及设计文档.md</code> 附录 B）：</p>
+<table>
+<thead>
+<tr>
+<th>表名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>users</code></td>
+<td>用户表（存储管理员和普通用户）</td>
+</tr>
+<tr>
+<td><code>books</code></td>
+<td>图书表（含多复本管理：<code>total_copies</code>、<code>available_copies</code>）</td>
+</tr>
+<tr>
+<td><code>borrow_records</code></td>
+<td>借阅记录表</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition quote">
+<p class="admonition-title">🤖 Prompt（提示词）</p>
+<p>根据以下需求，帮我生成完整的 MySQL 建表 SQL：
+- users 表：id（主键自增）、username（唯一）、password、name、email、role（admin/user）
+- books 表：id（主键自增）、title、author、isbn、category、total_copies、available_copies
+- borrow_records 表：id（主键自增）、user_id（外键）、book_id（外键）、borrow_date、due_date、return_date、status（borrowing/returned/overdue）
+并插入初始数据（默认管理员 admin/123456 和 5 本测试图书）。</p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">📸 截图 3（提交物）</p>
+<p>数据库建表完成后，Navicat/DBeaver 中三张表的 ER 视图截图，重命名为 <code>db_schema.png</code>。</p>
+</div>
+<hr />
+<h4 id="_6">任务六：项目配置及初始化<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>使用 Trae AI IDE 打开 <code>book_template</code> 目录</strong>（用于 AI 辅助编程）。</li>
+<li><strong>同时使用 IDEA 打开项目</strong>（用于运行调试）。</li>
+<li>
+<p><strong>配置数据库连接</strong>：编辑 <code>src/main/resources/db.properties</code>。</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span>
+<span class="normal"><a href="#__codelineno-2-4">4</a></span>
+<span class="normal"><a href="#__codelineno-2-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="c1"># 本地 MySQL 配置</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="na">jdbc.url</span><span class="o">=</span><span class="s">jdbc:mysql://localhost:3306/book_management?useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=utf8</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="na">jdbc.username</span><span class="o">=</span><span class="s">root</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="na">jdbc.password</span><span class="o">=</span><span class="s">你的MySQL密码</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="na">jdbc.driver</span><span class="o">=</span><span class="s">com.mysql.cj.jdbc.Driver</span>
+</code></pre></div></td></tr></table></div>
+</li>
+</ol>
+<hr />
+<h4 id="trae-ai-ide">任务七：使用 Trae AI IDE 生成后端代码（核心）<a class="headerlink" href="#trae-ai-ide" title="Permanent link">&para;</a></h4>
+<p>这是本实验的核心环节。你需要借助 AI 完成全部后端代码的开发。</p>
+<p><strong>需要完成的内容</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>文件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DAO</td>
+<td><code>UserDao.java</code></td>
+<td>用户数据访问（登录验证、注册、查询）</td>
+</tr>
+<tr>
+<td>DAO</td>
+<td><code>BookDao.java</code></td>
+<td>图书数据访问（CRUD、搜索、复本管理）</td>
+</tr>
+<tr>
+<td>DAO</td>
+<td><code>BorrowDao.java</code></td>
+<td>借阅数据访问（借阅、归还、记录查询）</td>
+</tr>
+<tr>
+<td>Servlet</td>
+<td><code>LoginServlet.java</code></td>
+<td>用户登录</td>
+</tr>
+<tr>
+<td>Servlet</td>
+<td><code>RegisterServlet.java</code></td>
+<td>用户注册</td>
+</tr>
+<tr>
+<td>Servlet</td>
+<td><code>BookServlet.java</code></td>
+<td>图书管理（Action 分发模式）</td>
+</tr>
+<tr>
+<td>Servlet</td>
+<td><code>BorrowServlet.java</code></td>
+<td>借阅管理（借书/还书）</td>
+</tr>
+<tr>
+<td>Filter</td>
+<td><code>AuthFilter.java</code></td>
+<td>登录权限拦截</td>
+</tr>
+<tr>
+<td>全部</td>
+<td>25+ 个 API 接口</td>
+<td>参照 <code>API.md</code> 文档</td>
+</tr>
+</tbody>
+</table>
+<p><strong>操作步骤</strong>：</p>
+<ol>
+<li>在 Trae AI IDE 中，将 <code>API.md</code> 和 <code>项目需求及设计文档.md</code> 的内容提供给 AI 作为上下文。</li>
+<li>
+<p>输入核心 Prompt：</p>
+<div class="admonition quote">
+<p class="admonition-title">🤖 Prompt</p>
+<p>根据项目需求及设计文档.md 中的需求及设计，以及 API.md 接口文档，帮我完成后端所有功能开发。技术栈：Java 17 + Servlet（Jakarta 6.0）+ JDBC + MySQL。项目结构参照已有的 Controller-Service-DAO 分层。</p>
+</div>
+</li>
+<li>
+<p>观察 Trae 右侧窗口的代码生成过程，逐个审查并采纳 AI 生成的代码。</p>
+</li>
+<li>在 IDEA 中运行项目，调试生成的代码。</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">📸 截图 4（提交物）</p>
+<p>Trae AI IDE 生成代码过程的截图（对话界面），重命名为 <code>vibe_coding.png</code>。</p>
+</div>
+<hr />
+<h4 id="_7">任务八：关键技术要点理解<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<p>以下内容可借助 AI Skill 学习，但必须自己理解和实现。</p>
+<p><strong>1. Session 认证</strong></p>
+<p>登录后将用户信息存入 Session，后续请求通过 Filter 检查 Session 有效性。管理员接口额外检查 <code>role == "admin"</code>。</p>
+<p><strong>2. 密码加密</strong></p>
+<p>使用 MD5 对密码进行加密存储（教学简化方案）：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="n">String</span><span class="w"> </span><span class="n">encryptedPassword</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MD5Utils</span><span class="p">.</span><span class="na">md5</span><span class="p">(</span><span class="n">password</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<p><strong>3. 借阅业务规则</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a>借阅检查流程：
+<a id="__codelineno-4-2" name="__codelineno-4-2"></a> 1. 用户是否已登录？          → 未登录返回 401
+<a id="__codelineno-4-3" name="__codelineno-4-3"></a> 2. 当前借阅数 &lt; 5？          → 已达上限返回 400
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a> 3. 有无超期未还记录？         → 有超期记录返回 400
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a> 4. 图书可借复本 &gt; 0？        → 无复本返回 400
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a> 5. 校验通过                 → 创建借阅记录，available_copies - 1
+<a id="__codelineno-4-7" name="__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8"></a>归还流程：
+<a id="__codelineno-4-9" name="__codelineno-4-9"></a> 1. 查找借阅记录（status = &#39;borrowing&#39;）
+<a id="__codelineno-4-10" name="__codelineno-4-10"></a> 2. 更新 status = &#39;returned&#39;，return_date = NOW()
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a> 3. 图书 available_copies + 1
+</code></pre></div></td></tr></table></div>
+<p><strong>4. 删除限制</strong></p>
+<ul>
+<li>有借阅记录的用户不可删除。</li>
+<li>有借阅记录的图书不可删除（<code>available_copies &lt; total_copies</code>）。</li>
+<li>管理员账号不可删除。</li>
+</ul>
+<p><strong>5. 编码规范</strong></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
+<span class="normal"><a href="#__codelineno-5-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="n">req</span><span class="p">.</span><span class="na">setCharacterEncoding</span><span class="p">(</span><span class="s">&quot;UTF-8&quot;</span><span class="p">);</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="n">resp</span><span class="p">.</span><span class="na">setContentType</span><span class="p">(</span><span class="s">&quot;application/json;charset=UTF-8&quot;</span><span class="p">);</span>
+</code></pre></div></td></tr></table></div>
+<hr />
+<h4 id="postman">任务九：Postman 接口测试<a class="headerlink" href="#postman" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p><strong>导入测试集合</strong>：</p>
+<ul>
+<li>打开 Postman → Import → 选择 <code>book_template/A-校园图书管理系统.postman_collection.json</code>。</li>
+<li>新建 Environment，配置以下变量：<ul>
+<li><code>ip</code> = <code>localhost</code></li>
+<li><code>port</code> = <code>8080</code></li>
+<li><code>context</code> = <code>/book</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>按顺序测试</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>测试接口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>认证</td>
+<td>注册 → 登录 → 验证 Session → 退出</td>
+</tr>
+<tr>
+<td>图书（用户）</td>
+<td>浏览 → 搜索 → 查看详情</td>
+</tr>
+<tr>
+<td>借阅</td>
+<td>借书 → 查看我的借阅 → 还书</td>
+</tr>
+<tr>
+<td>管理（admin）</td>
+<td>图书 CRUD → 用户管理 → 借阅记录管理</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<div class="admonition success">
+<p class="admonition-title">📸 截图 5（提交物）</p>
+<p>Postman 中完成全部接口测试的 Runner 汇总结果截图，重命名为 <code>postman_summary.png</code>。</p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">📸 截图 6（提交物）</p>
+<p>浏览器访问图书管理系统，登录后图书列表页面截图，重命名为 <code>browser_books.png</code>。</p>
+</div>
+<hr />
+<h2 id="optional-">🚀 挑战任务（Optional - 加分项）<a class="headerlink" href="#optional-" title="Permanent link">&para;</a></h2>
+<h3 id="a">挑战 A：超期检测<a class="headerlink" href="#a" title="Permanent link">&para;</a></h3>
+<p>在借阅归还接口中实现自动超期检测：如果 <code>return_date &gt; due_date</code>，标记为逾期并计算逾期天数。</p>
+<h3 id="b">挑战 B：借阅历史分页<a class="headerlink" href="#b" title="Permanent link">&para;</a></h3>
+<p>在借阅记录查询接口中实现分页功能（<code>page</code>、<code>size</code> 参数 + LIMIT 分页）。</p>
+<h3 id="c">挑战 C：密码加密升级<a class="headerlink" href="#c" title="Permanent link">&para;</a></h3>
+<p>使用 <code>BCrypt</code> 替代 <code>MD5</code> 进行密码加密存储与验证。</p>
+<hr />
+<h2 id="_8">💾 作业提交<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="_9">提交内容<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>完整项目代码</strong>（<code>book_template</code> 目录下的全部后端实现）。</li>
+<li>
+<p><strong>截图文件</strong>，放入 <code>img</code> 目录：</p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>内容说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>skill_loaded.png</code></td>
+<td>Trae Skill 加载成功截图</td>
+</tr>
+<tr>
+<td><code>ui_optimize.png</code></td>
+<td>AI 生成 UI 优化对比截图</td>
+</tr>
+<tr>
+<td><code>db_schema.png</code></td>
+<td>数据库三张表结构截图</td>
+</tr>
+<tr>
+<td><code>vibe_coding.png</code></td>
+<td>Trae AI IDE 生成代码对话截图</td>
+</tr>
+<tr>
+<td><code>postman_summary.png</code></td>
+<td>Postman 接口测试汇总结果</td>
+</tr>
+<tr>
+<td><code>browser_books.png</code></td>
+<td>浏览器图书列表页面截图</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+<h3 id="_10">学习通提交<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>将项目压缩为 ZIP（包含 <code>vibe_learning</code> 练习代码和 <code>book_template</code> 完整代码），上传至学习通对应作业入口。学习通提交的<strong>实验报告</strong>需额外包含：</p>
+<ul>
+<li>与 AI 的对话截图</li>
+<li>SQL 建表及插入测试数据语句</li>
+<li>图书模块核心代码</li>
+<li>Postman 或 IDEA HTTP Client 接口测试截图</li>
+</ul>
+<hr />
+<h2 id="_11">📚 相关资源<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://gitee.com/javaweb-dev-tech/lab2_2">实验 2-2 仓库</a>（模板工程与完整 README）</li>
+<li><a href="../lab2-1/">实验 2-1：基于 Servlet 的用户认证功能实现</a>（本章前置实验）</li>
+<li><a href="../lab2/">👉 实验 2：核心组件与持久化综合实战</a>（本章综合大实验）</li>
+<li><a href="https://www.trae.cn/">Trae AI IDE 官方网站</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="dedeguo/javaweb-course-docs"
+        data-repo-id="R_kgDOQj_o1A"
+        data-category="Comments"
+        data-category-id="DIC_kwDOQj_o1M4CzvTT"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 陈德 <br> <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> <span id="busuanzi_container_site_pv">本站总访问量 <span id="busuanzi_value_site_pv"></span> 次</span> <span class="post-meta-divider"> | </span> <span id="busuanzi_container_site_uv">总访客数 <span id="busuanzi_value_site_uv"></span> 人</span>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.highlight", "search.suggest", "content.code.copy", "navigation.indexes", "navigation.sections", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
